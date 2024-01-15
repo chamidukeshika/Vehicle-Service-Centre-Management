@@ -30,4 +30,3 @@ const User = mongoose.model('User', userSchema);
 export default User;
 
 
-// 48 min resume
