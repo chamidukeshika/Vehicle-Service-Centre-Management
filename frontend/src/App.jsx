@@ -1,15 +1,20 @@
 import React from 'react'
 import Header from './components/header'
+import Footer from './components/Footer'
+import { Outlet } from 'react-router-dom'
 
 const App = () => {
   return (
     <>
-      <Header></Header>
-      </>
+       <Header />
+     
+     
+      <Outlet />
+      
+     
+      <Footer />
+    </>
   )
 }
 
 export default App
-
-
-// 1.42 min
