@@ -7,9 +7,11 @@ const Header = () => {
   return (
     <div>
       <Navbar bg="dark" variant="dark" expand="md">
-        <Navbar.Brand href="#">
-          MERN App
-        </Navbar.Brand>
+        <LinkContainer to='/'>
+          <Navbar.Brand href="#">
+            MERN App
+          </Navbar.Brand>
+        </LinkContainer>
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse id="responsive-navbar-nav">
           <Nav className="ms-auto">

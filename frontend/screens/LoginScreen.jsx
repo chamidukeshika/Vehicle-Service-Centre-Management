@@ -4,6 +4,7 @@ import { Form, Button, Row, Col } from "react-bootstrap";
 import FormContaineer from '../src/components/FormContainer';
 
 
+
 const LoginScreen = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -14,47 +15,44 @@ const LoginScreen = () => {
     }
 
     return (
-        <>
-        <FormContaineer>
-            <h1>Sign In</h1>
-            <Form onSubmit={submitHandler}>
-                <Form.Group className="my-2" controlId="email">
-                    <Form.Label>Email Address</Form.Label>
-                    <Form.Control
-                        type='email'
-                        placeholder="Enter Email Address"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}>
-                    </Form.Control>
-                </Form.Group>
+        <> 
+            <FormContaineer>
+                <h1>Sign In</h1>
+                <Form onSubmit={submitHandler}>
+                    <Form.Group className="form-container my-2" controlId="email">
+                        <Form.Label>Email Address</Form.Label>
+                        <Form.Control
+                            type='email'
+                            placeholder="Enter Email Address"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}>
+                        </Form.Control>
+                    </Form.Group>
 
-                <Form.Group className="my-2" controlId="password">
-                    <Form.Label>Password</Form.Label>
-                    <Form.Control
-                        type='password'
-                        placeholder="Enter password"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}>
-                    </Form.Control>
-                </Form.Group>
+                    <Form.Group className="my-2" controlId="password">
+                        <Form.Label>Password</Form.Label>
+                        <Form.Control
+                            type='password'
+                            placeholder="Enter password"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}>
+                        </Form.Control>
+                    </Form.Group>
 
-                <Button type='submit' variant="primary" className="mt-3">
-                    Sign In
-                </Button>
+                    <Button type='submit' variant="primary" className="mt-3">
+                        Sign In
+                    </Button>
 
-                <Row className="py-3">
-                    <Col>
-                    New Customer ?<Link to ='/register'>Register</Link>
-                    </Col>
-                </Row>
-            </Form>
-        </FormContaineer>
-        <br />
+                    <Row className="py-3">
+                        <Col>
+                            New Customer ?<Link to='/register'>Register</Link>
+                        </Col>
+                    </Row>
+                </Form>
+            </FormContaineer>
+            <br />
         </>
     )
 }
 
 export default LoginScreen
-
-
-//2.03 min resume

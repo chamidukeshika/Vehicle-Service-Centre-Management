@@ -57,7 +57,7 @@ const HomePage = () => {
             <Col md={6} className="d-flex align-items-end" style={{ marginLeft: '-15px' }}>
               <div>
               <LinkContainer to='/login'>
-                <Button type="button" className="btn btn-primary btn-lg mx-2">
+                <Button- type="button" className="btn btn-primary btn-lg mx-2">
                   Login
                   </Button>
                 </LinkContainer>
