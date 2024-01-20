@@ -6,7 +6,7 @@ import { LinkContainer } from 'react-router-bootstrap';
 const Header = () => {
   return (
     <div>
-      <Navbar bg="dark" variant="dark" expand="md">
+      <Navbar bg="dark" variant="dark" expand="md" >
         <LinkContainer to='/'>
           <Navbar.Brand href="#">
             MERN App
