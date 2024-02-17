@@ -1,22 +1,40 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { Form, Button, Row, Col } from "react-bootstrap";
-import FormContaineer from '../src/components/FormContainer';
-
-
+import { useDispatch, useSelector } from "react-redux";
+import FormContainer from "../src/components/FormContainer";
+import { useLoginMutation } from "../slices/usersApiSlice";
+import { setCredentials } from "../slices/authSlice";
 
 const LoginScreen = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
+
+    const [login, { isLoading }] = useLoginMutation();
+    const { userInfo } = useSelector((state) => state.auth);
+
+  
     const submitHandler = async (e) => {
         e.preventDefault();
-        console.log('Submit');
+        try {
+            const { data } = await login({ email, password });
+            dispatch(setCredentials(data));
+            
+            if (data) {
+                navigate('/');
+            }
+
+        } catch (error) {
+            console.error('Login failed:', error);
+        }
     }
 
     return (
         <> 
-            <FormContaineer>
+            <FormContainer>
                 <h1>Sign In</h1>
                 <Form onSubmit={submitHandler}>
                     <Form.Group className="form-container my-2" controlId="email">
@@ -49,13 +67,10 @@ const LoginScreen = () => {
                         </Col>
                     </Row>
                 </Form>
-            </FormContaineer>
+            </FormContainer>
             <br />
         </>
-    )
-}
+    );
+};
 
-export default LoginScreen
-
-
-//02.28
+export default LoginScreen;
