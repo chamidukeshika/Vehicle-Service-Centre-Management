@@ -1,34 +1,90 @@
 import React from 'react';
-import { Navbar, Nav } from 'react-bootstrap';
+import { Navbar, Nav, NavDropdown } from 'react-bootstrap';
 import { FaUser, FaSignInAlt } from 'react-icons/fa';
+import { useSelector, useDispatch } from 'react-redux';
+import logo from '../assets/Logo2.png';
+import { useLogoutMutation } from '../../slices/userApiSlice';
+import { logout } from '../../slices/authSlice';
 import { LinkContainer } from 'react-router-bootstrap';
+import { useLocation } from 'react-router-dom';
 
 const Header = () => {
+  const { userInfo } = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
+  const location = useLocation();
+
+  const [logoutApiCall] = useLogoutMutation();
+
+  const logoutHandler = async () => {
+    try {
+      await logoutApiCall().unwrap();
+      dispatch(logout());
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
   return (
-    <div>
-      <Navbar bg="dark" variant="dark" expand="md" >
-        <LinkContainer to='/'>
-          <Navbar.Brand href="#">
-            MERN App
-          </Navbar.Brand>
-        </LinkContainer>
-        <Navbar.Toggle aria-controls="responsive-navbar-nav" />
-        <Navbar.Collapse id="responsive-navbar-nav">
-          <Nav className="ms-auto">
-            <LinkContainer to='/login'>
-              <Nav.Link >
-                <FaUser className="me-1" /> Login
-              </Nav.Link>
+    <Navbar bg="light" variant="light" expand="md" style={{ backgroundColor: "#000000", paddingLeft: "70px", maxWidth: "100%" }}>
+      <LinkContainer to='/'>
+        <Navbar.Brand>
+          <img
+            src={logo}
+            height="50"
+            className="d-inline-block align-top"
+            alt="MERN App Logo"
+          />
+        </Navbar.Brand>
+      </LinkContainer>
+
+      <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+      <Navbar.Collapse id="responsive-navbar-nav">
+        <Nav className="ms-auto flex-grow-1"  style={{ marginRight: "50px" }}>
+          <LinkContainer to="/" exact style={{ marginRight: "50px" , marginLeft:"100px"}}>
+            <Nav.Link className={location.pathname === "/" ? "nav-link active" : "nav-link"} >Home</Nav.Link>
+          </LinkContainer>
+          <NavDropdown title="Parts & Lubricants" id="parts-dropdown" style={{ marginRight: "50px" }}>
+            <LinkContainer to='/vehicle-spare-parts' >
+              <NavDropdown.Item>Vehicle Spare Parts</NavDropdown.Item>
             </LinkContainer>
-            <LinkContainer to='/register'>
-              <Nav.Link href="/register">
-                <FaSignInAlt className="me-1" /> Sign Up
-              </Nav.Link>
+            <LinkContainer to='/lubricants'>
+              <NavDropdown.Item>Lubricants</NavDropdown.Item>
             </LinkContainer>
-          </Nav>
-        </Navbar.Collapse>
-      </Navbar>
-    </div>
+            <NavDropdown.Divider />
+            <LinkContainer to='/separated-link'>
+              <NavDropdown.Item>Separated link</NavDropdown.Item>
+            </LinkContainer>
+          </NavDropdown>
+          <LinkContainer to="/link"style={{ marginRight: "50px" }}>
+            <Nav.Link className={location.pathname === "/appointment" ? "nav-link active" : "nav-link"} >Make Appointment</Nav.Link>
+          </LinkContainer>
+          <LinkContainer to="/contact-us" style={{ marginRight: "auto" }}>
+            <Nav.Link className={location.pathname === "/contact-us" ? "nav-link active" : "nav-link"} >Inquires</Nav.Link>
+          </LinkContainer>
+          {userInfo ? (
+            <NavDropdown title={`Welcome ${userInfo.name}`} id="username-dropdown">
+              <LinkContainer to='/profile'>
+                <NavDropdown.Item>Profile</NavDropdown.Item>
+              </LinkContainer>
+              <NavDropdown.Item onClick={logoutHandler}>Logout</NavDropdown.Item>
+            </NavDropdown>
+          ) : (
+            <>
+              <LinkContainer to='/login'>
+                <Nav.Link>
+                  <FaUser className="me-1" /> Login
+                </Nav.Link>
+              </LinkContainer>
+              <LinkContainer to='/register'>
+                <Nav.Link>
+                  <FaSignInAlt className="me-1" /> Sign Up
+                </Nav.Link>
+              </LinkContainer>
+            </>
+          )}
+        </Nav>
+      </Navbar.Collapse>
+    </Navbar>
   );
 }
 
