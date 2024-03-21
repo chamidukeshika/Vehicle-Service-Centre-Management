@@ -15,7 +15,8 @@ const authUser = asyncHandler(async (req, res) => {
         res.status(201).json({
             _id: user._id, 
             name: user.name,
-            email: user.email
+            email: user.email,
+            phone: user.phone
         });
     } else {
         res.status(401);
@@ -27,7 +28,7 @@ const authUser = asyncHandler(async (req, res) => {
 //route POST /api/users
 //@access public
 const registerUser = asyncHandler(async (req, res) => {
-    const { name, email, password } = req.body;
+    const { name, email, phone,password } = req.body;
 
     const userExists = await User.findOne({ email });
 
@@ -39,6 +40,7 @@ const registerUser = asyncHandler(async (req, res) => {
     const user = await User.create({
         name,
         email,
+        phone,
         password
     });
 
@@ -47,6 +49,7 @@ const registerUser = asyncHandler(async (req, res) => {
         res.status(201).json({
             _id: user._id, 
             name: user.name,
+            phone:user.phone,
             email: user.email
         });
     } else {
@@ -75,6 +78,7 @@ const getUserProfile = asyncHandler(async (req, res) => {
     const user = {
         _id: req.user._id,
         name: req.user.name,
+        phone:req.user.phone,
         email:req.user.email
     }
     res.status(200).json(user);
@@ -90,6 +94,7 @@ const updateUserProfile = asyncHandler(async (req, res) => {
     if (user) {
         user.name = req.body.name || user.name;
         user.email = req.body.email || user.email;
+        user.phone = req.body.phone || user.phone;
 
         if (req.body.password) {
             user.password = req.body.password;
@@ -100,6 +105,7 @@ const updateUserProfile = asyncHandler(async (req, res) => {
         res.status(200).json({
             _id: updatedUser._id,
             name: updatedUser.name,
+            phone:updatedUser.phone,
             email:updatedUser.email
 
         })

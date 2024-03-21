@@ -40,12 +40,13 @@ const LoginScreen = () => {
 
     return (
         <> 
-            <FormContaineer>
+            <FormContaineer >
                 <h1>Sign In</h1>
                 <Form onSubmit={submitHandler}>
                     <Form.Group className="form-container my-2" controlId="email">
                         <Form.Label>Email Address</Form.Label>
                         <Form.Control
+                            required='true'
                             type='email'
                             placeholder="Enter Email Address"
                             value={email}
@@ -56,6 +57,7 @@ const LoginScreen = () => {
                     <Form.Group className="my-2" controlId="password">
                         <Form.Label>Password</Form.Label>
                         <Form.Control
+                            required='true'
                             type='password'
                             placeholder="Enter password"
                             value={password}

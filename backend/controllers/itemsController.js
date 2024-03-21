@@ -5,20 +5,26 @@ import expressAsyncHandler from 'express-async-handler';
 
 const addItem = asyncHandler(async (req, res) => {
 
-    const { name,category,price } = req.body;
+    const { name,section,price,mdate,rdate,desc } = req.body;
 
     const item = await Items.create({
         name,
-        category,
-        price
+        section,
+        price,
+        mdate,
+        rdate,
+        desc
     });
 
     if (item) {
         res.status(201).json({
             _id: item._id, 
             name: item.name,
-            category: item.category,
-            price: item.price
+            section: item.section,
+            price: item.price,
+            mdate: item.mdate,
+            rdate: item.rdate,
+            desc: item.desc
         });
     } else {
         res.status(400);
@@ -49,8 +55,11 @@ const updateItems = asyncHandler(async (req, res) => {
 
     if (items) {
         items.name = req.body.name || items.name;
-        items.category = req.body.category || items.category;
+        items.section = req.body.section || items.section;
         items.price = req.body.price || items.price;
+        items.mdate = req.body.mdate || items.mdate;
+        items.rdate = req.body.rdate || items.rdate;
+        items.desc = req.body.desc || items.desc;
 
         const updatedItem = await items.save();
 

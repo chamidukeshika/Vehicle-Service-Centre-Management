@@ -39,27 +39,27 @@ const Header = () => {
 
       <Navbar.Toggle aria-controls="responsive-navbar-nav" />
       <Navbar.Collapse id="responsive-navbar-nav">
-        <Nav className="ms-auto flex-grow-1"  style={{ marginRight: "50px" }}>
-          <LinkContainer to="/" exact style={{ marginRight: "50px" , marginLeft:"100px"}}>
+        <Nav className="ms-auto flex-grow-1" style={{ marginRight: "50px" }}>
+          <LinkContainer to="/" exact style={{ marginRight: "50px", marginLeft: "100px" }}>
             <Nav.Link className={location.pathname === "/" ? "nav-link active" : "nav-link"} >Home</Nav.Link>
           </LinkContainer>
           <NavDropdown title="Parts & Lubricants" id="parts-dropdown" style={{ marginRight: "50px" }}>
-            <LinkContainer to='/vehicle-spare-parts' >
+            <LinkContainer to='/spareparts' >
               <NavDropdown.Item>Vehicle Spare Parts</NavDropdown.Item>
             </LinkContainer>
             <LinkContainer to='/lubricants'>
               <NavDropdown.Item>Lubricants</NavDropdown.Item>
             </LinkContainer>
             <NavDropdown.Divider />
-            <LinkContainer to='/separated-link'>
-              <NavDropdown.Item>Separated link</NavDropdown.Item>
+            <LinkContainer to='/requestparts'>
+              <NavDropdown.Item>Request Part</NavDropdown.Item>
             </LinkContainer>
           </NavDropdown>
-          <LinkContainer to="/link"style={{ marginRight: "50px" }}>
+          <LinkContainer to="/appointment" style={{ marginRight: "50px" }}>
             <Nav.Link className={location.pathname === "/appointment" ? "nav-link active" : "nav-link"} >Make Appointment</Nav.Link>
           </LinkContainer>
-          <LinkContainer to="/contact-us" style={{ marginRight: "auto" }}>
-            <Nav.Link className={location.pathname === "/contact-us" ? "nav-link active" : "nav-link"} >Inquires</Nav.Link>
+          <LinkContainer to="/inquire" style={{ marginRight: "auto" }}>
+            <Nav.Link className={location.pathname === "/inquire" ? "nav-link active" : "nav-link"} >Inquires</Nav.Link>
           </LinkContainer>
           {userInfo ? (
             <NavDropdown title={`Welcome ${userInfo.name}`} id="username-dropdown">

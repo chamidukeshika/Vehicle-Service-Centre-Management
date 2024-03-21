@@ -3,7 +3,8 @@ import { Container, Row, Col, Button } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
 import { Carousel } from 'react-bootstrap';
 
-import '../Homec.css'
+import '../Styles/Homec.css';
+
 import bg1 from '../assets/1.jpg';
 import bg2 from '../assets/4.jpg';
 import bg3 from '../assets/3.jpg';
@@ -14,7 +15,10 @@ import h3 from '../assets/h5.jpg';
 
 const AdditionalSection = () => {
   return (
-    <div className=" text-dark py-5">
+    <div className=" text-dark py-5" style={{
+     
+      backgroundColor:"white",
+      }}>
       <Container style={{ textAlign: "center" }}>
         <Row>
           <Col md={12}>

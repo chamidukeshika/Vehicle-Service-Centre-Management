@@ -3,15 +3,29 @@ import mongoose from "mongoose";
 const itemsSchema = mongoose.Schema({
 
     name: {
-        type: String
+        type: String,
+        required:true
     },
 
-    category: {
-        type: String
+    section: {
+        type: String,
+        required:true
     },
 
     price: {
-        type: String
+        type: String,
+        required:true
+    },
+    mdate: {
+        type: Date,
+        required:true
+    },
+    rdate: {
+        type: Date,
+        required:true
+    },
+    desc: {
+        type:String,
     },
 
 },
