@@ -6,6 +6,7 @@ import irouter from './routes/itemRoutes.js';
 import connectDB from './config/db.js';
 import { notFound, errorHandler } from './middleware/errorMiddleware.js';
 import cors from 'cors';
+import recordrouter from './routes/recordRoutes.js';
 
 dotenv.config();
 const app = express();
@@ -22,6 +23,7 @@ app.use(cookieParser());
 //middleware
 app.use('/api/users', userRoutes);
 app.use('/api/items', irouter);
+app.use('/api/records', recordrouter);
 app.get('/', (req, res) => res.send('Server is ready!!!'));
 
 app.use(notFound);
