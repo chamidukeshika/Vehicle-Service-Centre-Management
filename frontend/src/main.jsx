@@ -24,7 +24,6 @@ const router = createBrowserRouter(
         <Route path='/profile' element={<ProfileScreen />} />
       </Route>
 
-
     </Route>
   )
 )

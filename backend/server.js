@@ -22,6 +22,9 @@ app.use(cookieParser());
 //middleware
 app.use('/api/users', userRoutes);
 app.use('/api/items', irouter);
+
+
+
 app.get('/', (req, res) => res.send('Server is ready!!!'));
 
 app.use(notFound);
