@@ -4,6 +4,8 @@ import React, { useEffect } from 'react';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
+console.log(" f");
+
 const AdminRoutes = () => {
     const { userInfo } = useSelector((state) => state.auth);
 
