@@ -3,9 +3,7 @@ import React from 'react'
 const AdminDashboard = () => {
   return (
     <div>
-      <h1>
-        hello admin
-      </h1>
+      <h1>Admin here</h1>
     </div>
   )
 }
