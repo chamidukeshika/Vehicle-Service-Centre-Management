@@ -3,6 +3,7 @@ import dotenv from 'dotenv';
 import cookieParser from 'cookie-parser';
 import userRoutes from './routes/userRoutes.js';
 import irouter from './routes/itemRoutes.js';
+import orderrouter from './routes/orderRoutes.js';
 import inquiryrouter from './routes/inquiryRouters.js';
 import connectDB from './config/db.js';
 import { notFound, errorHandler } from './middleware/errorMiddleware.js';
@@ -26,6 +27,7 @@ app.use('/api/users', userRoutes);
 app.use('/api/items', irouter);
 app.use('/api/records', recordrouter);
 app.use('/api/inquiry', inquiryrouter);
+app.use('/api/orders', orderrouter);
 
 
 
