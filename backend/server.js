@@ -23,7 +23,7 @@ app.use(cookieParser());
 
 //middleware
 app.use('/api/users', userRoutes);
-app.use('/api/items', irouter);
+app.use('/api/admin/equipments', irouter);
 app.use('/api/records', recordrouter);
 app.use('/api/inquiry', inquiryrouter);
 
