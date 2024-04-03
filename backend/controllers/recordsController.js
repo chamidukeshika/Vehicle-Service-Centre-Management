@@ -52,44 +52,80 @@ const getRecords = expressAsyncHandler(async (req, res) => {
 
 })
 
+const getRecordById = expressAsyncHandler(async (req, res) => {
 
-const updateRecords = asyncHandler(async (req, res) => {
+    const recordId = req.params.id; // Assuming the ID is passed in the URL parameter
 
-    const { id } = req.body;
+    // Find the record by ID
+    const record = await Records.findById(recordId);
 
-    const records = await Records.findById(id);
-
-    if (records) {
-        records.cname = req.body.cname || records.cname;
-        records.cemail = req.body.cemail || records.cemail;
-        records.cphone = req.body.cphone || records.cphone;
-        records.indate = req.body.indate || records.indate;
-        records.outdate = req.body.outdate || records.outdate;
-        records.vmodel = req.body.vmodel || records.vmodel;
-        records.mileage = req.body.mileage || records.mileage;
-        records.year = req.body.year || records.year;
-        records.section = req.body.section || records.section;
-        records.tname = req.body.tname || records.tname;
-        records.desc = req.body.desc || records.desc;
-        records.parts = req.body.parts || records.parts;
-        records.cost = req.body.cost || records.cost;
-        records.lcost = req.body.lcost || records.lcost;
-        records.tcost = req.body.tcost || records.tcost;
-
-        const updateRecords = await records.save();
-
-        res.status(200).json({
-            message: 'Update Record Successfully', updateRecords
-        })
-    } else {
-        res.status(404);
-        throw new Error('Record Not Found');
+    if (record ===0 ) {
+        res.status(404).json({ message: "Record not found" });
+        return;
     }
-})
+
+    res.status(200).json(record);
+});
+
+const updateRecord = asyncHandler(async (req, res) => {
+    const recordId = req.params.id; // Extract ID from request parameters
+
+    const {
+        cname,
+        cemail,
+        cphone,
+        indate,
+        outdate,
+        vmodel,
+        mileage,
+        year,
+        section,
+        tname,
+        desc,
+        parts,
+        cost,
+        lcost,
+        tcost
+    } = req.body;
+
+    let updatedRecord;
+
+    try {
+        // Attempt to find and update the record by ID
+        updatedRecord = await Records.findByIdAndUpdate(recordId, {
+            cname,
+            cemail,
+            cphone,
+            indate,
+            outdate,
+            vmodel,
+            mileage,
+            year,
+            section,
+            tname,
+            desc,
+            parts,
+            cost,
+            lcost,
+            tcost
+        }, { new: true }); // { new: true } returns the updated record
+    } catch (err) {
+        console.error(err);
+        return res.status(500).json({ message: "Internal server error" });
+    }
+
+    // If no record was found with the given ID, return a 404 response
+    if (!updatedRecord) {
+        return res.status(404).json({ message: "Record not found" });
+    }
+
+    // If the record was successfully updated, return a 200 response with the updated record
+    return res.status(200).json(updatedRecord);
+});
 
 const deleteRecords = expressAsyncHandler(async (req, res) => {
 
-    const { id } = req.body;
+    const { id } = req.params;
 
     const recorddelete = await Records.findByIdAndDelete(id);
 
@@ -104,14 +140,10 @@ const deleteRecords = expressAsyncHandler(async (req, res) => {
 
 
 
-
-
-
-
-
 export {
     addRecords,
     getRecords,
-    updateRecords,
+    getRecordById,
+    updateRecord,
     deleteRecords
 }

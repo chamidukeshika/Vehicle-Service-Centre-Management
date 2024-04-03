@@ -1,12 +1,13 @@
 import express from 'express';
-import { addRecords, updateRecords, getRecords, deleteRecords } from '../controllers/recordsController.js';
+import { addRecords, updateRecord, getRecords, deleteRecords,getRecordById } from '../controllers/recordsController.js';
 
 
 const recordrouter = express.Router();
 
-recordrouter.post('/addrecords', addRecords);
-recordrouter.get('/viewrecords', getRecords);
-recordrouter.put('/updaterecords', updateRecords);
-recordrouter.delete('/deleterecords',deleteRecords);
+recordrouter.post('/', addRecords);
+recordrouter.get('/', getRecords);
+recordrouter.get('/:id', getRecordById);
+recordrouter.put('/:id', updateRecord);
+recordrouter.delete('/:id',deleteRecords);
 
 export default recordrouter;
