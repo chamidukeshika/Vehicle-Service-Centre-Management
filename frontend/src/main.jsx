@@ -14,7 +14,8 @@ import ProfileScreen from '../screens/ProfileScreen.jsx';
 import AdminRoutes from './components/AdminRoutes.jsx';
 import AdminDashboard from '../screens/AdminDashboard.jsx';
 import AddEquipment from '../screens/AddEquipment.jsx';
-import ViewEquipment from '../screens/viewEquipment.jsx';
+import AddRecords from '../screens/AddRecords.jsx';
+import ViewEquipment from '../screens/ViewEquipment.jsx';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -29,6 +30,7 @@ const router = createBrowserRouter(
         <Route path='/profile' element={<ProfileScreen />} />
       </Route>
 
+      <Route path='/admin/records/' element={<AddRecords />} />
       <Route path='/admin/equipments/add' element={<AddEquipment />} />
       <Route path='/admin/equipments/' element={<ViewEquipment/>} />
       

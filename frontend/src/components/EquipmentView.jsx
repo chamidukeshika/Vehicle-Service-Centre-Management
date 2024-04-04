@@ -1,12 +1,12 @@
 import React from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
 
-const ViewContainer = ({ children }) => {
+const EquipmentView = ({ children }) => {
     return (
         <div className="mt-5 mb-5">
-            <Container>
+            <Container fluid> {/* Use fluid to make the container full width */}
                 <Row className='justify-content-md-center mt-2 formlog'>
-                    <Col xs={12} md={6} className='card p-5' style={{ backgroundColor: 'rgba(255, 255, 255, 0.8)' }}>
+                    <Col xs={12} md={8} lg={6} className='card p-5' style={{ backgroundColor: 'rgba(255, 255, 255, 0.8)' }}>
                         {children}
                     </Col>
                     
@@ -16,4 +16,4 @@ const ViewContainer = ({ children }) => {
     );
 };
 
-export default ViewContainer;
+export default EquipmentView;
