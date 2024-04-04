@@ -99,7 +99,9 @@ const AddEquipment = () => {
                         />
                     </Form.Group>
 
-
+                    <Row>
+                       
+                        <Col md={6}>
                     <Form.Group className="my-2" controlId="mdate">
                         <Form.Label>Maintenance Date:</Form.Label>
                         <Form.Control
@@ -109,7 +111,7 @@ const AddEquipment = () => {
                             onChange={(e) => setMdate(e.target.value)}
                         />
                     </Form.Group>
-
+</Col><Col>
                     <Form.Group className="my-2" controlId="rdate">
                         <Form.Label>Repair Date:</Form.Label>
                         <Form.Control
@@ -119,7 +121,7 @@ const AddEquipment = () => {
                             onChange={(e) => setRdate(e.target.value)}
                         />
                     </Form.Group>
-
+                    </Col></Row>
                     <Form.Group className="my-2" controlId="desc">
                         <Form.Label>Remarks :</Form.Label>
                         <Form.Control

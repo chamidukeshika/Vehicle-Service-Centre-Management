@@ -43,6 +43,15 @@ const router = createBrowserRouter(
       {/* keshika routes */}
       <Route path="/admin/equipments/add" element={<AddEquipment />} />
       <Route path="/admin/equipments/" element={<ViewEquipment />} />
+      <Route path='/admin/records/add' element={<AddRecords />} />
+      <Route path='/admin/equipments/add' element={<AddEquipment />} />
+      <Route path='/admin/equipments/' element={<ViewEquipment />} />
+      <Route path='/admin/records/list' element={<RecordList />} />
+
+
+      
+      
+        
 
       {/* Admin routes */}
       <Route path="" element={<AdminRoutes />}>

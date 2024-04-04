@@ -8,6 +8,7 @@ import { setCredentials } from '../slices/authSlice'
 import { recordApiSlice, useInsertRecordMutation } from "../slices/recordApiSlice";
 import RecordForm from "../src/components/RecordForm";
 import { BsPlus, BsTrash } from 'react-icons/bs';
+import  img from '../src/assets/Mlogo.png';
 
 
 const AddRecords = () => {
@@ -83,32 +84,47 @@ const AddRecords = () => {
 
     const submitHandler = async (e) => {
         e.preventDefault();
-        if (cname === isNaN(value)) {
-            // If value is a number, show toast error message
-            toast.error('Customer Name cannot be a number');
-            return;
-        }
-
-        else if (cphone.length != 10) {
-            toast.error('Enter Valid Phone Number');
-        } else if (!numericRegex.test(cphone)) {
-            toast.error('Phone number should contain only numeric digits');
-        }
-        else {
+        // Validate phone number (you can add more validation here if needed)
+        if (cphone.length !== 10 || !/^\d+$/.test(cphone)) {
+            toast.error('Enter a valid phone number containing only numeric digits');
+        } else {
             try {
-                const res = await register({ name, email, phone, password }).unwrap();
-                navigate('/')
+                const partsData = partsList.map(part => ({ part: part.part, cost: part.cost }));
+                const recordData = {
+                    cname,
+                    cemail,
+                    cphone,
+                    indate,
+                    outdate,
+                    vmodel,
+                    mileage,
+                    year,
+                    section,
+                    tname,
+                    desc,
+                    parts: partsData, // Send the parts array as structured data
+                    lcost,
+                    tcost
+                };
+                const res = await insertRecord(recordData).unwrap();
+                toast.success("Record Added Successfully");
+                // Optionally, reset form fields after successful submission
+                // ...
+                navigate('/');
             } catch (err) {
                 toast.error(err?.data?.message || err.err);
             }
         }
-    }
+    };
+    
 
     return (
         <>
             <RecordForm>
                 <h1>Service Record Form</h1>
-                <Form onSubmit={submitHandler}>
+                <img src={img} alt="logo" style={{ width: '150px', height: 'auto', marginLeft: "550px", marginTop:"-90px" }} />
+
+                <Form onSubmit={submitHandler} style={{fontWeight:"500",marginTop:"-30px"}}>
                     {/* Customer Name */}
                     {/* Customer Name */}
                     <Form.Group className="my-2" controlId="cname">
@@ -119,6 +135,7 @@ const AddRecords = () => {
                             placeholder="Customer Name"
                             value={cname}
                             onChange={(e) => setCname(e.target.value)}
+                            style={{padding:"10px"}}
                         />
                     </Form.Group>
                     <Row>
@@ -127,13 +144,14 @@ const AddRecords = () => {
 
                             {/* Customer Phone */}
                             <Form.Group className="my-2" controlId="cphone">
-                                <Form.Label>Customer Phone</Form.Label>
+                                <Form.Label>Phone Number</Form.Label>
                                 <Form.Control
                                     type='tel'
                                     required
-                                    placeholder="Customer Phone"
+                                    placeholder="07X XXX XXXX"
                                     value={cphone}
                                     onChange={(e) => setCphone(e.target.value)}
+                                    style={{padding:"10px"}}
                                 />
                             </Form.Group>
                         </Col>
@@ -142,13 +160,14 @@ const AddRecords = () => {
                         <Col md={6}>
                             {/* Customer Email */}
                             <Form.Group className="my-2" controlId="cemail">
-                                <Form.Label>Customer Email</Form.Label>
+                                <Form.Label>Email</Form.Label>
                                 <Form.Control
                                     type='email'
                                     required
-                                    placeholder="Customer Email"
+                                    placeholder="example@gmail.com"
                                     value={cemail}
                                     onChange={(e) => setCemail(e.target.value)}
+                                    style={{padding:"10px"}}
                                 />
                             </Form.Group>
                         </Col>
@@ -166,6 +185,7 @@ const AddRecords = () => {
                                     required
                                     value={indate}
                                     onChange={(e) => setIndate(e.target.value)}
+                                    style={{padding:"10px"}}
                                 />
                             </Form.Group>
                         </Col>
@@ -178,6 +198,7 @@ const AddRecords = () => {
                                     required
                                     value={outdate}
                                     onChange={(e) => setOutdate(e.target.value)}
+                                    style={{padding:"10px"}}
                                 />
                             </Form.Group>
                         </Col></Row>
@@ -192,7 +213,8 @@ const AddRecords = () => {
                             required
                             placeholder="Vehicle Model"
                             value={vmodel}
-                            onChange={(e) => setVmodel(e.target.value)}
+                                    onChange={(e) => setVmodel(e.target.value)}
+                                    style={{padding:"10px"}}
                         />
                     </Form.Group>
                     </Col><Col md={4}>
@@ -204,7 +226,8 @@ const AddRecords = () => {
                             required
                             placeholder="Mileage"
                             value={mileage}
-                            onChange={(e) => setMileage(e.target.value)}
+                                    onChange={(e) => setMileage(e.target.value)}
+                                    style={{padding:"10px"}}
                         />
                     </Form.Group>
                     </Col ><Col md={4}>
@@ -216,24 +239,24 @@ const AddRecords = () => {
                             required
                             placeholder="Year"
                             value={year}
-                            onChange={(e) => setYear(e.target.value)}
+                                    onChange={(e) => setYear(e.target.value)}
+                                    style={{padding:"10px"}}
                         />
                     </Form.Group>
                     </Col></Row>
                     {/* Section */}
-                    <Form.Group className="my-2" controlId="section">
-                        <Form.Label>Section</Form.Label>
-                        <Form.Select
-                            required
-                            value={section}
-                            onChange={(e) => setSection(e.target.value)}
-                        >
-                            <option value="">Select Section</option>
-                            <option value="Body wash">Body Wash</option>
-                            <option value="Full service">Full Service</option>
-                            <option value="Manitenance">Maintenance</option>
-                        </Form.Select>
-                    </Form.Group>
+                    <Form.Group controlId="section">
+                <Form.Label>Section</Form.Label>
+                <Form.Select
+                    value={section}
+                    onChange={(e) => setSection(e.target.value)}
+                >
+                    <option value="">Select Section</option>
+                    <option value="Body wash">Body Wash</option>
+                    <option value="Full service">Full Service</option>
+                    <option value="Maintenance">Maintenance</option>
+                </Form.Select>
+            </Form.Group>
 
                     {/* Technician Name */}
                     <Form.Group className="my-2" controlId="tname">
@@ -244,6 +267,7 @@ const AddRecords = () => {
                             placeholder="Technician Name"
                             value={tname}
                             onChange={(e) => setTname(e.target.value)}
+                            style={{padding:"10px"}}
                         />
                     </Form.Group>
 
@@ -252,7 +276,7 @@ const AddRecords = () => {
                         <Form.Label>Description</Form.Label>
                         <Form.Control
                             as="textarea"
-                            rows={3}
+                            rows={5}
                             required
                             placeholder="Description"
                             value={desc}
@@ -268,6 +292,7 @@ const AddRecords = () => {
                             placeholder="Labor Cost"
                             value={lcost}
                             onChange={handleLCostChange}
+                            style={{padding:"10px"}}
                         />
                     </Form.Group>
 
@@ -280,6 +305,7 @@ const AddRecords = () => {
                                     placeholder="Parts"
                                     value={parts}
                                     onChange={(e) => setParts(e.target.value)}
+                                    style={{padding:"10px"}}
                                 />
                             </Form.Group>
                         </Col>
@@ -291,11 +317,12 @@ const AddRecords = () => {
                                     placeholder="Cost"
                                     value={cost}
                                     onChange={(e) => setCost(e.target.value)}
+                                    style={{padding:"10px"}}
                                 />
                             </Form.Group>
                         </Col>
                         <Col md={2} className="d-flex align-items-end">
-                            <Button variant="primary" onClick={handleAddPart} style={{ width: '100%' }}>
+                            <Button variant="primary" onClick={handleAddPart} style={{ width: '100%',height:"45px" }}>
                                 Add
                             </Button>
                         </Col>
@@ -308,6 +335,7 @@ const AddRecords = () => {
                                         type='text'
                                         disabled
                                         value={item.part}
+                                        style={{padding:"10px"}}
                                     />
                                 </Form.Group>
                             </Col>
@@ -317,11 +345,12 @@ const AddRecords = () => {
                                         type='number'
                                         disabled
                                         value={item.cost}
+                                        style={{padding:"10px"}}
                                     />
                                 </Form.Group>
                             </Col>
                             <Col md={2} className="d-flex align-items-end">
-                                <Button variant="danger" onClick={() => handleDeletePart(index)} style={{ marginBottom: '10px', width: '100%' }}>
+                                <Button variant="danger" onClick={() => handleDeletePart(index)} style={{ height:"45px",marginBottom: '10px', width: '100%' }}>
                                     <BsTrash />
                                 </Button>
                             </Col>
@@ -340,11 +369,12 @@ const AddRecords = () => {
                             placeholder="Total Cost"
                             value={tcost}
                             onChange={(e) => setTcost(e.target.value)}
+                            style={{padding:"10px"}}
                         />
                     </Form.Group>
 
                     {isLoading && <Loader />}
-                    <Button type='submit' variant="primary" className="mt-3">
+                    <Button type='submit' variant="primary" className="mt-3" style={{height:"45px",width:"100%",fontWeight:"500"}}>
                         Submit Record
                     </Button>
                 </Form>
