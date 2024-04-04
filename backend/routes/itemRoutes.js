@@ -5,7 +5,7 @@ import { addItem, updateItems, getItems, deleteItem } from '../controllers/items
 const irouter = express.Router();
 
 irouter.post('/additem', addItem);
-irouter.get('/view', getItems);
+irouter.get('/', getItems);
 irouter.put('/update', updateItems);
 irouter.delete('/delete',deleteItem);
 

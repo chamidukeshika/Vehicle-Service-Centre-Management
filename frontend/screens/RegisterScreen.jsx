@@ -35,8 +35,8 @@ const RegisterScreen = () => {
         e.preventDefault();
         if (password !== confirmPassword) {
             toast.error('Password do not match');
-        }else if (password.length != 5) {
-            toast.error('Password must contain at least 8 charactors');
+        }else if (password.length < 5) {
+            toast.error('Password must contain at least 5 charactors');
         }
         else if(phone.length != 10){
             toast.error('Enter Valid Phone Number');
@@ -133,7 +133,3 @@ const RegisterScreen = () => {
 }
 
 export default RegisterScreen
-
-
-
-///02.57
