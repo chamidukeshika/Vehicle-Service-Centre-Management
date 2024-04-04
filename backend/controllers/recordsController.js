@@ -94,7 +94,7 @@ const deleteRecords = expressAsyncHandler(async (req, res) => {
     const recorddelete = await Records.findByIdAndDelete(id);
 
     if (recorddelete) {
-        res.status(200).json({ message: "Record deleted succesfully" });
+        res.status(200).json({ message: "Record deleted " });
     }
     else {
         res.status(200).json({ message: "Failed Deleted" });
