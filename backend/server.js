@@ -9,6 +9,7 @@ import connectDB from './config/db.js';
 import { notFound, errorHandler } from './middleware/errorMiddleware.js';
 import cors from 'cors';
 import recordrouter from './routes/recordRoutes.js';
+import approuter from './routes/appRouters.js'
 
 dotenv.config();
 const app = express();
@@ -28,6 +29,7 @@ app.use('/api/admin/equipments', irouter);
 app.use('/api/records', recordrouter);
 app.use('/api/inquiry', inquiryrouter);
 app.use('/api/orders', orderrouter);
+app.use('/api/app', approuter);
 
 
 
