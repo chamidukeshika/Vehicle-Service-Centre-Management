@@ -23,7 +23,6 @@ const RecordForm = ({ children }) => {
                     </Col>
                     </Col>
 
-
                 </Row>
             </Container>
         </div>
