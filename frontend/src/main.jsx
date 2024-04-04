@@ -11,6 +11,7 @@ import HomeScreen from '../screens/HomeScreen.jsx';
 import LoginScreen from '../screens/LoginScreen.jsx';
 import RegisterScreen from '../screens/RegisterScreen.jsx';
 import ProfileScreen from '../screens/ProfileScreen.jsx';
+import AddLubricant from '../screens/AddLubricant.jsx';
 import AdminRoutes from './components/AdminRoutes.jsx';
 import AdminDashboard from '../screens/AdminDashboard.jsx';
 import AddEquipment from '../screens/AddEquipment.jsx';
@@ -24,6 +25,8 @@ const router = createBrowserRouter(
       <Route index={true} path='/' element={<HomeScreen />} />
       <Route path='/login' element={<LoginScreen />} />
       <Route path='/register' element={<RegisterScreen />} />
+      <Route path='/listlubricant' element={<AddLubricant />} />
+
 
 
 
