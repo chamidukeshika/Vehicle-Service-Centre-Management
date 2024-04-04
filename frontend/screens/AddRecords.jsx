@@ -127,11 +127,11 @@ const AddRecords = () => {
 
                             {/* Customer Phone */}
                             <Form.Group className="my-2" controlId="cphone">
-                                <Form.Label>Customer Phone</Form.Label>
+                                <Form.Label>Phone Number</Form.Label>
                                 <Form.Control
                                     type='tel'
                                     required
-                                    placeholder="Customer Phone"
+                                    placeholder="07X XXX XXXX"
                                     value={cphone}
                                     onChange={(e) => setCphone(e.target.value)}
                                 />
@@ -142,7 +142,7 @@ const AddRecords = () => {
                         <Col md={6}>
                             {/* Customer Email */}
                             <Form.Group className="my-2" controlId="cemail">
-                                <Form.Label>Customer Email</Form.Label>
+                                <Form.Label> Email</Form.Label>
                                 <Form.Control
                                     type='email'
                                     required
