@@ -1,75 +1,69 @@
 import mongoose from "mongoose";
 
 const RecordsSchema = mongoose.Schema({
-
     cname: {
         type: String,
-        required:true
+        required: true
     },
     cemail: {
         type: String,
-        required:true
+        required: true
     },
     cphone: {
         type: String,
-        required:true
+        required: true
     },
     indate: {
         type: Date,
-        required:true
+        required: true
     },
-
     outdate: {
         type: Date,
-        required:true
+        required: true
     },
-
     vmodel: {
         type: String,
-        required:true
+        required: true
     },
     mileage: {
         type: Number,
-        required:true
+        required: true
     },
     year: {
         type: Number,
-        required:true
+        required: true
     },
     section: {
         type: String,
-        required:true
+        required: true
     },
     tname: {
         type: String,
-        required:true
+        required: true
     },
-    desc: {
-        type:String,
-    },
-    parts: {
-        type: String,
-        required:true
-    },
-    cost: {
-        type: Number,
-        required:true
-    },
+    desc: String, // No need for 'required' here if it's optional
+    parts: [{
+        part: {
+            type: String,
+            required: true
+        },
+        cost: {
+            type: Number,
+            required: true
+        }
+    }],
     lcost: {
         type: Number,
-        required:true
+        required: true
     },
     tcost: {
         type: Number,
-        required:true
-    },
-
-},
-    {
-        timestamps: true
-    });
+        required: true
+    }
+}, {
+    timestamps: true
+});
 
 const Records = mongoose.model('Records', RecordsSchema);
-    
 
-export default Records
+export default Records;
