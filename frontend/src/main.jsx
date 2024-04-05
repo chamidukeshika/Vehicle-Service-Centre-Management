@@ -22,7 +22,9 @@ import AddOrder from "../screens/AddOrder.jsx";
 import Vindunu from "../screens/ViewOrder.jsx";
 
 import AddEquipment from "../screens/AddEquipment.jsx";
-import ViewEquipment from "../screens/viewEquipment.jsx";
+import ViewEquipment from "../screens/ViewEquipment.jsx";
+import AddRecords from "../screens/AddRecords.jsx";
+import RecordList from "../screens/RecordList.jsx";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
