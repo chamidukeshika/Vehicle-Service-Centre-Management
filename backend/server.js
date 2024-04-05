@@ -4,10 +4,13 @@ import cookieParser from 'cookie-parser';
 import userRoutes from './routes/userRoutes.js';
 import irouter from './routes/itemRoutes.js';
 import paymentrouter from './routes/paymentRoutes.js';
+import orderrouter from './routes/orderRoutes.js';
+import inquiryrouter from './routes/inquiryRouters.js';
 import connectDB from './config/db.js';
 import { notFound, errorHandler } from './middleware/errorMiddleware.js';
 import cors from 'cors';
 import recordrouter from './routes/recordRoutes.js';
+import approuter from './routes/appRouters.js'
 
 dotenv.config();
 const app = express();
@@ -25,7 +28,11 @@ app.use(cookieParser());
 app.use('/api/users', userRoutes);
 app.use('/api/payment', paymentrouter);
 app.use('/api/items', irouter);
+app.use('/api/admin/equipments', irouter);
 app.use('/api/records', recordrouter);
+app.use('/api/inquiry', inquiryrouter);
+app.use('/api/orders', orderrouter);
+app.use('/api/app', approuter);
 
 
 
