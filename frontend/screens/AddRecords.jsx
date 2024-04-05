@@ -110,7 +110,7 @@ const AddRecords = () => {
                 toast.success("Record Added Successfully");
                 // Optionally, reset form fields after successful submission
                 // ...
-                navigate('/');
+                navigate('/admin/records/add');
             } catch (err) {
                 toast.error(err?.data?.message || err.err);
             }
