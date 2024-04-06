@@ -55,7 +55,7 @@ const getRecords = expressAsyncHandler(async (req, res) => {
 
 const updateRecords = asyncHandler(async (req, res) => {
 
-    const { id } = req.body;
+    const { id } = req.params;
 
     const records = await Records.findById(id);
 
@@ -89,12 +89,12 @@ const updateRecords = asyncHandler(async (req, res) => {
 
 const deleteRecords = expressAsyncHandler(async (req, res) => {
 
-    const { id } = req.body;
+    const { id } = req.params;
 
     const recorddelete = await Records.findByIdAndDelete(id);
 
     if (recorddelete) {
-        res.status(200).json({ message: "Record deleted" });
+        res.status(200).json({ message: "Record Deleted " });
     }
     else {
         res.status(200).json({ message: "Failed Deleted" });
