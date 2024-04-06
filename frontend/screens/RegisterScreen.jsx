@@ -133,7 +133,3 @@ const RegisterScreen = () => {
 }
 
 export default RegisterScreen
-
-
-
-///02.57
