@@ -19,10 +19,11 @@ import ProfileScreen from "../screens/ProfileScreen.jsx";
 import AdminRoutes from "./components/AdminRoutes.jsx";
 import AdminDashboard from "../screens/AdminDashboard.jsx";
 import AddOrder from "../screens/AddOrder.jsx";
-import Vindunu from "../screens/ViewOrder.jsx";
-
+import View from "../screens/ViewOrder.jsx";
+import AddRecord from "../screens/AddRecords.jsx";
+import RecordList from "../screens/RecordList.jsx";
 import AddEquipment from "../screens/AddEquipment.jsx";
-import ViewEquipment from "../screens/viewEquipment.jsx";
+import ViewEquipment from "../screens/ViewEquipment.jsx";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -33,7 +34,7 @@ const router = createBrowserRouter(
 
       {/* sumeth routes */}
       <Route path="/orders/add" element={<AddOrder />} />
-      <Route path="/orders/sumeth" element={<Vindunu/>} />
+      <Route path="/orders/view" element={<View />} />
 
       {/* Private routes */}
       <Route path="" element={<PrivateRoutes />}>
@@ -43,15 +44,10 @@ const router = createBrowserRouter(
       {/* keshika routes */}
       <Route path="/admin/equipments/add" element={<AddEquipment />} />
       <Route path="/admin/equipments/" element={<ViewEquipment />} />
-      <Route path='/admin/records/add' element={<AddRecords />} />
-      <Route path='/admin/equipments/add' element={<AddEquipment />} />
-      <Route path='/admin/equipments/' element={<ViewEquipment />} />
-      <Route path='/admin/records/list' element={<RecordList />} />
-
-
-      
-      
-        
+      <Route path="/admin/records/add" element={<AddRecord />} />
+      <Route path="/admin/equipments/add" element={<AddEquipment />} />
+      <Route path="/admin/equipments/" element={<ViewEquipment />} />
+      <Route path="/admin/records/list" element={<RecordList />} />
 
       {/* Admin routes */}
       <Route path="" element={<AdminRoutes />}>
