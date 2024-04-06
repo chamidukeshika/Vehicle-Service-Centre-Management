@@ -6,7 +6,7 @@ const irouter = express.Router();
 
 irouter.post('/additem', addItem);
 irouter.get('/', getItems);
-irouter.put('/update', updateItems);
+irouter.put('/update/:id', updateItems);
 irouter.delete('/delete',deleteItem);
 
 export default irouter;
