@@ -55,7 +55,7 @@ const getRecords = expressAsyncHandler(async (req, res) => {
 
 const updateRecords = asyncHandler(async (req, res) => {
 
-    const { id } = req.body;
+    const { id } = req.params;
 
     const records = await Records.findById(id);
 
@@ -89,7 +89,7 @@ const updateRecords = asyncHandler(async (req, res) => {
 
 const deleteRecords = expressAsyncHandler(async (req, res) => {
 
-    const { id } = req.body;
+    const { id } = req.params;
 
     const recorddelete = await Records.findByIdAndDelete(id);
 

@@ -25,7 +25,7 @@ export const recordApiSlice = apiSlice.injectEndpoints({
             })
         }),
         deleteRecord: builder.mutation({
-            query: ({ id }) => ({
+            query: (id)=> ({
                 url: `${USERS_URL}/deleterecords/${id}`,
                 method: 'DELETE'
             })

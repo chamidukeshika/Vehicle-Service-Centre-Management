@@ -24,6 +24,8 @@ import AddRecord from "../screens/AddRecords.jsx";
 import RecordList from "../screens/RecordList.jsx";
 import AddEquipment from "../screens/AddEquipment.jsx";
 import ViewEquipment from "../screens/ViewEquipment.jsx";
+import AddRecords from "../screens/AddRecords.jsx";
+import RecordList from "../screens/RecordList.jsx";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -34,7 +36,7 @@ const router = createBrowserRouter(
 
       {/* sumeth routes */}
       <Route path="/orders/add" element={<AddOrder />} />
-      <Route path="/orders/view" element={<View />} />
+      <Route path="/orders/sumeth" element={<Vindunu/>} />
 
       {/* Private routes */}
       <Route path="" element={<PrivateRoutes />}>

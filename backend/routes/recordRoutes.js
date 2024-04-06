@@ -7,6 +7,6 @@ const recordrouter = express.Router();
 recordrouter.post('/addrecords', addRecords);
 recordrouter.get('/viewrecords', getRecords);
 recordrouter.put('/updaterecords/:id', updateRecords);
-recordrouter.delete('/deleterecords',deleteRecords);
+recordrouter.delete('/deleterecords/:id',deleteRecords);
 
 export default recordrouter;

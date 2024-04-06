@@ -12,14 +12,14 @@ const RecordForm = ({ children }) => {
                     <Col style={{ justifyContent: 'center', marginTop:'200px' }}>
                         <Row className="justify-content-md-center mt-2">
                             <Col xs={12} md={6} className="text-center">
-                            <Link to="/admin/equipments/add">
+                            <Link to="/admin/records/add">
                                     <Button variant="dark" size="lg" block style={{ width: '400px', height: '100px', fontSize: '32px', color:'white',border:"1px solid white"}}>Add Record</Button>
                           </Link>
                             </Col>
                         </Row>
                         <Row className="justify-content-md-center mt-2">
                             <Col xs={12} md={6} className="text-center">
-                            <Link to="/admin/equipments">
+                            <Link to="/admin/records/list">
                                 <Button variant="dark" size="lg" block style={{ width: '400px', height: '100px', fontSize: '32px', marginTop:'50px',border:"1px solid white"}}>Record List</Button>
                             </Link>
                             </Col>
