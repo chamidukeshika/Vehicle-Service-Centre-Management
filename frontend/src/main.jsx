@@ -37,6 +37,11 @@ const router = createBrowserRouter(
       <Route path="/orders/add" element={<AddOrder />} />
       <Route path="/orders/sumeth" element={<Vindunu/>} />
 
+      <Route path='/addfeedback' element={<AddFeedbackScreen />} />
+      <Route path='/editfeedback' element={<EditFeedbackScreen />} />
+      <Route path='/viewfeedback' element={<ViewFeedbackContainer/>}/>
+
+
       {/* Private routes */}
       <Route path="" element={<PrivateRoutes />}>
         <Route path="/profile" element={<ProfileScreen />} />
