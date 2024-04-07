@@ -5,12 +5,14 @@ import expressAsyncHandler from 'express-async-handler';
 
 const addItem = asyncHandler(async (req, res) => {
 
-    const { name,section,price,mdate,rdate,desc } = req.body;
+    const { name,section,price,qty,tprice,mdate,rdate,desc } = req.body;
 
     const item = await Items.create({
         name,
         section,
         price,
+        qty,
+        tprice,
         mdate,
         rdate,
         desc
@@ -22,6 +24,8 @@ const addItem = asyncHandler(async (req, res) => {
             name: item.name,
             section: item.section,
             price: item.price,
+            qty: item.qty,
+            tprice: item.tprice,
             mdate: item.mdate,
             rdate: item.rdate,
             desc: item.desc
@@ -47,30 +51,35 @@ const getItems = expressAsyncHandler(async (req, res) => {
 })
 
 
+// itemsController.js
+
 const updateItems = asyncHandler(async (req, res) => {
+    const { id } = req.params; // Extract the ID from the URL params
 
-    const { id } = req.body;
-    
-    const items = await Items.findById(id);
+    const item = await Items.findById(id);
 
-    if (items) {
-        items.name = req.body.name || items.name;
-        items.section = req.body.section || items.section;
-        items.price = req.body.price || items.price;
-        items.mdate = req.body.mdate || items.mdate;
-        items.rdate = req.body.rdate || items.rdate;
-        items.desc = req.body.desc || items.desc;
+    if (item) {
+        // Update the item fields only if they are present in the request body
+        item.name = req.body.name || item.name;
+        item.section = req.body.section || item.section;
+        item.price = req.body.price || item.price;
+        item.qty = req.body.qty || item.qty;
+        item.tprice = req.body.tprice || item.tprice;
+        item.mdate = req.body.mdate || item.mdate;
+        item.rdate = req.body.rdate || item.rdate;
+        item.desc = req.body.desc || item.desc;
 
-        const updatedItem = await items.save();
+        const updatedItem = await item.save();
 
         res.status(200).json({
-            message: 'Update Item Successfully' ,updatedItem
-        })
+            message: 'Item updated successfully',
+            updatedItem
+        });
     } else {
-        res.status(404);
-        throw new Error('Item Not Found');
+        res.status(404).json({ message: 'Item not found' });
     }
-})
+});
+
 
 const deleteItem = expressAsyncHandler(async (req, res) => {
     

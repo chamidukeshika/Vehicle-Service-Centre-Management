@@ -25,9 +25,10 @@ import ViewFeedbackScreen from "../screens/ViewFeedbackScreen.jsx";
 
 
 
+import View from "../screens/ViewOrder.jsx";
+import AddRecord from "../screens/AddRecords.jsx";
 import AddEquipment from "../screens/AddEquipment.jsx";
 import ViewEquipment from "../screens/ViewEquipment.jsx";
-import AddRecords from "../screens/AddRecords.jsx";
 import RecordList from "../screens/RecordList.jsx";
 
 const router = createBrowserRouter(
@@ -39,6 +40,7 @@ const router = createBrowserRouter(
 
       {/* sumeth routes */}
       <Route path="/orders/add" element={<AddOrder />} />
+      <Route path="/orders/view" element={<View/>} />
 
       <Route path='/addfeedback' element={<AddFeedbackScreen />} />
       <Route path='/editfeedback' element={<EditFeedbackScreen />} />
@@ -53,15 +55,10 @@ const router = createBrowserRouter(
       {/* keshika routes */}
       <Route path="/admin/equipments/add" element={<AddEquipment />} />
       <Route path="/admin/equipments/" element={<ViewEquipment />} />
-      <Route path='/admin/records/add' element={<AddRecords />} />
-      <Route path='/admin/equipments/add' element={<AddEquipment />} />
-      <Route path='/admin/equipments/' element={<ViewEquipment />} />
-      <Route path='/admin/records/list' element={<RecordList />} />
-
-
-      
-      
-        
+      <Route path="/admin/records/add" element={<AddRecord />} />
+      <Route path="/admin/equipments/add" element={<AddEquipment />} />
+      <Route path="/admin/equipments/" element={<ViewEquipment />} />
+      <Route path="/admin/records/list" element={<RecordList />} />
 
       {/* Admin routes */}
       <Route path="/admin" element={<AdminDashboard />} />

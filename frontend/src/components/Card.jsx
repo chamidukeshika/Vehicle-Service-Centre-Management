@@ -20,11 +20,11 @@ const cource = [
 
 const Card = () => {
     return(
-        <div className="card--container">
+        <div className="cardone--container">
             {cource.map((item) => (
-                <div className="card">
-                    <div className="card--cover">{item.icon}</div>
-                    <div className="card--title">
+                <div className="cardone">
+                    <div className="cardone--cover">{item.icon}</div>
+                    <div className="cardone--title">
                         <h2>{item.title}</h2>
                     </div>
                 </div>
