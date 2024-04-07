@@ -22,7 +22,8 @@ import AddOrder from "../screens/AddOrder.jsx";
 import AddFeedbackScreen from "../screens/AddFeedbackScreen.jsx";
 import EditFeedbackScreen from "../screens/EditFeedbackScreen.jsx";
 import ViewFeedbackScreen from "../screens/ViewFeedbackScreen.jsx";
-
+import AddLubricant from "../screens/AddLubricant.jsx";
+import ViewLubricant from "../screens/ViewLubricant.jsx";
 
 
 import View from "../screens/ViewOrder.jsx";
@@ -42,14 +43,6 @@ const router = createBrowserRouter(
       <Route path='/listlubricant/add' element={<AddLubricant />} />
       <Route path='/listlubricant/view' element={<ViewLubricant />} />
 
-
-
-
-
-
-      <Route path="/" element={<App />}>
-        <Route index={true} path="/" element={<HomeScreen />} />
-        <Route path="/login" element={<LoginScreen />} />
         <Route path="/register" element={<RegisterScreen />} />
 
         {/* sumeth routes */}
@@ -66,7 +59,7 @@ const router = createBrowserRouter(
 
         {/* Private routes */}
         <Route path="" element={<PrivateRoutes />}>
-          <Route path="/profile" element={<ProfileScreen />} />
+          <Route path="/profile" element={<AdminDashboard />} />
         </Route>
 
         {/* keshika routes */}
@@ -83,7 +76,7 @@ const router = createBrowserRouter(
         <Route path="" element={<AdminRoutes />}>
         </Route>
       </Route>
-    </Route>
+   
   )
 );
 ReactDOM.createRoot(document.getElementById("root")).render(

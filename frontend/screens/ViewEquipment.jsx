@@ -1,10 +1,25 @@
 import React, { useState, useEffect } from "react";
-import { Container, Form, Button, Table, Modal, Row, Col } from "react-bootstrap";
+import { Container, Form, Table, OverlayTrigger, Tooltip, Modal, Row, Col, Button } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import Loader from "../src/components/Loader";
-import { useVieweQuery, useUpdateeMutation } from '../slices/equipmentSlice.js';
+import { useVieweQuery, useUpdateeqMutation, useDeleteeMutation } from '../slices/equipmentSlice.js';
 import 'bootstrap-icons/font/bootstrap-icons.css';
+
+// Function to render a tooltip for the edit button
+const renderEditTooltip = (props) => (
+  <Tooltip id="edit-tooltip" {...props}>
+    Edit Item
+  </Tooltip>
+);
+
+// Function to render a tooltip for the delete button
+const renderDeleteTooltip = (props) => (
+  <Tooltip id="delete-tooltip" {...props}>
+    Delete Item
+  </Tooltip>
+);
+
 
 const ViewEquipment = () => {
   const { data: items, refetch } = useVieweQuery();
@@ -14,8 +29,10 @@ const ViewEquipment = () => {
   const [selectedItem, setSelectedItem] = useState(null);
   const [editedItem, setEditedItem] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [recordToDelete, setRecordToDelete] = useState(null); // Initialize recordToDelete state
   const itemsPerPage = 5;
   const navigate = useNavigate();
+  const [deletee] = useDeleteeMutation();
 
   useEffect(() => {
     setCurrentPage(1);
@@ -41,11 +58,12 @@ const ViewEquipment = () => {
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = filteredItems ? filteredItems.slice(indexOfFirstItem, indexOfLastItem) : [];
 
-  const [updatee] = useUpdateeMutation();
+  const [updateeq] = useUpdateeqMutation();
 
   const updateHandler = (itemId) => {
     const item = items.find(item => item._id === itemId);
     if (item) {
+      console.log("Selected item:", item);
       setSelectedItem(item);
       setEditedItem({ ...item });
       setShowUpdateModal(true);
@@ -55,62 +73,101 @@ const ViewEquipment = () => {
     }
   }
 
+  const handleUpdate = async () => {
+    try {
+      setIsLoading(true); // Set loading state to true during update operation
+      console.log("Updating item:", editedItem);
+      const { error } = await updateeq({ id: editedItem._id, data: editedItem });
+      // Pass item ID and updated data to updateeq function
+      if (!error) {
+        toast.success("Record updated successfully");
+        setShowUpdateModal(false); // Close the update modal after successful update
+        refetch(); // Refetch the items to reflect the changes
+      } else {
+        console.error(error);
+        toast.error(error?.data?.message || 'An error occurred while updating the record');
+      }
+    } catch (err) {
+      console.error(err);
+      toast.error('An error occurred while updating the record');
+    } finally {
+      setIsLoading(false); // Reset loading state after update operation is completed
+    }
+  }
+
 
   const deleteHandler = async (id) => {
-    console.log(`Deleting item with id ${id}`);
-    // Add your delete logic here
+    try {
+      console.log(`Deleting item with id ${id}`);
+      const { error } = await deletee(id).unwrap();
+      if (!error) {
+        toast.success("Record deleted successfully");
+        refetch();
+      } else {
+        console.error(error);
+        toast.error(error?.data?.message || 'An error occurred while deleting the record');
+      }
+    } catch (err) {
+      console.error(err);
+      toast.error('An error occurred while deleting the record');
+    }
   }
 
   const handleInputChange = (e, fieldName) => {
     const { value } = e.target;
-    setEditedItem(prevState => ({
-      ...prevState,
-      [fieldName]: value
-    }));
-  }
-
-
-  const handleUpdate = async () => {
-    try {
-      if (!selectedItem || !editedItem) {
-        return;
-      }
-  
-      setIsLoading(true);
-  
-      const id = selectedItem._id;
-      const res = await updatee({ id,editedItem }); // Pass object with id and edited data
-      console.log("Update response:", res);
-      if (res) {
-        toast.success('Equipment updated successfully!');
-        setShowUpdateModal(false);
-        refetch();
-      }
-    } catch (err) {
-      console.error(err);
-      toast.error(err?.data?.message || err.message || 'An error occurred');
-    } finally {
-      setIsLoading(false);
+    if (fieldName === 'price' || fieldName === 'qty') {
+      // If the field is 'price' or 'qty', update the total price accordingly
+      const price = fieldName === 'price' ? parseFloat(value) : editedItem.price || 0;
+      const qty = fieldName === 'qty' ? parseFloat(value) : editedItem.qty || 0;
+      setEditedItem(prevState => ({
+        ...prevState,
+        [fieldName]: value,
+        tprice: (price * qty).toFixed(2) // Calculate the total price and round to 2 decimal places
+      }));
+    } else {
+      // For other fields, update normally
+      setEditedItem(prevState => ({
+        ...prevState,
+        [fieldName]: value
+      }));
     }
   }
-  
+
+
   const handleUpdateModalClose = () => {
     setShowUpdateModal(false);
     setEditedItem(null);
   };
 
+  const handleDeleteClick = (recordId) => {
+    setRecordToDelete(recordId); // Set recordToDelete when delete button is clicked
+  };
+
+  const handleConfirmDelete = () => {
+    if (recordToDelete) {
+      deleteHandler(recordToDelete); // Call deleteHandler when delete confirmation is confirmed
+      setRecordToDelete(null); // Reset recordToDelete state
+    }
+  };
+
+  const handleCancelDelete = () => {
+    setRecordToDelete(null); // Reset recordToDelete state when delete confirmation is canceled
+  };
+
+
+  
   return (
     <div className="vh-100 d-flex justify-content-center align-items-center">
-      <Container style={{ backgroundColor: "rgba(255, 255, 255, 0.5)", padding: "20px", borderRadius: "10px" }}>
+      <Container style={{ backgroundColor: "rgba(255, 255, 255, 0.7)", padding: "20px", borderRadius: "10px" }}>
         <h1 className="text-center text-black mb-4 mt-8">View Equipments</h1>
-        <Form.Group controlId="search " style={{ float: "left", width: "300px", boxShadow: " 0px 0px 10px 5px rgba(0, 0, 0, 0.3)", borderRadius: "50px", }}>
+        <Form.Group controlId="search " style={{ float: "left", width: "300px", boxShadow: " 0px 0px 3px 2px rgba(0, 0, 0, 0.3)", borderRadius: "50px", }}>
           <div className="position-relative">
             <Form.Control
               type="text"
               placeholder="Search..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              style={{ paddingLeft: "40px", borderRadius: "50px", background: "transparent" }}
+              style={{ paddingLeft: "40px", borderRadius: "50px", background: "rgba(0, 0, 0, 0.1)"}}
             />
             <i className="bi bi-search position-absolute" style={{ top: "50%", transform: "translateY(-50%)", left: "10px", color: "black" }}></i>
           </div>
@@ -128,8 +185,9 @@ const ViewEquipment = () => {
             </ul>
           </nav>
         </div>
+        
         {currentItems.length > 0 ? (
-          <Table striped hover className="mb-4" borderless style={{ textAlign: "center" }} >
+          <Table striped hover className="mb-4"  style={{ textAlign: "center" }}>
             <thead>
               <tr>
                 <th>Name</th>
@@ -140,7 +198,7 @@ const ViewEquipment = () => {
                 <th>Manufacture Date</th>
                 <th>Rental Date</th>
                 <th>Description</th>
-                <th></th>
+                <th>Actions</th>
               </tr>
             </thead>
             <tbody>
@@ -155,8 +213,24 @@ const ViewEquipment = () => {
                   <td>{new Date(item.rdate).toLocaleDateString() || "empty"}</td>
                   <td>{item.desc}</td>
                   <td>
-                    <Button onClick={() => updateHandler(item._id)}> <i className="bi bi-pencil-square"></i></Button>
-                    <Button onClick={() => deleteHandler(item._id)} className="ms-2"><i className="bi bi-trash"></i></Button>
+                    <OverlayTrigger
+                      placement="top"
+                      overlay={renderEditTooltip}
+                    >
+                      <Button onClick={() => updateHandler(item._id)} variant="primary" className="me-2">
+                        <i className="bi bi-pencil-square"></i>
+                      </Button>
+                    </OverlayTrigger>
+
+                    <OverlayTrigger
+                      placement="top"
+                      overlay={renderDeleteTooltip}
+                    >
+                      <Button onClick={() => handleDeleteClick(item._id)} variant="danger">
+                        <i className="bi bi-trash"></i>
+                      </Button>
+                    </OverlayTrigger>
+                    
                   </td>
                 </tr>
               ))}
@@ -165,6 +239,24 @@ const ViewEquipment = () => {
         ) : (
           <Loader />
         )}
+
+        <Modal show={recordToDelete !== null} onHide={handleCancelDelete} centered>
+          <Modal.Header closeButton>
+            <Modal.Title>Confirm Delete</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <p>Are you sure you want to delete this item?</p>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant="secondary" onClick={handleCancelDelete}>
+              Cancel
+            </Button>
+            <Button variant="danger" onClick={handleConfirmDelete}>
+              Delete
+            </Button>
+          </Modal.Footer>
+        </Modal>
+
         <Modal show={showUpdateModal} onHide={handleUpdateModalClose} centered>
           <Modal.Header closeButton className="bg-primary text-light">
             <Modal.Title>Edit Equipment Details</Modal.Title>
@@ -176,10 +268,11 @@ const ViewEquipment = () => {
                 <Form.Control
                   type='text'
                   placeholder="Enter Equipment Name"
-                  value={editedItem?.name || ''}
+                  value={editedItem ? editedItem.name : ''}
                   onChange={(e) => handleInputChange(e, 'name')}
                   style={{ padding: "10px" }}
                 />
+
 
               </Form.Group>
 
@@ -227,9 +320,10 @@ const ViewEquipment = () => {
                   <Form.Group controlId="tprice">
                     <Form.Label>Total Cost:</Form.Label>
                     <Form.Control
-                      type='number'
+                      type='text'
                       step="0.01"
                       value={editedItem?.tprice || ''}
+                      readonly
                       onChange={(e) => handleInputChange(e, 'tprice')}
                       style={{ padding: "10px" }}
                     />

@@ -16,7 +16,7 @@ export const equipApiSlice = apiSlice.injectEndpoints({
                 method: 'GET'
             })
         }),
-        updatee: builder.mutation({
+        updateeq: builder.mutation({
             query: ({id, data}) => ({
                 url: `${EQUIP_URL}/update/${id}`,
                 method: 'PUT',
@@ -35,6 +35,6 @@ export const equipApiSlice = apiSlice.injectEndpoints({
 export const {
     useInserteMutation,
     useVieweQuery,
-    useUpdateeMutation,
+    useUpdateeqMutation,
     useDeleteeMutation
 } = equipApiSlice;
