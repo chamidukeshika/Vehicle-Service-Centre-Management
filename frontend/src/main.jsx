@@ -17,6 +17,7 @@ import AdminDashboard from '../screens/AdminDashboard.jsx';
 import AddEquipment from '../screens/AddEquipment.jsx';
 import AddRecords from '../screens/AddRecords.jsx';
 import ViewEquipment from '../screens/ViewEquipment.jsx';
+import ViewLubricant from '../screens/ViewLubricant.jsx';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -24,7 +25,13 @@ const router = createBrowserRouter(
       <Route index={true} path='/' element={<HomeScreen />} />
       <Route path='/login' element={<LoginScreen />} />
       <Route path='/register' element={<RegisterScreen />} />
-      <Route path='/listlubricant' element={<AddLubricant />} />
+
+      {/* tharindu routes */}
+      <Route path='/listlubricant/add' element={<AddLubricant />} />
+      <Route path='/listlubricant/view' element={<ViewLubricant />} />
+      
+      
+
 
 
 

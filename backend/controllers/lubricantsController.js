@@ -5,7 +5,8 @@ import expressAsyncHandler from 'express-async-handler';
 
 const addLubricant = asyncHandler(async (req, res) => {
 
-    const { name,brand,sellingprice,purchasedate,cost,description,volume } = req.body;
+    const { name,brand,sellingprice,purchasedate,cost,description,volume ,userId} = req.body;
+
 
     const lubricant = await Lubricants.create({
         name,
@@ -14,7 +15,9 @@ const addLubricant = asyncHandler(async (req, res) => {
         purchasedate,
         cost,
         description,
-        volume
+        volume,
+        userId,
+
     });
 
     if (lubricant) {
@@ -26,7 +29,9 @@ const addLubricant = asyncHandler(async (req, res) => {
             purchasedate: lubricant.purchasedate,
             cost: lubricant.cost,
             description: lubricant.description,
-            volume: lubricant.volume
+            volume: lubricant.volume,
+            userId: lubricant.userId,
+
         });
     } else {
         res.status(400);
@@ -63,6 +68,7 @@ const updateLubricants = asyncHandler(async (req, res) => {
         lubricants.cost = req.body.cost || lubricants.cost;
         lubricants.description = req.body.description || lubricants.description;
         lubricants.volume = req.body.volume || lubricants.volume;
+        lubricants.userId = req.body.userId || lubricants.userId;
 
         const updateLubricant = await lubricants.save();
 
