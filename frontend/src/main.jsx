@@ -19,39 +19,69 @@ import ProfileScreen from "../screens/ProfileScreen.jsx";
 import AdminRoutes from "./components/AdminRoutes.jsx";
 import AdminDashboard from "../screens/AdminDashboard.jsx";
 import AddOrder from "../screens/AddOrder.jsx";
+import AddFeedbackScreen from "../screens/AddFeedbackScreen.jsx";
+import EditFeedbackScreen from "../screens/EditFeedbackScreen.jsx";
+import ViewFeedbackScreen from "../screens/ViewFeedbackScreen.jsx";
+
+
+
 import View from "../screens/ViewOrder.jsx";
 import AddRecord from "../screens/AddRecords.jsx";
-import RecordList from "../screens/RecordList.jsx";
 import AddEquipment from "../screens/AddEquipment.jsx";
 import ViewEquipment from "../screens/ViewEquipment.jsx";
+import RecordList from "../screens/RecordList.jsx";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
-    <Route path="/" element={<App />}>
-      <Route index={true} path="/" element={<HomeScreen />} />
-      <Route path="/login" element={<LoginScreen />} />
-      <Route path="/register" element={<RegisterScreen />} />
+    <Route path='/' element={<App />}>
+      <Route index={true} path='/' element={<HomeScreen />} />
+      <Route path='/login' element={<LoginScreen />} />
+      <Route path='/register' element={<RegisterScreen />} />
+
+      {/* tharindu routes */}
+      <Route path='/listlubricant/add' element={<AddLubricant />} />
+      <Route path='/listlubricant/view' element={<ViewLubricant />} />
+
+
+
+
+
+
+      <Route path="/" element={<App />}>
+        <Route index={true} path="/" element={<HomeScreen />} />
+        <Route path="/login" element={<LoginScreen />} />
+        <Route path="/register" element={<RegisterScreen />} />
+
+        {/* sumeth routes */}
+        <Route path="/orders/add" element={<AddOrder />} />
+        <Route path="/orders/view" element={<View />} />
+
+        <Route path='/addfeedback' element={<AddFeedbackScreen />} />
+        <Route path='/editfeedback' element={<EditFeedbackScreen />} />
+        <Route path='/viewfeedback' element={<ViewFeedbackScreen />} />
 
       {/* sumeth routes */}
       <Route path="/orders/add" element={<AddOrder />} />
       <Route path="/orders/view" element={<View/>} />
 
-      {/* Private routes */}
-      <Route path="" element={<PrivateRoutes />}>
-        <Route path="/profile" element={<ProfileScreen />} />
-      </Route>
+        {/* Private routes */}
+        <Route path="" element={<PrivateRoutes />}>
+          <Route path="/profile" element={<ProfileScreen />} />
+        </Route>
 
-      {/* keshika routes */}
-      <Route path="/admin/equipments/add" element={<AddEquipment />} />
-      <Route path="/admin/equipments/" element={<ViewEquipment />} />
-      <Route path="/admin/records/add" element={<AddRecord />} />
-      <Route path="/admin/equipments/add" element={<AddEquipment />} />
-      <Route path="/admin/equipments/" element={<ViewEquipment />} />
-      <Route path="/admin/records/list" element={<RecordList />} />
+        {/* keshika routes */}
+        <Route path="/admin/equipments/add" element={<AddEquipment />} />
+        <Route path="/admin/equipments/" element={<ViewEquipment />} />
+        <Route path="/admin/records/add" element={<AddRecord />} />
+        <Route path="/admin/equipments/add" element={<AddEquipment />} />
+        <Route path="/admin/equipments/" element={<ViewEquipment />} />
+        <Route path="/admin/records/list" element={<RecordList />} />
 
-      {/* Admin routes */}
-      <Route path="" element={<AdminRoutes />}>
+        {/* Admin routes */}
         <Route path="/admin" element={<AdminDashboard />} />
+
+        <Route path="" element={<AdminRoutes />}>
+        </Route>
       </Route>
     </Route>
   )

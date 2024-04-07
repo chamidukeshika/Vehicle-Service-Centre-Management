@@ -12,6 +12,7 @@ import { notFound, errorHandler } from './middleware/errorMiddleware.js';
 import cors from 'cors';
 import recordrouter from './routes/recordRoutes.js';
 import approuter from './routes/appRouters.js'
+import lubricantrouter from './routes/lubricantRoutes.js';
 
 dotenv.config();
 const app = express();
@@ -25,6 +26,8 @@ connectDB();
 app.use(cors());
 app.use(cookieParser());
 
+
+
 //middleware
 app.use('/api/users', userRoutes);
 app.use('/api/payment', paymentrouter);
@@ -35,10 +38,20 @@ app.use('/api/inquiry', inquiryrouter);
 app.use('/api/orders', orderrouter);
 app.use('/api/app', approuter);
 app.use('/api/feedback', feedbackroutes);
+app.use('/api/lubricant', lubricantrouter);
 
 
 
-app.get('/', (req, res) => res.send('Server is ready!!!'));
+  
+  // Default route
+  app.get('/', (req, res) => res.send('Server is ready!!!'));
+  
+
+
+
+
+
+
 
 app.use(notFound);
 app.use(errorHandler);
