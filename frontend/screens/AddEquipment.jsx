@@ -1,11 +1,10 @@
-import { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import React, { useState, useEffect } from "react";
 import { Form, Button, Row, Col } from "react-bootstrap";
-import EquipmentForm from '../src/components/EquipmentForm';
 import { toast } from "react-toastify";
 import Loader from "../src/components/Loader";
-import { useInsertMutation } from "../slices/equipmentSlice";
+import { useSelector } from "react-redux"; 
+import { useInserteMutation } from "../slices/equipmentSlice";
+import EquipmentForm from "../src/components/EquipmentForm";
 
 const AddEquipment = () => {
     const [name, setName] = useState('');
@@ -14,14 +13,12 @@ const AddEquipment = () => {
     const [mdate, setMdate] = useState('');
     const [rdate, setRdate] = useState('');
     const [desc, setDesc] = useState('');
-    const [email, setEmail] = useState('');
     const [qty, setQty] = useState('');
     const [tprice, setTprice] = useState('');
+    const [email, setEmail] = useState('');
 
-    const navigate = useNavigate();
-    const dispatch = useDispatch();
+    const [inserte, { isLoading }] = useInserteMutation();
 
-    const [insert, { isLoading }] = useInsertMutation();
     const { userInfo } = useSelector((state) => state.auth);
 
     const calculateTotalPrice = () => {
@@ -31,25 +28,17 @@ const AddEquipment = () => {
 
     useEffect(() => {
         calculateTotalPrice();
-        setEmail(userInfo.email);
-    }, [price, qty,userInfo.setEmail]);
-
-   
+    }, [price, qty]);
 
     const submitHandler = async (e) => {
         e.preventDefault();
-        if (isNaN(price) || parseFloat(price) <= 0) {
+        if (isNaN(parseFloat(price)) || parseFloat(price) <= 0) {
             toast.error('Please enter a valid price.');
-        } else if (isNaN(name.trim()) === false) {
+        } else if (!isNaN(parseInt(name.trim()))) {
             toast.error('Name cannot be a number.');
         } else {
-            // Calculate tprice here
-            const totalPrice = parseFloat(price) * parseInt(qty);
-            const totalFormatted = totalPrice.toFixed(2);
-            setTprice(totalFormatted);
-    
             try {
-                const res = await insert({ 
+                const res = await inserte({ 
                     name, 
                     section, 
                     qty, 
@@ -57,11 +46,19 @@ const AddEquipment = () => {
                     mdate, 
                     rdate, 
                     desc, 
-                    tprice: totalFormatted // Pass tprice to the backend
+                    tprice 
                 }).unwrap();
                 if (res) {
                     toast.success('Equipment added successfully!');
-                    navigate('/admin/equipments');
+                    // Reset form fields after successful submission
+                    setName('');
+                    setSection('');
+                    setPrice('');
+                    setMdate('');
+                    setRdate('');
+                    setDesc('');
+                    setQty('');
+                    setTprice('');
                 }
             } catch (err) {
                 console.error(err);
@@ -69,7 +66,6 @@ const AddEquipment = () => {
             }
         }
     }
-    
 
 
     return (
@@ -83,7 +79,7 @@ const AddEquipment = () => {
                             disabled='true'
                             type='email'
                             placeholder="Admin ID"
-                            value={email}
+                            value={userInfo.email}
                             onChange={(e) => setEmail(e.target.value)}
                             style={{ padding: "10px" }}
                         />

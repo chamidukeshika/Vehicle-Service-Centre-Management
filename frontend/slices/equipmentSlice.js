@@ -3,27 +3,27 @@ const EQUIP_URL = '/api/admin/equipments';
 
 export const equipApiSlice = apiSlice.injectEndpoints({
     endpoints: (builder) => ({
-        insert: builder.mutation({
+        inserte: builder.mutation({
             query: (data) => ({
                 url: `${EQUIP_URL}/additem`,
                 method: 'POST',
                 body: data
             })
         }),
-        view: builder.query({
+        viewe: builder.query({
             query: () => ({
                 url: `${EQUIP_URL}/`,
                 method: 'GET'
             })
         }),
-        update: builder.mutation({
-            query: (id, data) => ({
+        updatee: builder.mutation({
+            query: ({id, data}) => ({
                 url: `${EQUIP_URL}/update/${id}`,
                 method: 'PUT',
                 body: data
             })
         }),
-        delete: builder.mutation({
+        deletee: builder.mutation({
             query: (id) => ({
                 url: `${EQUIP_URL}/delete/${id}`, // assuming delete endpoint is /api/admin/equipments/delete/:id
                 method: 'DELETE'
@@ -33,8 +33,8 @@ export const equipApiSlice = apiSlice.injectEndpoints({
 })
 
 export const {
-    useInsertMutation,
-    useViewQuery,
-    useUpdateMutation,
-    useDeleteMutation
+    useInserteMutation,
+    useVieweQuery,
+    useUpdateeMutation,
+    useDeleteeMutation
 } = equipApiSlice;

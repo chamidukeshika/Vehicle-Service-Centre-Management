@@ -1,18 +1,19 @@
 import React, { useState, useEffect } from "react";
-import { Container, Form, Button, Table, Modal } from "react-bootstrap";
+import { Container, Form, Button, Table, Modal, Row, Col } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import Loader from "../src/components/Loader";
-import { useViewQuery, useUpdateMutation } from '../slices/equipmentSlice.js';
+import { useVieweQuery, useUpdateeMutation } from '../slices/equipmentSlice.js';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 
 const ViewEquipment = () => {
-  const { data: items, refetch } = useViewQuery();
+  const { data: items, refetch } = useVieweQuery();
   const [searchTerm, setSearchTerm] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const [showUpdateModal, setShowUpdateModal] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null);
   const [editedItem, setEditedItem] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
   const itemsPerPage = 5;
   const navigate = useNavigate();
 
@@ -40,60 +41,68 @@ const ViewEquipment = () => {
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = filteredItems ? filteredItems.slice(indexOfFirstItem, indexOfLastItem) : [];
 
-  const [update, { isLoading }] = useUpdateMutation();
+  const [updatee] = useUpdateeMutation();
 
-  const updateHandler = (item) => {
-    setSelectedItem(item); // Set the whole item object
-    setEditedItem({ ...item });
-    setShowUpdateModal(true);
+  const updateHandler = (itemId) => {
+    const item = items.find(item => item._id === itemId);
+    if (item) {
+      setSelectedItem(item);
+      setEditedItem({ ...item });
+      setShowUpdateModal(true);
+    } else {
+      console.error("Item not found");
+      toast.error('Item not found');
+    }
   }
+
 
   const deleteHandler = async (id) => {
     console.log(`Deleting item with id ${id}`);
     // Add your delete logic here
   }
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
+  const handleInputChange = (e, fieldName) => {
+    const { value } = e.target;
     setEditedItem(prevState => ({
       ...prevState,
-      [name]: value
+      [fieldName]: value
     }));
   }
 
-  
- // Inside handleUpdate function
-// ViewEquipment.js
 
-const handleUpdate = async () => {
-  try {
+  const handleUpdate = async () => {
+    try {
       if (!selectedItem || !editedItem) {
-          // If selectedItem or editedItem is null, return early
-          return;
+        return;
       }
-
-      const { _id: itemId } = selectedItem; // Extract item ID
-      const res = await update(itemId, editedItem); // Pass item ID and edited data
+  
+      setIsLoading(true);
+  
+      const id = selectedItem._id;
+      const res = await updatee({ id,editedItem }); // Pass object with id and edited data
       console.log("Update response:", res);
       if (res) {
-          toast.success('Equipment updated successfully!');
-          setShowUpdateModal(false);
-          refetch(); // Refetch data to update the UI
+        toast.success('Equipment updated successfully!');
+        setShowUpdateModal(false);
+        refetch();
       }
-  } catch (err) {
+    } catch (err) {
       console.error(err);
       toast.error(err?.data?.message || err.message || 'An error occurred');
+    } finally {
+      setIsLoading(false);
+    }
   }
-}
-
-
-
-
+  
+  const handleUpdateModalClose = () => {
+    setShowUpdateModal(false);
+    setEditedItem(null);
+  };
 
   return (
     <div className="vh-100 d-flex justify-content-center align-items-center">
       <Container style={{ backgroundColor: "rgba(255, 255, 255, 0.5)", padding: "20px", borderRadius: "10px" }}>
-        <h1 className="text-center text-black mb-4 mt-8">View Equipments</h1><br />
+        <h1 className="text-center text-black mb-4 mt-8">View Equipments</h1>
         <Form.Group controlId="search " style={{ float: "left", width: "300px", boxShadow: " 0px 0px 10px 5px rgba(0, 0, 0, 0.3)", borderRadius: "50px", }}>
           <div className="position-relative">
             <Form.Control
@@ -135,164 +144,150 @@ const handleUpdate = async () => {
               </tr>
             </thead>
             <tbody>
-            {currentItems.map(item => (
-  <tr key={item._id}>
-    <td>{item.name || "empty"}</td>
-    <td>{item.section || "empty"}</td>
-    <td>{item.price || "empty"}</td>
-    <td>{item.qty || "empty"}</td>
-    <td>{item.tprice || "empty"}</td>
-    <td>{new Date(item.mdate).toLocaleDateString() || "empty"}</td>
-    <td>{new Date(item.rdate).toLocaleDateString() || "empty"}</td>
-    <td>{item.desc}</td>
-    <td>
-      <Button onClick={() => updateHandler(item)}> <i className="bi bi-pencil-square"></i></Button>
-      <Button onClick={() => deleteHandler(item.id)} className="ms-2"><i className="bi bi-trash"></i></Button>
-    </td>
-  </tr>
-))}
-
+              {currentItems.map(item => (
+                <tr key={item._id}>
+                  <td>{item.name || "empty"}</td>
+                  <td>{item.section || "empty"}</td>
+                  <td>{item.price || "empty"}</td>
+                  <td>{item.qty || "empty"}</td>
+                  <td>{item.tprice || "empty"}</td>
+                  <td>{new Date(item.mdate).toLocaleDateString() || "empty"}</td>
+                  <td>{new Date(item.rdate).toLocaleDateString() || "empty"}</td>
+                  <td>{item.desc}</td>
+                  <td>
+                    <Button onClick={() => updateHandler(item._id)}> <i className="bi bi-pencil-square"></i></Button>
+                    <Button onClick={() => deleteHandler(item._id)} className="ms-2"><i className="bi bi-trash"></i></Button>
+                  </td>
+                </tr>
+              ))}
             </tbody>
           </Table>
         ) : (
           <Loader />
         )}
-
-        {/* Update Modal */}
-        <Modal show={showUpdateModal} onHide={() => setShowUpdateModal(false)}>
-          <Modal.Header closeButton>
-            <Modal.Title>Update Equipment</Modal.Title>
+        <Modal show={showUpdateModal} onHide={handleUpdateModalClose} centered>
+          <Modal.Header closeButton className="bg-primary text-light">
+            <Modal.Title>Edit Equipment Details</Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            <div className="row">
-              <div className="col-md-6">
-                <h5>Current Details:</h5>
-                {selectedItem && (
-                  <Table striped bordered>
-                    <tbody>
-                      <tr>
-                        <td>Name:</td>
-                        <td>{selectedItem.name}</td>
-                      </tr>
-                      <tr>
-                        <td>Section:</td>
-                        <td>{selectedItem.section}</td>
-                      </tr>
-                      <tr>
-                        <td>Price:</td>
-                        <td>{selectedItem.price}</td>
-                      </tr>
-                      <tr>
-                        <td>Quantity:</td>
-                        <td>{selectedItem.qty}</td>
-                      </tr>
-                      <tr>
-                        <td>Total Price:</td>
-                        <td>{selectedItem.tprice}</td>
-                      </tr>
-                      <tr>
-                        <td>Manufacture Date:</td>
-                        <td>{new Date(selectedItem.mdate).toLocaleDateString()}</td>
-                      </tr>
-                      <tr>
-                        <td>Rental Date:</td>
-                        <td>{new Date(selectedItem.rdate).toLocaleDateString()}</td>
-                      </tr>
-                      <tr>
-                        <td>Description:</td>
-                        <td>{selectedItem.desc}</td>
-                      </tr>
-                    </tbody>
-                  </Table>
-                )}
-              </div>
-              <div className="col-md-6">
-                <h5>Update Details:</h5>
-                <Form>
-                  <Form.Group controlId="itemName">
-                    <Form.Label>Item Name</Form.Label>
-                    <Form.Control
-                      type="text"
-                      name="name"
-                      value={editedItem ? editedItem.name : ''}
-                      onChange={handleInputChange}
-                    />
-                  </Form.Group>
-                  <Form.Group controlId="itemSection">
-                    <Form.Label>Section</Form.Label>
-                    <Form.Control
-                      as="select"
-                      name="section"
-                      value={editedItem ? editedItem.section : ''}
-                      onChange={handleInputChange}
-                    >
-                      <option value="">Select Section</option>
-                      <option value="service">Service Section</option>
-                      <option value="repair">Repair Section</option>
-                    </Form.Control>
-                  </Form.Group>
-                  <Form.Group controlId="itemPrice">
-                    <Form.Label>Price</Form.Label>
-                    <Form.Control
-                      type="text"
-                      name="price"
-                      value={editedItem ? editedItem.price : ''}
-                      onChange={handleInputChange}
-                    />
-                  </Form.Group>
-                  <Form.Group controlId="itemQty">
-                    <Form.Label>Quantity</Form.Label>
-                    <Form.Control
-                      type="text"
-                      name="qty"
-                      value={editedItem ? editedItem.qty : ''}
-                      onChange={handleInputChange}
-                    />
-                  </Form.Group>
-                  <Form.Group controlId="itemManufactureDate">
-                    <Form.Label>Manufacture Date</Form.Label>
-                    <Form.Control
-                      type="date"
-                      name="mdate"
-                      value={editedItem ? editedItem.mdate : ''}
-                      onChange={handleInputChange}
-                    />
-                  </Form.Group>
-                  <Form.Group controlId="itemRentalDate">
-                    <Form.Label>Rental Date</Form.Label>
-                    <Form.Control
-                      type="date"
-                      name="rdate"
-                      value={editedItem ? editedItem.rdate : ''}
-                      onChange={handleInputChange}
-                    />
-                  </Form.Group>
-                  <Form.Group controlId="itemDescription">
-                    <Form.Label>Description</Form.Label>
-                    <Form.Control
-                      as="textarea"
-                      rows={3}
-                      name="desc"
-                      value={editedItem ? editedItem.desc : ''}
-                      onChange={handleInputChange}
-                    />
-                  </Form.Group>
-                </Form>
-              </div>
-            </div>
-          </Modal.Body>
+            <Form>
+              <Form.Group controlId="name">
+                <Form.Label>Item Name:</Form.Label>
+                <Form.Control
+                  type='text'
+                  placeholder="Enter Equipment Name"
+                  value={editedItem?.name || ''}
+                  onChange={(e) => handleInputChange(e, 'name')}
+                  style={{ padding: "10px" }}
+                />
 
-          {isLoading && <Loader />}
+              </Form.Group>
+
+              <Form.Group controlId="section">
+                <Form.Label>Section:</Form.Label>
+                <Form.Control
+                  as="select"
+                  value={editedItem?.section || ''}
+                  onChange={(e) => handleInputChange(e, 'section')}
+                  style={{ padding: "10px" }}
+                >
+                  <option value="">Select Section</option>
+                  <option value="Service">Service Section</option>
+                  <option value="Repair">Repair Section</option>
+                </Form.Control>
+              </Form.Group>
+
+              <Row>
+                <Col md={4}>
+                  <Form.Group controlId="price">
+                    <Form.Label>Cost:</Form.Label>
+                    <Form.Control
+                      type='number'
+                      step="0.01"
+                      placeholder="Enter Price"
+                      value={editedItem?.price || ''}
+                      onChange={(e) => handleInputChange(e, 'price')}
+                      style={{ padding: "10px" }}
+                    />
+                  </Form.Group>
+                </Col>
+                <Col md={4}>
+                  <Form.Group controlId="qty">
+                    <Form.Label>Qty:</Form.Label>
+                    <Form.Control
+                      type='number'
+                      placeholder="Quantity"
+                      value={editedItem?.qty || ''}
+                      onChange={(e) => handleInputChange(e, 'qty')}
+                      style={{ padding: "10px" }}
+                    />
+                  </Form.Group>
+                </Col>
+                <Col md={4}>
+                  <Form.Group controlId="tprice">
+                    <Form.Label>Total Cost:</Form.Label>
+                    <Form.Control
+                      type='number'
+                      step="0.01"
+                      value={editedItem?.tprice || ''}
+                      onChange={(e) => handleInputChange(e, 'tprice')}
+                      style={{ padding: "10px" }}
+                    />
+                  </Form.Group>
+                </Col>
+              </Row>
+
+              <Row>
+                <Col md={6}>
+                  <Form.Group controlId="mdate">
+                    <Form.Label>Maintenance Date:</Form.Label>
+                    <Form.Control
+                      type='date'
+                      value={editedItem?.mdate || ''}
+                      onChange={(e) => handleInputChange(e, 'mdate')}
+                      style={{ padding: "10px" }}
+                    />
+                  </Form.Group>
+                </Col>
+                <Col md={6}>
+                  <Form.Group controlId="rdate">
+                    <Form.Label>Repair Date:</Form.Label>
+                    <Form.Control
+                      type='date'
+                      value={editedItem?.rdate || ''}
+                      onChange={(e) => handleInputChange(e, 'rdate')}
+                      style={{ padding: "10px" }}
+                    />
+                  </Form.Group>
+                </Col>
+              </Row>
+
+              <Form.Group controlId="desc">
+                <Form.Label>Remarks:</Form.Label>
+                <Form.Control
+                  as="textarea"
+                  rows={3}
+                  placeholder="Enter Description"
+                  value={editedItem?.desc || ''}
+                  onChange={(e) => handleInputChange(e, 'desc')}
+                  style={{ padding: "10px" }}
+                />
+              </Form.Group>
+            </Form>
+          </Modal.Body>
           <Modal.Footer>
-            <Button variant="secondary" onClick={() => setShowUpdateModal(false)}>Close</Button>
-            <Button variant="primary" onClick={handleUpdate}>Update</Button>
+            <Button variant="secondary" onClick={handleUpdateModalClose}>
+              Cancel
+            </Button>
+            <Button variant="primary" onClick={handleUpdate}>
+              Save Changes
+            </Button>
           </Modal.Footer>
         </Modal>
 
-
       </Container>
     </div>
-  )
+  );
 };
 
 export default ViewEquipment;
