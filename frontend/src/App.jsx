@@ -7,9 +7,12 @@ import 'react-toastify/dist/ReactToastify.css'
 import { Container } from 'react-bootstrap'
 
 const App = () => {
+  const showHeader = !location.pathname.includes('/admin');
+
   return (
     <>
-      <Header />
+      
+      {showHeader && <Header />}
       <ToastContainer />
       <Outlet />
       <Footer />

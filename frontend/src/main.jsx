@@ -19,7 +19,11 @@ import ProfileScreen from "../screens/ProfileScreen.jsx";
 import AdminRoutes from "./components/AdminRoutes.jsx";
 import AdminDashboard from "../screens/AdminDashboard.jsx";
 import AddOrder from "../screens/AddOrder.jsx";
-import Vindunu from "../screens/ViewOrder.jsx";
+import AddFeedbackScreen from "../screens/AddFeedbackScreen.jsx";
+import EditFeedbackScreen from "../screens/EditFeedbackScreen.jsx";
+import ViewFeedbackScreen from "../screens/ViewFeedbackScreen.jsx";
+
+
 
 import AddEquipment from "../screens/AddEquipment.jsx";
 import ViewEquipment from "../screens/ViewEquipment.jsx";
@@ -35,11 +39,10 @@ const router = createBrowserRouter(
 
       {/* sumeth routes */}
       <Route path="/orders/add" element={<AddOrder />} />
-      <Route path="/orders/sumeth" element={<Vindunu/>} />
 
       <Route path='/addfeedback' element={<AddFeedbackScreen />} />
       <Route path='/editfeedback' element={<EditFeedbackScreen />} />
-      <Route path='/viewfeedback' element={<ViewFeedbackContainer/>}/>
+      <Route path='/viewfeedback' element={<ViewFeedbackScreen/>}/>
 
 
       {/* Private routes */}
@@ -61,8 +64,9 @@ const router = createBrowserRouter(
         
 
       {/* Admin routes */}
+      <Route path="/admin" element={<AdminDashboard />} />
+
       <Route path="" element={<AdminRoutes />}>
-        <Route path="/admin" element={<AdminDashboard />} />
       </Route>
     </Route>
   )
