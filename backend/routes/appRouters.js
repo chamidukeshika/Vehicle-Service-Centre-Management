@@ -6,7 +6,7 @@ const approuter = express.Router();
 
 approuter.get('/view',getAppointments);
 approuter.post('/addapp',addAppointment);
-approuter.put('/update',updateAppointments);
-approuter.delete('/delete',deleteAppointment);
+approuter.put('/update/:id',updateAppointments);
+approuter.delete('/delete/:id',deleteAppointment);
 
 export default approuter;

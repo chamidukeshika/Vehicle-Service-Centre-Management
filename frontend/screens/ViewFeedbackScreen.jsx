@@ -1,108 +1,96 @@
-import { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { Form, Button, Row, Col } from "react-bootstrap";
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { Container, Row, Col } from "react-bootstrap";
+import { useViewfQuery } from "../slices/feedbackSlice";
+import Loader from "../src/components/Loader";
 import ViewFeedbackContainer from "../src/components/ViewFeedbackContainer";
 
-import { toast } from "react-toastify";
-import Loader from "../src/components/Loader";
-import { setCredentials } from "../slices/authSlice";
-import { useRegisterMutation } from "../slices/userApiSlice";
-import Feedback from "react-bootstrap/esm/Feedback";
-
 function ViewFeedbackScreen() {
-//   const [email, setEmail] = useState("");
-//   const [OrderID, setOrderID] = useState("");
-//   const [AddFeedback, setAddFeedback] = useState("");
-
+  const { data: feedbacks } = useViewfQuery("");
+  const [searchTerm, setSearchTerm] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+  const feedbacksPerPage = 1;
   const navigate = useNavigate();
-  const dispatch = useDispatch();
 
-  //const [addfeedback, { isLoading }] = useAddFeedbackMutation();
-  const { userInfo } = useSelector((state) => state.auth);
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [searchTerm]);
 
-  // useEffect(() => {
-  //     if (editfeedback) {
-  //         navigate('/');
-  //         toast.success("Feedback submitted Successfull");
-  //     }
-  // }, [navigate, editfeedback]);
-  const submitHandler = async (e) => {
-    e.preventDefault();
+  const filteredFeedbacks = feedbacks && feedbacks.length > 0 ? feedbacks.filter(feedback => {
+    return (
+        feedback.name && feedback.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        feedback.email && feedback.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        feedback.orderId && feedback.orderId.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        feedback.AddFeedback && feedback.AddFeedback.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+  }) : [];
 
-  };
+  const indexOfLastFeedback = currentPage * feedbacksPerPage;
+  const indexOfFirstFeedback = indexOfLastFeedback - feedbacksPerPage;
+  const currentFeedbacks = filteredFeedbacks.slice(indexOfFirstFeedback, indexOfLastFeedback);
 
   return (
     <>
-
-        <div>
-            <div style={{
-                    textAlign: 'center', // Centers the text inside the div
-                    color: '#000000', // Sets text color to black
-                    // Using textShadow to simulate a white stroke effect. Adjust as necessary.
-                    textShadow: `
-                        -1px -1px 0 #FFFFFF, 
-                        1px -1px 0 #FFFFFF, 
-                        -1px 1px 0 #FFFFFF, 
-                        1px 1px 0 #FFFFFF,
-                        -2px 0 0 #FFFFFF,
-                        2px 0 0 #FFFFFF,
-                        0 -2px 0 #FFFFFF,
-                        0 2px 0 #FFFFFF`, // More shadows for stronger effect
-                    width: '100%', // Ensures the div takes the full width
-                    display: 'flex', // Using flex to center the content
-                    justifyContent: 'center', // Centers the content horizontally
-                    alignItems: 'center' // Centers the content vertically
-                }}>
-                    <br></br>
-                        <h1>Here from our satisfied clients!</h1>
-                        <br></br>
-                    </div>
-           </div> 
-
-           {/* <div className="d-flex justify-content-center mt-3">
-                                <Button
-                                    type='submit'
-                                    variant="primary"
-                                    size="lg"
-                                    className="mt-3"
-                                    style={{ width: '150px' }} // Adjust the width as needed
-                                >
-                                   Submit
-                                </Button>
-                            </div> */}
       <div>
-        <ViewFeedbackContainer>
-
-            <div class="comment">
-                <img src="profpic1.jpg" alt="commenter1" class="commenter-image"></img>
-                <div class="comment-content">
-                <div style={{ textAlign: 'center' }}>
-                    <h2>Ann Fernando</h2>
-                </div>
-                    <br></br>
-                    <h5>Order Id : 1234567</h5>                    
-                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                         Qui ipsa quod a fuga aperiam blanditiis dolores sunt harum?
-                          Fugiat, ab.
-                    </p>
-                </div>
-            </div>
-
-            
-
-        </ViewFeedbackContainer>
+        <div style={{
+          textAlign: 'center',
+          color: '#000000',
+          textShadow: `
+            -1px -1px 0 #FFFFFF,
+            1px -1px 0 #FFFFFF,
+            -1px 1px 0 #FFFFFF,
+            1px 1px 0 #FFFFFF,
+            -2px 0 0 #FFFFFF,
+            2px 0 0 #FFFFFF,
+            0 -2px 0 #FFFFFF,
+            0 2px 0 #FFFFFF`,
+          width: '100%',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center'
+        }}>
+          <h1>Here from our satisfied clients!</h1>
+          <br></br>
+        </div>
       </div>
 
+        <Container>
+      <div className="mt-5 mb-5">
+        {currentFeedbacks.length > 0 ? (
+          currentFeedbacks.map((feedback, index) => (
+            <ViewFeedbackContainer key={index}>
+              <Row className="mb-4">
+                <Col xs={12} md={4}>
+                  <img
+                    src={feedback.profilePic}
+                    alt="commenter"
+                    className="commenter-image"
+                  />
+                </Col>
+                <Col xs={12} md={8}>
+                  <div className="comment-content">
+                    <div style={{ textAlign: "center" }}>
+                      <h2>{feedback.name}</h2>
+                    </div>
+                    <br></br>
+                    <h5>Order Id : {feedback.orderId}</h5>
+                    <p>Email: {feedback.email}</p>
+                    <p>Feedback: {feedback.addfeedback}</p>
+                  </div>
+                </Col>
+              </Row>
+            </ViewFeedbackContainer>
+          ))
+        ) : (
+          <Loader />
+        )}
+      </div>
+      </Container>
+
       <br />
-     </>
+    </>
   );
 }
 
 export default ViewFeedbackScreen;
-
-
-
-
-
-
