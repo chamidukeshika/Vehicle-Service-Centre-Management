@@ -26,6 +26,7 @@ const OrderSchema = mongoose.Schema({
     },
     ExpireDate: {
         type:Date,
+        required:true
     },
 
 },

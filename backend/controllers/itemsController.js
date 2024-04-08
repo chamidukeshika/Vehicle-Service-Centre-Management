@@ -54,22 +54,23 @@ const getItems = expressAsyncHandler(async (req, res) => {
 // itemsController.js
 
 const updateItems = asyncHandler(async (req, res) => {
+    
     const { id } = req.params; // Extract the ID from the URL params
 
-    const item = await Items.findById(id);
+    const items = await Items.findById(id);
 
-    if (item) {
-        // Update the item fields only if they are present in the request body
-        item.name = req.body.name || item.name;
-        item.section = req.body.section || item.section;
-        item.price = req.body.price || item.price;
-        item.qty = req.body.qty || item.qty;
-        item.tprice = req.body.tprice || item.tprice;
-        item.mdate = req.body.mdate || item.mdate;
-        item.rdate = req.body.rdate || item.rdate;
-        item.desc = req.body.desc || item.desc;
+    if (items) {
+        // Update the items fields only if they are present in the request body
+        items.name = req.body.name || items.name;
+        items.section = req.body.section || items.section;
+        items.price = req.body.price || items.price;
+        items.qty = req.body.qty || items.qty;
+        items.tprice = req.body.tprice || items.tprice;
+        items.mdate = req.body.mdate || items.mdate;
+        items.rdate = req.body.rdate || items.rdate;
+        items.desc = req.body.desc || items.desc;
 
-        const updatedItem = await item.save();
+        const updatedItem = await items.save();
 
         res.status(200).json({
             message: 'Item updated successfully',
@@ -83,7 +84,7 @@ const updateItems = asyncHandler(async (req, res) => {
 
 const deleteItem = expressAsyncHandler(async (req, res) => {
     
-    const { id } = req.body;
+    const { id } = req.params;
 
     const itemdelete = await Items.findByIdAndDelete(id);
 

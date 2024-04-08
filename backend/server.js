@@ -11,13 +11,11 @@ import connectDB from './config/db.js';
 import { notFound, errorHandler } from './middleware/errorMiddleware.js';
 import cors from 'cors';
 import recordrouter from './routes/recordRoutes.js';
-import approuter from './routes/appRouters.js'
+import approuter from './routes/appRouters.js';
 import lubricantrouter from './routes/lubricantRoutes.js';
 
 dotenv.config();
 const app = express();
-
-const port = process.env.PORT || 5000;
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -56,4 +54,7 @@ app.use('/api/lubricant', lubricantrouter);
 app.use(notFound);
 app.use(errorHandler);
 
-app.listen(port, () => console.log(`Server started on port ${port}`));
+const port = process.env.PORT || 5000;
+app.listen(port, () => {
+    console.log(`Server started on port ${port}`);
+});
