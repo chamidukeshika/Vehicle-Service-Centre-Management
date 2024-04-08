@@ -16,7 +16,7 @@ const Sidebar = () => {
                 <BiHome className="icon" />
                 Home
                 </a>
-                <a href="/admin/equipments/add" className="item">
+                <a href="/listlubricant/add" className="item">
                 <BiListCheck className="icon"/>
                 List Items
             </a>
