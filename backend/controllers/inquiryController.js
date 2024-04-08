@@ -5,15 +5,17 @@ import expressAsyncHandler from 'express-async-handler';
 
 const addInquiry = asyncHandler(async (req, res) => {
 
-    const { name,email,ContactNumber,inquiryType,pdate,description } = req.body;
+    const { name,email,contactNumber,inquiryType,pdate,inquirySubject,description,cus_id, } = req.body;
 
     const inquiry = await Inquiries.create({
         name,
         email,
-        ContactNumber,
+        contactNumber,
         inquiryType,
         pdate,
+        inquirySubject,
         description,
+        cus_id,
     });
 
     if (inquiry) {
@@ -21,10 +23,12 @@ const addInquiry = asyncHandler(async (req, res) => {
             _id: inquiry._id, 
             name: inquiry.name,
             email: inquiry.email,
-            ContactNumber: inquiry.ContactNumber,
+            contactNumber: inquiry.contactNumber,
             inquiryType:inquiry.inquiryType,
             pdate: inquiry.pdate,
-            description: inquiry.description
+            inquirySubject:inquiry.inquirySubject,
+            description: inquiry.description,
+            cus_id:inquiry.cus_id,
         });
     } else {
         res.status(400);
@@ -56,9 +60,10 @@ const updateInquiries = asyncHandler(async (req, res) => {
     if (inquiries) {
         inquiries.name = req.body.name || inquiries.name;
         inquiries.email = req.body.email || inquiries.email;
-        inquiries.ContactNumber = req.body.ContactNumber || inquiries.ContactNumber;
+        inquiries.contactNumber = req.body.contactNumber || inquiries.contactNumber;
         inquiries.inquiryType = req.body.inquiryType || inquiries.inquiryType;
         inquiries.pdate = req.body.pdate || inquiries.pdate;
+        inquiries.inquirySubject = req.body.inquirySubject || inquiries.inquirySubject;
         inquiries.description = req.body.description || inquiries.description;
 
         const updateInquiries = await inquiries.save();
