@@ -25,6 +25,10 @@ import AddEquipment from "../screens/AddEquipment.jsx";
 import ViewEquipment from "../screens/ViewEquipment.jsx";
 import AddRecords from "../screens/AddRecords.jsx";
 import RecordList from "../screens/RecordList.jsx";
+import AddFeedbackScreen from "../screens/AddFeedbackScreen.jsx";
+import EditFeedbackScreen from "../screens/EditFeedbackScreen.jsx";
+import ViewFeedbackScreen from "../screens/ViewFeedbackScreen.jsx";
+import ViewFeedbackAdmin from "../screens/ViewFeedbackAdmin.jsx";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -37,10 +41,11 @@ const router = createBrowserRouter(
       <Route path="/orders/add" element={<AddOrder />} />
       <Route path="/orders/sumeth" element={<Vindunu/>} />
 
+      {/* sewmini routes */}
       <Route path='/addfeedback' element={<AddFeedbackScreen />} />
       <Route path='/editfeedback' element={<EditFeedbackScreen />} />
-      <Route path='/viewfeedback' element={<ViewFeedbackContainer/>}/>
-
+      <Route path='/viewfeedback' element={<ViewFeedbackScreen/>}/>
+      <Route path='/viewfeedbackadmin' element={<ViewFeedbackAdmin/>}/>
 
       {/* Private routes */}
       <Route path="" element={<PrivateRoutes />}>

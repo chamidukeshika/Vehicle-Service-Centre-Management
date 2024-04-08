@@ -16,8 +16,6 @@ import approuter from './routes/appRouters.js'
 dotenv.config();
 const app = express();
 
-const port = process.env.PORT || 5000;
-
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 connectDB();
@@ -43,4 +41,7 @@ app.get('/', (req, res) => res.send('Server is ready!!!'));
 app.use(notFound);
 app.use(errorHandler);
 
-app.listen(port, () => console.log(`Server started on port ${port}`));
+const port = process.env.PORT || 5000;
+app.listen(port, () => {
+    console.log(`Server started on port ${port}`);
+});
