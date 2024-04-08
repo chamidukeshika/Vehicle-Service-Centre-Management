@@ -24,33 +24,15 @@ import EditFeedbackScreen from "../screens/EditFeedbackScreen.jsx";
 import ViewFeedbackScreen from "../screens/ViewFeedbackScreen.jsx";
 import AddLubricant from "../screens/AddLubricant.jsx";
 import ViewLubricant from "../screens/ViewLubricant.jsx";
-
+import AddInquiryScreen from "../screens/AddInquiryScreen.jsx";
+import AddRecords from "../screens/AddRecords.jsx";
 
 import View from "../screens/ViewOrder.jsx";
 import AddRecord from "../screens/AddRecords.jsx";
 import AddEquipment from "../screens/AddEquipment.jsx";
 import ViewEquipment from "../screens/ViewEquipment.jsx";
 import RecordList from "../screens/RecordList.jsx";
-import AddFeedbackScreen from "../screens/AddFeedbackScreen.jsx";
-import EditFeedbackScreen from "../screens/EditFeedbackScreen.jsx";
-import ViewFeedbackScreen from "../screens/ViewFeedbackScreen.jsx";
 import ViewFeedbackAdmin from "../screens/ViewFeedbackAdmin.jsx";
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import { createBrowserRouter, createRoutesFromElements, Route, RouterProvider } from 'react-router-dom';
-import store from './store.js';
-import { Provider } from 'react-redux';
-import App from './App.jsx';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import '../src/Styles/index.css';
-import PrivateRoutes from './components/PrivateRoutes.jsx';
-import HomeScreen from '../screens/HomeScreen.jsx';
-import LoginScreen from '../screens/LoginScreen.jsx';
-import RegisterScreen from '../screens/RegisterScreen.jsx';
-import AddInquiryScreen from '../screens/AddInquiryScreen.jsx';
-import ProfileScreen from '../screens/ProfileScreen.jsx';
-import AdminRoutes from './components/AdminRoutes.jsx';
-import AdminDashboard from '../screens/AdminDashboard.jsx';
 import EditInquiryScreen from '../screens/EditInquiryScreen.jsx';
 import ViewInquiryScreen from '../screens/ViewInquiryScreen.jsx';
 
@@ -69,7 +51,7 @@ const router = createBrowserRouter(
 
       {/* sumeth routes */}
       <Route path="/orders/add" element={<AddOrder />} />
-      <Route path="/orders/sumeth" element={<Vindunu/>} />
+      <Route path="/orders/View" element={<View/>} />
 
       {/* sewmini routes */}
       <Route path='/addfeedback' element={<AddFeedbackScreen />} />
