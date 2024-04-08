@@ -19,13 +19,16 @@ import ProfileScreen from "../screens/ProfileScreen.jsx";
 import AdminRoutes from "./components/AdminRoutes.jsx";
 import AdminDashboard from "../screens/AdminDashboard.jsx";
 import AddOrder from "../screens/AddOrder.jsx";
-import View from "../screens/ViewOrder.jsx";
+import ViewOrder from "../screens/ViewOrder.jsx";
 import AddRecord from "../screens/AddRecords.jsx";
-import RecordList from "../screens/RecordList.jsx";
 import AddEquipment from "../screens/AddEquipment.jsx";
 import ViewEquipment from "../screens/ViewEquipment.jsx";
 import AddRecords from "../screens/AddRecords.jsx";
 import RecordList from "../screens/RecordList.jsx";
+
+
+
+
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -36,7 +39,13 @@ const router = createBrowserRouter(
 
       {/* sumeth routes */}
       <Route path="/orders/add" element={<AddOrder />} />
-      <Route path="/orders/sumeth" element={<Vindunu/>} />
+      <Route path="/orders/view" element={<ViewOrder/>} />
+   
+      
+     
+     
+      
+      
 
       {/* Private routes */}
       <Route path="" element={<PrivateRoutes />}>
