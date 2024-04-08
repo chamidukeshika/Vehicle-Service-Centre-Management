@@ -26,9 +26,7 @@ import AddLubricant from "../screens/AddLubricant.jsx";
 import ViewLubricant from "../screens/ViewLubricant.jsx";
 import AddInquiryScreen from "../screens/AddInquiryScreen.jsx";
 import AddRecords from "../screens/AddRecords.jsx";
-
 import View from "../screens/ViewOrder.jsx";
-import AddRecord from "../screens/AddRecords.jsx";
 import AddEquipment from "../screens/AddEquipment.jsx";
 import ViewEquipment from "../screens/ViewEquipment.jsx";
 import RecordList from "../screens/RecordList.jsx";
