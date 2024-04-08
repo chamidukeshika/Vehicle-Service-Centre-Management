@@ -20,9 +20,12 @@ import AdminRoutes from "./components/AdminRoutes.jsx";
 import AdminDashboard from "../screens/AdminDashboard.jsx";
 import AddOrder from "../screens/AddOrder.jsx";
 import Vindunu from "../screens/ViewOrder.jsx";
-
+import AddAppointment from "../screens/AddAppointment.jsx";
+import AddRecords from "../screens/AddRecords.jsx";
+import RecordList from "../screens/RecordList.jsx"
 import AddEquipment from "../screens/AddEquipment.jsx";
-import ViewEquipment from "../screens/viewEquipment.jsx";
+import ViewEquipment from "../screens/ViewEquipment.jsx";
+import ViewAppN from "../screens/NewViewApp.jsx";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -44,9 +47,12 @@ const router = createBrowserRouter(
       <Route path="/admin/equipments/add" element={<AddEquipment />} />
       <Route path="/admin/equipments/" element={<ViewEquipment />} />
       <Route path='/admin/records/add' element={<AddRecords />} />
-      <Route path='/admin/equipments/add' element={<AddEquipment />} />
-      <Route path='/admin/equipments/' element={<ViewEquipment />} />
       <Route path='/admin/records/list' element={<RecordList />} />
+
+      {/* lakshitha routes */}
+      <Route path="/app/addapp" element={<AddAppointment />} />
+      
+      <Route path="/app/viewn" element={<ViewAppN />} />
 
 
       
