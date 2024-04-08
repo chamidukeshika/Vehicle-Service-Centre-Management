@@ -5,9 +5,9 @@ import { addPayment, getPayments, updatePayments, deletePayment } from '../contr
 const paymentrouter = express.Router();
 
 
-paymentrouter.post('/addpayment', addPayment);
+paymentrouter.post('/add', addPayment);
 paymentrouter.get('/view', getPayments);
-paymentrouter.put('/update', updatePayments);
-paymentrouter.delete('/delete',deletePayment);
+paymentrouter.put('/update/:id', updatePayments);
+paymentrouter.delete('/delete/:id',deletePayment);
 
 export default paymentrouter;

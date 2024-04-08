@@ -6,6 +6,7 @@ import Loader from "../src/components/Loader";
 import { useViewQuery } from '../slices/equipmentSlice.js';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 
+
 const ViewEquipment = () => {
   const { data: items } = useViewQuery();
   const [searchTerm, setSearchTerm] = useState('');
