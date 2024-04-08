@@ -12,7 +12,7 @@ const inquirySchema = mongoose.Schema({
         required:true
     },
 
-    ContactNumber: {
+    contactNumber: {
         type: String,
         required:true
     },
@@ -22,6 +22,10 @@ const inquirySchema = mongoose.Schema({
         required:true
     },
 
+    inquirySubject: {
+        type: String,
+        required:true
+    },
     pdate: {
         type: Date,
         required:true
@@ -33,6 +37,10 @@ const inquirySchema = mongoose.Schema({
         required:true
     },
 
+    cus_id:{
+        type: String,
+        required:true
+    }
 },
     {
         timestamps: true

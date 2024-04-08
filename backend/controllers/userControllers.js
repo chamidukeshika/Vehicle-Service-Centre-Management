@@ -117,6 +117,11 @@ const updateUserProfile = asyncHandler(async (req, res) => {
     res.status(200).json({ message: 'Update User Profile' });
 });
 
+//update User Feedbacks
+// const updateFeedback = async (req, res, next) => {
+
+// }
+
 export {
     authUser,
     registerUser,
