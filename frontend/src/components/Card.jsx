@@ -1,25 +1,26 @@
-import { BiLogoHtml5, BiLogoAndroid, BiBuilding } from "react-icons/bi";
-
+import { BiTask, BiPackage, BiMoneyWithdraw } from "react-icons/bi";
+import img from "../assets/stats.png";
 const cource = [
     {
         title: 'Total Services ',
         duration: '2 hrs',
-        icon: <BiLogoHtml5 />
+        icon: <BiTask />
     },
     {
         title: 'Total Orders',
         duration: '2 hrs',
-        icon: <BiLogoAndroid />
+        icon: <BiPackage />
     },
     {
         title: ' Revenue',
         duration: '2 hrs',
-        icon: <BiBuilding />
+        icon: <BiMoneyWithdraw />
     },
 ];
 
 const Card = () => {
-    return(
+    return (
+        <>
         <div className="cardone--container">
             {cource.map((item) => (
                 <div className="cardone">
@@ -30,6 +31,10 @@ const Card = () => {
                 </div>
             ))}
         </div>
+        <div>
+        <center> <img style={{marginTop:"50px",borderRadius:"20px",maxWidth:"900px"}} src={img} alt="" /></center>   
+            </div>
+            </>
     );
 };
 

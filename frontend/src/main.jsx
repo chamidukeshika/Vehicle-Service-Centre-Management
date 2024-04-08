@@ -71,7 +71,7 @@ const router = createBrowserRouter(
         <Route path="/admin/records/list" element={<RecordList />} />
 
         {/* Admin routes */}
-        <Route path="/admin" element={<AdminDashboard />} />
+        <Route path="/admin/dashboard" element={<AdminDashboard />} />
 
         <Route path="" element={<AdminRoutes />}>
         </Route>

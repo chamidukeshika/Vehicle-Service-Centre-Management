@@ -1,9 +1,11 @@
 .menu{
-    display:flex;
+    display: flex;
     flex-direction: column;
-    gap:2.3rem;
-    height: 94vh;
-
+    gap: 2.3rem;
+    max-height: 100%;
+    /* Set a maximum width for the menu */
+    max-width: 400px; /* Adjust this value as needed */
+    margin: 0 auto; /* Center the menu horizontally */
 }
 .bg{
   margin: 0;

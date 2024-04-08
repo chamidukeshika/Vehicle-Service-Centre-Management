@@ -23,8 +23,8 @@
     transition: 0.5 ease-in-out;
 }
 .user--profile{
-    height:85%;
-    width:280px;
+    height:100%;
+    width:300px;
     margin-top: 2rem;
     background: #dde6ed;
     border-radius: 10px;
@@ -35,7 +35,6 @@
 }
 .user--details{
     width:100%;
-    height:250px;
     display: flex;
     align-items: center;
     flex-direction: column;
