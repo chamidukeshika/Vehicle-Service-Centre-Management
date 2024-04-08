@@ -28,7 +28,7 @@ const Sidebar = () => {
                 <BiPackage className="icon"/>
                 Order 
                 </a>
-                <a href="/addpayment" className="item">
+                <a href="/payment/add" className="item">
                 <BiMoney className="icon"/>
                 Payment
             </a>

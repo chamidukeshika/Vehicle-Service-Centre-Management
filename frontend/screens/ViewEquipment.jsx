@@ -5,8 +5,8 @@ import { toast } from "react-toastify";
 import Loader from "../src/components/Loader";
 import { useVieweQuery, useUpdateeqMutation, useDeleteeMutation } from '../slices/equipmentSlice.js';
 import 'bootstrap-icons/font/bootstrap-icons.css';
-
-
+import jsPDF from 'jspdf';
+import 'jspdf-autotable';
 
 // Function to render a tooltip for the edit button
 const renderEditTooltip = (props) => (
@@ -21,7 +21,6 @@ const renderDeleteTooltip = (props) => (
     Delete Item
   </Tooltip>
 );
-
 
 const ViewEquipment = () => {
   const { data: items, refetch } = useVieweQuery();
@@ -45,9 +44,35 @@ const ViewEquipment = () => {
     // Navigate to the Service Record List screen
     navigate("/admin/equipments/");
   };
+
   useEffect(() => {
     setCurrentPage(1);
   }, [searchTerm]);
+
+  // Function to generate PDF report
+  const generateReport = () => {
+    const doc = new jsPDF();
+    
+    // Add page border
+    doc.rect(5, 5, doc.internal.pageSize.getWidth() - 10, doc.internal.pageSize.getHeight() - 10, 'S');
+    
+    // Add title heading
+    doc.setFontSize(18);
+    doc.text('Tools and Equipment Inventory', doc.internal.pageSize.getWidth() / 2, 15, { align: 'center' });
+    
+    // Add company details
+    doc.setFontSize(8);
+    doc.text('Matara Motors', 15, 25);
+    doc.text('Address: 123 Main Street, Matara, Srilanka', 15, 30);
+    doc.text('Phone: +94701234567', 15, 35);
+    doc.text('Email: mataramotors@gmail.com', 15, 40);
+
+    // Add table
+    doc.autoTable({ html: '#equipment-table', startY: 50 }); // Adjust startY as needed
+
+    doc.save('equipment_report.pdf');
+};
+
 
   const handleNextPage = () => {
     setCurrentPage(currentPage + 1);
@@ -165,8 +190,6 @@ const ViewEquipment = () => {
     setRecordToDelete(null); // Reset recordToDelete state when delete confirmation is canceled
   };
 
-
-
   return (
     <>
       <div className="d-flex justify-content-center mt-5">
@@ -206,9 +229,10 @@ const ViewEquipment = () => {
               </ul>
             </nav>
           </div>
+          <Button  onClick={generateReport}  className="btn btn-primary" style={{float:"right" ,marginRight:"10px"}}> <i className="bi bi-file-pdf"> Report</i></Button>
 
           {currentItems.length > 0 ? (
-            <Table striped hover className="mb-4" style={{ textAlign: "center" }}>
+            <Table striped hover className="mb-4" style={{ textAlign: "center" }} id="equipment-table">
               <thead>
                 <tr>
                   <th>Name</th>
@@ -293,8 +317,6 @@ const ViewEquipment = () => {
                     onChange={(e) => handleInputChange(e, 'name')}
                     style={{ padding: "10px" }}
                   />
-
-
                 </Form.Group>
 
                 <Form.Group controlId="section">
@@ -344,7 +366,7 @@ const ViewEquipment = () => {
                         type='text'
                         step="0.01"
                         value={editedItem?.tprice || ''}
-                        readonly
+                        readOnly
                         onChange={(e) => handleInputChange(e, 'tprice')}
                         style={{ padding: "10px" }}
                       />

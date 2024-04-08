@@ -36,10 +36,6 @@ import AddEquipment from "../screens/AddEquipment.jsx";
 import ViewEquipment from "../screens/ViewEquipment.jsx";
 import AddPayment from "../screens/AddPayment.jsx";
 import ViewPayment from "../screens/viewPayment.jsx";
-import ViewEquipment from "../screens/ViewEquipment.jsx";
-import ViewFeedbackAdmin from "../screens/ViewFeedbackAdmin.jsx";
-import EditInquiryScreen from '../screens/EditInquiryScreen.jsx';
-import ViewInquiryScreen from '../screens/ViewInquiryScreen.jsx';
 
 
 
@@ -60,7 +56,7 @@ const router = createBrowserRouter(
 
       {/* sumeth routes */}
       <Route path="/orders/add" element={<AddOrder />} />
-      <Route path="/orders/sumeth" element={<Vindunu/>} />
+      <Route path="/orders/View" element={<View/>} />
 
       {/* Private routes */}
       <Route path="" element={<PrivateRoutes />}>
