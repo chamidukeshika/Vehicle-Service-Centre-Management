@@ -22,6 +22,8 @@ import AddOrder from "../screens/AddOrder.jsx";
 import AddFeedbackScreen from "../screens/AddFeedbackScreen.jsx";
 import EditFeedbackScreen from "../screens/EditFeedbackScreen.jsx";
 import ViewFeedbackScreen from "../screens/ViewFeedbackScreen.jsx";
+import AddLubricant from "../screens/AddLubricant.jsx";
+import ViewLubricant from "../screens/ViewLubricant.jsx";
 
 
 
@@ -38,7 +40,7 @@ const router = createBrowserRouter(
       <Route path='/login' element={<LoginScreen />} />
       <Route path='/register' element={<RegisterScreen />} />
 
-      {/* tharindu routes */}
+      {/* Tharindu routes */}
       <Route path='/listlubricant/add' element={<AddLubricant />} />
       <Route path='/listlubricant/view' element={<ViewLubricant />} />
 
