@@ -1,0 +1,14 @@
+.dashboard{
+max-height: 100%;
+    display: flex;
+    gap: 0px;
+}
+.dashboard--content{
+    background: #ffff;
+    flex: 1;
+    border-radius: 0px;
+    padding: 2rem;
+    display: flex;
+    gap: 1.5rem;
+    justify-content: space-between;
+}

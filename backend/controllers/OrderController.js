@@ -49,17 +49,17 @@ const getOrders = expressAsyncHandler(async (req, res) => {
 
 const updateOrders = asyncHandler(async (req, res) => {
 
-    const { id } = req.body;
+    const { id } = req.params;
     
     const orders = await Orders.findById(id);
 
     if (orders) {
         orders.name = req.body.name || orders.name;
-        orders.brand = req.body.section || orders.brand;
+        orders.brand = req.body.brand || orders.brand;
         orders.price = req.body.price || orders.price;
-        orders.purchaseDate = req.body.mdate || orders.purchaseDate;
-        orders.quantity = req.body.rdate || orders.quantity;
-        orders.ExpireDate = req.body.desc || orders.ExpireDate;
+        orders.purchaseDate = req.body.purchaseDate || orders.purchaseDate;
+        orders.quantity = req.body.quantity || orders.quantity;
+        orders.ExpireDate = req.body.ExpireDate || orders.ExpireDate;
 
         const updatedOrder = await orders.save();
 
@@ -74,7 +74,7 @@ const updateOrders = asyncHandler(async (req, res) => {
 
 const deleteOrder = expressAsyncHandler(async (req, res) => {
     
-    const { id } = req.body;
+    const { id } = req.params;
 
     const Orderdelete = await Orders.findByIdAndDelete(id);
 

@@ -1,0 +1,63 @@
+.profile{
+    flex: 1;
+
+}
+.profile--header{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+}
+.edit{
+    background: #dde6ed;
+    padding: 12px;
+    border-radius: 10px;
+    color: #969393;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+}
+.edit .icon{
+    font-size: 20px;
+    transition: 0.5 ease-in-out;
+}
+.user--profile{
+    height:100%;
+    width:300px;
+    margin-top: 2rem;
+    background: #dde6ed;
+    border-radius: 10px;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+
+}
+.user--details{
+    width:100%;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+
+}
+.user--details img{
+    background: #fff;
+    border-radius: 50%;
+    width: 150px;
+   
+
+}
+.user--details .username{
+    color: #526d82;
+}
+
+.user-courses{
+    background: #fff;
+    flex: 1;
+    border-radius: 10px;
+    padding: 10px;
+    display: flex;
+    flex-direction:column ;
+    gap: 10px;
+}

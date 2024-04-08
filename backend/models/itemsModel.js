@@ -16,6 +16,14 @@ const itemsSchema = mongoose.Schema({
         type: String,
         required:true
     },
+    qty: {
+        type: String,
+        required:true
+    },
+    tprice: {
+        type: String,
+        required:true
+    },
     mdate: {
         type: Date,
         required:true

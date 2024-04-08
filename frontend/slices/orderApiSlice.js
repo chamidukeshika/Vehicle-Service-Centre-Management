@@ -3,27 +3,27 @@ const EQUIP_URL = '/api/orders';
 
 export const orderApiSlice = apiSlice.injectEndpoints({
     endpoints: (builder) => ({
-        insert: builder.mutation({
+        inserto: builder.mutation({
             query: (data) => ({
                 url: `${EQUIP_URL}/addorder`,
                 method: 'POST',
                 body: data
             })
         }),
-        view: builder.query({
+        viewo: builder.query({
             query: () => ({
                 url: `${EQUIP_URL}/getorder`,
                 method: 'GET'
             })
         }),
-        update: builder.mutation({
-            query: (id, data) => ({
+        updateo: builder.mutation({
+            query: ({id, data}) => ({
                 url: `${EQUIP_URL}/updateorder/${id}`,
                 method: 'PUT',
                 body: data
             })
         }),
-        delete: builder.mutation({
+        deleteo: builder.mutation({
             query: (id) => ({
                 url: `${EQUIP_URL}/deleteorder/${id}`, // assuming delete endpoint is /api/admin/equipments/delete/:id
                 method: 'DELETE'
@@ -33,8 +33,8 @@ export const orderApiSlice = apiSlice.injectEndpoints({
 })
 
 export const {
-    useInsertMutation,
-    useViewQuery,
-    useUpdateMutation,
-    useDeleteMutation
+    useInsertoMutation,
+    useViewoQuery,
+    useUpdateoMutation,
+    useDeleteoMutation
 } = orderApiSlice;

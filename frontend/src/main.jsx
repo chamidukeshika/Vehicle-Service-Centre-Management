@@ -19,24 +19,46 @@ import ProfileScreen from "../screens/ProfileScreen.jsx";
 import AdminRoutes from "./components/AdminRoutes.jsx";
 import AdminDashboard from "../screens/AdminDashboard.jsx";
 import AddOrder from "../screens/AddOrder.jsx";
-import Vindunu from "../screens/ViewOrder.jsx";
-import AddRecords from '../screens/AddRecords.jsx';
-import RecordList from '../screens/RecordList.jsx';
+import AddAppointment from "../screens/AddAppointment.jsx";
+import AddRecords from "../screens/AddRecords.jsx";
+import RecordList from "../screens/RecordList.jsx"
+import ViewAppN from "../screens/NewViewApp.jsx";
+import AddFeedbackScreen from "../screens/AddFeedbackScreen.jsx";
+import EditFeedbackScreen from "../screens/EditFeedbackScreen.jsx";
+import ViewFeedbackScreen from "../screens/ViewFeedbackScreen.jsx";
+import AddLubricant from "../screens/AddLubricant.jsx";
+import ViewLubricant from "../screens/ViewLubricant.jsx";
+import AddInquiryScreen from "../screens/AddInquiryScreen.jsx";
+import View from "../screens/ViewOrder.jsx";
 import AddEquipment from "../screens/AddEquipment.jsx";
 import ViewEquipment from "../screens/ViewEquipment.jsx";
 import AddPayment from "../screens/AddPayment.jsx";
 import ViewPayment from "../screens/viewPayment.jsx";
+import ViewEquipment from "../screens/ViewEquipment.jsx";
+import ViewFeedbackAdmin from "../screens/ViewFeedbackAdmin.jsx";
+import EditInquiryScreen from '../screens/EditInquiryScreen.jsx';
+import ViewInquiryScreen from '../screens/ViewInquiryScreen.jsx';
+
+
+
+
 
 const router = createBrowserRouter(
   createRoutesFromElements(
-    <Route path="/" element={<App />}>
-      <Route index={true} path="/" element={<HomeScreen />} />
-      <Route path="/login" element={<LoginScreen />} />
-      <Route path="/register" element={<RegisterScreen />} />
+    <Route path='/' element={<App />}>
+      <Route index={true} path='/' element={<HomeScreen />} />
+      <Route path='/login' element={<LoginScreen />} />
+      <Route path='/register' element={<RegisterScreen />} />
+
+      {/* tharindu routes */}
+      <Route path='/listlubricant/add' element={<AddLubricant />} />
+      <Route path='/listlubricant/view' element={<ViewLubricant />} />
+
+        <Route path="/register" element={<RegisterScreen />} />
 
       {/* sumeth routes */}
       <Route path="/orders/add" element={<AddOrder />} />
-      <Route path="/orders/sumeth" element={<Vindunu />} />
+      <Route path="/orders/sumeth" element={<Vindunu/>} />
 
       {/* Private routes */}
       <Route path="" element={<PrivateRoutes />}>
@@ -47,9 +69,12 @@ const router = createBrowserRouter(
       <Route path="/admin/equipments/add" element={<AddEquipment />} />
       <Route path="/admin/equipments/" element={<ViewEquipment />} />
       <Route path='/admin/records/add' element={<AddRecords />} />
-      <Route path='/admin/equipments/add' element={<AddEquipment />} />
-      <Route path='/admin/equipments/' element={<ViewEquipment />} />
       <Route path='/admin/records/list' element={<RecordList />} />
+
+      {/* lakshitha routes */}
+      <Route path="/app/addapp" element={<AddAppointment />} />
+      
+      <Route path="/app/viewn" element={<ViewAppN />} />
 
 
 
@@ -60,10 +85,20 @@ const router = createBrowserRouter(
 
 
 
-      {/* Admin routes */}
-      <Route path="" element={<AdminRoutes />}>
-        <Route path="/admin" element={<AdminDashboard />} />
+        {/* Admin routes */}
+        <Route path="/admin/dashboard" element={<AdminDashboard />} />
+
+        <Route path="" element={<AdminRoutes />}>
+        </Route>
+       {/* Admin routes */}
+      <Route path='' element={<AdminRoutes />}>
+        <Route path='/admin' element={<AdminDashboard />} />
       </Route>
+   
+
+        
+     
+
     </Route>
   )
 );

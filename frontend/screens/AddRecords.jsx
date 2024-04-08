@@ -8,8 +8,7 @@ import { setCredentials } from '../slices/authSlice'
 import { recordApiSlice, useInsertRecordMutation } from "../slices/recordApiSlice";
 import RecordForm from "../src/components/RecordForm";
 import { BsPlus, BsTrash } from 'react-icons/bs';
-import  img from '../src/assets/Mlogo.png';
-
+import img from '../src/assets/Mlogo.png';
 
 const AddRecords = () => {
     const [cname, setCname] = useState('');
@@ -43,22 +42,33 @@ const AddRecords = () => {
         total += parseFloat(lcost); // Add labor cost
         setTcost(total);
     };
-    
+
     // Function to handle changes in labor cost
     const handleLCostChange = (e) => {
         calculateTotalCost();
         setLcost(e.target.value);
         const value = e.target.value;
         setLcost(value);
-        
-         // Recalculate total cost
+
+        // Recalculate total cost
     };
     const handleDeletePart = (index) => {
         calculateTotalCost();
         const updatedPartsList = partsList.filter((item, idx) => idx !== index);
         setPartsList(updatedPartsList);
-        
-    }
+
+    };
+
+
+    const handleAddRecordClick = () => {
+        // Navigate to the Add Service Record screen
+        navigate("/admin/records/add");
+    };
+
+    const handleRecordListClick = () => {
+        // Navigate to the Service Record List screen
+        navigate("/admin/records/list");
+    };
 
     const handleAddPart = () => {
         calculateTotalCost();
@@ -77,7 +87,7 @@ const AddRecords = () => {
             setParts('');
             setCost('');
         }
-        
+
     };
 
 
@@ -110,22 +120,31 @@ const AddRecords = () => {
                 toast.success("Record Added Successfully");
                 // Optionally, reset form fields after successful submission
                 // ...
-                navigate('/');
+                navigate('/admin/records/add');
             } catch (err) {
                 toast.error(err?.data?.message || err.err);
             }
         }
     };
-    
+
 
     return (
         <>
+            <div className="d-flex justify-content-center mt-5">
+                <div className="btn-group" role="group" aria-label="Basic radio toggle button group">
+                    <input type="radio" className="btn-check" name="btnradio" id="btnradio1" autoComplete="off"  checked />
+                    <label className="btn btn-outline-primary btn-lg" htmlFor="btnradio1" onClick={handleAddRecordClick}>Add Service Record</label>
+
+                    <input type="radio" className="btn-check" name="btnradio" id="btnradio2" autoComplete="off" />
+                    <label className="btn btn-outline-primary btn-lg" htmlFor="btnradio2" onClick={handleRecordListClick} style={{ backgroundColor: 'rgba(0, 0, 0, 0.8)',color: 'white' }} >Service Record List</label>
+                </div>
+            </div>
             <RecordForm>
                 <h1>Service Record Form</h1>
-                <img src={img} alt="logo" style={{ width: '150px', height: 'auto', marginLeft: "550px", marginTop:"-90px" }} />
+                <img src={img} alt="logo" style={{ width: '150px', height: 'auto', marginLeft: "750px", marginTop: "-90px" }} />
 
-                <Form onSubmit={submitHandler} style={{fontWeight:"500",marginTop:"-30px"}}>
-                    {/* Customer Name */}
+                <Form onSubmit={submitHandler} style={{ fontWeight: "500", marginTop: "-30px" }}>
+
                     {/* Customer Name */}
                     <Form.Group className="my-2" controlId="cname">
                         <Form.Label>Customer Name</Form.Label>
@@ -135,7 +154,7 @@ const AddRecords = () => {
                             placeholder="Customer Name"
                             value={cname}
                             onChange={(e) => setCname(e.target.value)}
-                            style={{padding:"10px"}}
+                            style={{ padding: "10px" }}
                         />
                     </Form.Group>
                     <Row>
@@ -151,7 +170,7 @@ const AddRecords = () => {
                                     placeholder="07X XXX XXXX"
                                     value={cphone}
                                     onChange={(e) => setCphone(e.target.value)}
-                                    style={{padding:"10px"}}
+                                    style={{ padding: "10px" }}
                                 />
                             </Form.Group>
                         </Col>
@@ -167,7 +186,7 @@ const AddRecords = () => {
                                     placeholder="example@gmail.com"
                                     value={cemail}
                                     onChange={(e) => setCemail(e.target.value)}
-                                    style={{padding:"10px"}}
+                                    style={{ padding: "10px" }}
                                 />
                             </Form.Group>
                         </Col>
@@ -185,7 +204,7 @@ const AddRecords = () => {
                                     required
                                     value={indate}
                                     onChange={(e) => setIndate(e.target.value)}
-                                    style={{padding:"10px"}}
+                                    style={{ padding: "10px" }}
                                 />
                             </Form.Group>
                         </Col>
@@ -198,7 +217,7 @@ const AddRecords = () => {
                                     required
                                     value={outdate}
                                     onChange={(e) => setOutdate(e.target.value)}
-                                    style={{padding:"10px"}}
+                                    style={{ padding: "10px" }}
                                 />
                             </Form.Group>
                         </Col></Row>
@@ -206,57 +225,57 @@ const AddRecords = () => {
 
                     <Row>
                         <Col md={4}>
-                    <Form.Group className="my-2" controlId="vmodel">
-                        <Form.Label>Vehicle Model</Form.Label>
-                        <Form.Control
-                            type='text'
-                            required
-                            placeholder="Vehicle Model"
-                            value={vmodel}
+                            <Form.Group className="my-2" controlId="vmodel">
+                                <Form.Label>Vehicle Model</Form.Label>
+                                <Form.Control
+                                    type='text'
+                                    required
+                                    placeholder="Vehicle Model"
+                                    value={vmodel}
                                     onChange={(e) => setVmodel(e.target.value)}
-                                    style={{padding:"10px"}}
-                        />
-                    </Form.Group>
-                    </Col><Col md={4}>
-                    {/* Mileage */}
-                    <Form.Group className="my-2" controlId="mileage">
-                        <Form.Label>Mileage</Form.Label>
-                        <Form.Control
-                            type='number'
-                            required
-                            placeholder="Mileage"
-                            value={mileage}
+                                    style={{ padding: "10px" }}
+                                />
+                            </Form.Group>
+                        </Col><Col md={4}>
+                            {/* Mileage */}
+                            <Form.Group className="my-2" controlId="mileage">
+                                <Form.Label>Mileage</Form.Label>
+                                <Form.Control
+                                    type='number'
+                                    required
+                                    placeholder="Mileage"
+                                    value={mileage}
                                     onChange={(e) => setMileage(e.target.value)}
-                                    style={{padding:"10px"}}
-                        />
-                    </Form.Group>
-                    </Col ><Col md={4}>
-                    {/* Year */}
-                    <Form.Group className="my-2" controlId="year">
-                        <Form.Label>Year</Form.Label>
-                        <Form.Control
-                            type='number'
-                            required
-                            placeholder="Year"
-                            value={year}
+                                    style={{ padding: "10px" }}
+                                />
+                            </Form.Group>
+                        </Col ><Col md={4}>
+                            {/* Year */}
+                            <Form.Group className="my-2" controlId="year">
+                                <Form.Label>Year</Form.Label>
+                                <Form.Control
+                                    type='number'
+                                    required
+                                    placeholder="Year"
+                                    value={year}
                                     onChange={(e) => setYear(e.target.value)}
-                                    style={{padding:"10px"}}
-                        />
-                    </Form.Group>
-                    </Col></Row>
+                                    style={{ padding: "10px" }}
+                                />
+                            </Form.Group>
+                        </Col></Row>
                     {/* Section */}
                     <Form.Group controlId="section">
-                <Form.Label>Section</Form.Label>
-                <Form.Select
-                    value={section}
-                    onChange={(e) => setSection(e.target.value)}
-                >
-                    <option value="">Select Section</option>
-                    <option value="Body wash">Body Wash</option>
-                    <option value="Full service">Full Service</option>
-                    <option value="Maintenance">Maintenance</option>
-                </Form.Select>
-            </Form.Group>
+                        <Form.Label>Section</Form.Label>
+                        <Form.Select
+                            value={section}
+                            onChange={(e) => setSection(e.target.value)}
+                        >
+                            <option value="">Select Section</option>
+                            <option value="Body wash">Body Wash</option>
+                            <option value="Full service">Full Service</option>
+                            <option value="Maintenance">Maintenance</option>
+                        </Form.Select>
+                    </Form.Group>
 
                     {/* Technician Name */}
                     <Form.Group className="my-2" controlId="tname">
@@ -267,7 +286,7 @@ const AddRecords = () => {
                             placeholder="Technician Name"
                             value={tname}
                             onChange={(e) => setTname(e.target.value)}
-                            style={{padding:"10px"}}
+                            style={{ padding: "10px" }}
                         />
                     </Form.Group>
 
@@ -276,7 +295,7 @@ const AddRecords = () => {
                         <Form.Label>Description</Form.Label>
                         <Form.Control
                             as="textarea"
-                            rows={5}
+                            rows={8}
                             required
                             placeholder="Description"
                             value={desc}
@@ -292,7 +311,7 @@ const AddRecords = () => {
                             placeholder="Labor Cost"
                             value={lcost}
                             onChange={handleLCostChange}
-                            style={{padding:"10px"}}
+                            style={{ padding: "10px" }}
                         />
                     </Form.Group>
 
@@ -305,7 +324,7 @@ const AddRecords = () => {
                                     placeholder="Parts"
                                     value={parts}
                                     onChange={(e) => setParts(e.target.value)}
-                                    style={{padding:"10px"}}
+                                    style={{ padding: "10px" }}
                                 />
                             </Form.Group>
                         </Col>
@@ -317,12 +336,12 @@ const AddRecords = () => {
                                     placeholder="Cost"
                                     value={cost}
                                     onChange={(e) => setCost(e.target.value)}
-                                    style={{padding:"10px"}}
+                                    style={{ padding: "10px" }}
                                 />
                             </Form.Group>
                         </Col>
                         <Col md={2} className="d-flex align-items-end">
-                            <Button variant="primary" onClick={handleAddPart} style={{ width: '100%',height:"45px" }}>
+                            <Button variant="primary" onClick={handleAddPart} style={{ width: '100%', height: "45px" }}>
                                 Add
                             </Button>
                         </Col>
@@ -335,7 +354,7 @@ const AddRecords = () => {
                                         type='text'
                                         disabled
                                         value={item.part}
-                                        style={{padding:"10px"}}
+                                        style={{ padding: "10px" }}
                                     />
                                 </Form.Group>
                             </Col>
@@ -345,12 +364,12 @@ const AddRecords = () => {
                                         type='number'
                                         disabled
                                         value={item.cost}
-                                        style={{padding:"10px"}}
+                                        style={{ padding: "10px" }}
                                     />
                                 </Form.Group>
                             </Col>
                             <Col md={2} className="d-flex align-items-end">
-                                <Button variant="danger" onClick={() => handleDeletePart(index)} style={{ height:"45px",marginBottom: '10px', width: '100%' }}>
+                                <Button variant="danger" onClick={() => handleDeletePart(index)} style={{ height: "45px", marginBottom: '10px', width: '100%' }}>
                                     <BsTrash />
                                 </Button>
                             </Col>
@@ -358,7 +377,7 @@ const AddRecords = () => {
                     ))}
 
 
-                    
+
 
                     {/* Total Cost */}
                     <Form.Group className="my-2" controlId="tcost">
@@ -369,12 +388,12 @@ const AddRecords = () => {
                             placeholder="Total Cost"
                             value={tcost}
                             onChange={(e) => setTcost(e.target.value)}
-                            style={{padding:"10px"}}
+                            style={{ padding: "10px" }}
                         />
                     </Form.Group>
 
                     {isLoading && <Loader />}
-                    <Button type='submit' variant="primary" className="mt-3" style={{height:"45px",width:"100%",fontWeight:"500"}}>
+                    <Button type='submit' variant="primary" className="mt-3" style={{ height: "45px", width: "100%", fontWeight: "500" }}>
                         Submit Record
                     </Button>
                 </Form>
@@ -386,4 +405,3 @@ const AddRecords = () => {
 }
 
 export default AddRecords
-
