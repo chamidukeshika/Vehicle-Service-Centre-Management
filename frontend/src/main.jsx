@@ -10,9 +10,12 @@ import PrivateRoutes from './components/PrivateRoutes.jsx';
 import HomeScreen from '../screens/HomeScreen.jsx';
 import LoginScreen from '../screens/LoginScreen.jsx';
 import RegisterScreen from '../screens/RegisterScreen.jsx';
+import AddInquiryScreen from '../screens/AddInquiryScreen.jsx';
 import ProfileScreen from '../screens/ProfileScreen.jsx';
 import AdminRoutes from './components/AdminRoutes.jsx';
 import AdminDashboard from '../screens/AdminDashboard.jsx';
+import EditInquiryScreen from '../screens/EditInquiryScreen.jsx';
+import ViewInquiryScreen from '../screens/ViewInquiryScreen.jsx';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -20,6 +23,10 @@ const router = createBrowserRouter(
       <Route index={true} path='/' element={<HomeScreen />} />
       <Route path='/login' element={<LoginScreen />} />
       <Route path='/register' element={<RegisterScreen />} />
+      <Route path='/inquire' element={<AddInquiryScreen />} />
+      <Route path='/editinquire' element={<EditInquiryScreen/>} />
+      <Route path='/viewinquire' element={<ViewInquiryScreen/>} />
+
 
       {/* Private routes */}
       <Route path='' element={<PrivateRoutes />}>
@@ -29,8 +36,10 @@ const router = createBrowserRouter(
        {/* Admin routes */}
       <Route path='' element={<AdminRoutes />}>
         <Route path='/admin' element={<AdminDashboard />} />
-
       </Route>
+
+        
+     
 
     </Route>
   )
