@@ -30,6 +30,12 @@ const lubricantsSchema = mongoose.Schema({
     volume: {
         type:String,
     },
+    userId: {
+        type: String,
+        required:true
+    }
+    
+
 
 },
     {

@@ -34,27 +34,29 @@ const Footer = () => {
     const footerStyle = {
         backgroundColor: '#333',
         color: '#fff',
-        padding: '10px',
+        padding: '5px 0',
         opacity: isVisible ? 1 : 0,
         transition: 'opacity 0.3s ease',
-        position: isVisible ? 'fixed' : 'absolute', // Adjust position when visible/invisible
+        position: isVisible ? 'fixed' : 'absolute',
         bottom: 0,
         width: '100%',
+        height:'50px'
     };
 
     const socialIconStyle = {
         color: '#fff',
-        marginRight: '8px',
+        marginRight: '10px',
+        fontSize: '1.2rem',
     };
 
     return (
-        <div style={footerStyle}>
+        <footer style={footerStyle}>
             <Container>
-                <Row>
-                    <Col md={6}>
-                        <p style={{ margin: '0' }}>&copy; 2022 Your Company. All rights reserved.</p>
+                <Row className="align-items-center">
+                    <Col xs={12} sm={6}>
+                        <p style={{ marginTop:"10px"}}>&copy; {new Date().getFullYear()} Matara Motors. All rights reserved.</p>
                     </Col>
-                    <Col md={6} className="text-end">
+                    <Col xs={12} sm={6} className="text-center text-sm-end mt-3 mt-sm-0" >
                         <a href="http://www.facebook.com" style={socialIconStyle}><FaFacebook /></a>
                         <a href="http://www.twitter.com" style={socialIconStyle}><FaTwitter /></a>
                         <a href="http://www.instagram.com" style={socialIconStyle}><FaInstagram /></a>
@@ -62,7 +64,7 @@ const Footer = () => {
                     </Col>
                 </Row>
             </Container>
-        </div>
+        </footer>
     );
 };
 

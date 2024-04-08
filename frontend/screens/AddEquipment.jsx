@@ -1,11 +1,10 @@
-import { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import React, { useState, useEffect } from "react";
 import { Form, Button, Row, Col } from "react-bootstrap";
-import EquipmentForm from '../src/components/EquipmentForm';
 import { toast } from "react-toastify";
 import Loader from "../src/components/Loader";
-import { useInsertMutation } from "../slices/equipmentSlice";
+import { useSelector } from "react-redux"; 
+import { useInserteMutation } from "../slices/equipmentSlice";
+import EquipmentForm from "../src/components/EquipmentForm";
 
 const AddEquipment = () => {
     const [name, setName] = useState('');
@@ -14,36 +13,58 @@ const AddEquipment = () => {
     const [mdate, setMdate] = useState('');
     const [rdate, setRdate] = useState('');
     const [desc, setDesc] = useState('');
+    const [qty, setQty] = useState('');
+    const [tprice, setTprice] = useState('');
     const [email, setEmail] = useState('');
 
-    const navigate = useNavigate();
-    const dispatch = useDispatch();
+    const [inserte, { isLoading }] = useInserteMutation();
 
-    const [insert, { isLoading }] = useInsertMutation();
     const { userInfo } = useSelector((state) => state.auth);
 
-    useEffect(() => {
-        setEmail(userInfo.email);
+    const calculateTotalPrice = () => {
+        const totalPrice = parseFloat(price) * parseInt(qty);
+        setTprice(totalPrice.toFixed(2));
+    };
 
-    }, [userInfo.setEmail]);
+    useEffect(() => {
+        calculateTotalPrice();
+    }, [price, qty]);
 
     const submitHandler = async (e) => {
         e.preventDefault();
-        if (isNaN(price) || parseFloat(price) <= 0) {
+        if (isNaN(parseFloat(price)) || parseFloat(price) <= 0) {
             toast.error('Please enter a valid price.');
-        } else if (isNaN(name.trim()) === false) {
+        } else if (!isNaN(parseInt(name.trim()))) {
             toast.error('Name cannot be a number.');
         } else {
             try {
-                const res = await insert({ name, section, price, mdate, rdate, desc }).unwrap();
-                toast.success('Equipment added successfully!');
-                navigate('/admin/equipments');
+                const res = await inserte({ 
+                    name, 
+                    section, 
+                    qty, 
+                    price, 
+                    mdate, 
+                    rdate, 
+                    desc, 
+                    tprice 
+                }).unwrap();
+                if (res) {
+                    toast.success('Equipment added successfully!');
+                    // Reset form fields after successful submission
+                    setName('');
+                    setSection('');
+                    setPrice('');
+                    setMdate('');
+                    setRdate('');
+                    setDesc('');
+                    setQty('');
+                    setTprice('');
+                }
             } catch (err) {
                 console.error(err);
                 toast.error(err?.data?.message || err.message || 'An error occurred');
             }
         }
-
     }
 
 
@@ -58,10 +79,12 @@ const AddEquipment = () => {
                             disabled='true'
                             type='email'
                             placeholder="Admin ID"
-                            value={email}
+                            value={userInfo.email}
                             onChange={(e) => setEmail(e.target.value)}
+                            style={{ padding: "10px" }}
                         />
                     </Form.Group>
+
                     <Form.Group className="my-2" controlId="name">
                         <Form.Label>Item Name:</Form.Label>
                         <Form.Control
@@ -70,8 +93,10 @@ const AddEquipment = () => {
                             placeholder="Enter Equipment Name"
                             value={name}
                             onChange={(e) => setName(e.target.value)}
+                            style={{ padding: "10px" }}
                         />
                     </Form.Group>
+
 
                     <Form.Group className="my-2" controlId="section">
                         <Form.Label>Section:</Form.Label>
@@ -80,48 +105,81 @@ const AddEquipment = () => {
                             required={true}
                             value={section}
                             onChange={(e) => setSection(e.target.value)}
+                            style={{ padding: "10px" }}
                         >
-                            <option value="">Select Section</option>
-                            <option value="service">Service</option>
-                            <option value="repair">Repair</option>
+                            <option value="" >Select Section</option>
+                            <option value="Service" >Service Section</option>
+                            <option value="Repair" >Repair Section</option>
                         </Form.Control>
                     </Form.Group>
+                    <Row>
 
-                    <Form.Group className="my-2" controlId="price">
-                        <Form.Label>Cost:</Form.Label>
-                        <Form.Control
-                            type='number'
-                            step="0.01"
-                            placeholder="Enter Price"
-                            required={true}
-                            value={price}
-                            onChange={(e) => setPrice(e.target.value)}
-                        />
-                    </Form.Group>
+                        <Col md={4}>
+                            <Form.Group className="my-2" controlId="price">
+                                <Form.Label>Cost:</Form.Label>
+                                <Form.Control
+                                    type='number'
+                                    step="0.01"
+                                    placeholder="Enter Price"
+                                    required={true}
+                                    value={price}
+                                    onChange={(e) => setPrice(e.target.value)}
+                                    style={{ padding: "10px" }}
+                                />
+                            </Form.Group></Col><Col md={4}>
+
+
+                            <Form.Group className="my-2" controlId="price">
+                                <Form.Label>Qty:</Form.Label>
+                                <Form.Control
+                                    type='number'
+                                    placeholder="Quantity"
+                                    required={true}
+                                    value={qty}
+                                    onChange={(e) => setQty(e.target.value)}
+                                    style={{ padding: "10px" }}
+                                />
+                            </Form.Group></Col><Col md={4}>
+
+                            <Form.Group className="my-2" controlId="tprice">
+                                <Form.Label>Total Cost:</Form.Label>
+                                <Form.Control
+                                    type='number'
+                                    step="0.01"
+                                    required={true}
+                                    value={tprice}
+                                    onChange={(e) => setTprice(e.target.value)}
+                                    style={{ padding: "10px" }}
+                                />
+                            </Form.Group></Col></Row>
+
+
 
                     <Row>
-                       
+
                         <Col md={6}>
-                    <Form.Group className="my-2" controlId="mdate">
-                        <Form.Label>Maintenance Date:</Form.Label>
-                        <Form.Control
-                            type='date'
-                            required={true}
-                            value={mdate}
-                            onChange={(e) => setMdate(e.target.value)}
-                        />
-                    </Form.Group>
-</Col><Col>
-                    <Form.Group className="my-2" controlId="rdate">
-                        <Form.Label>Repair Date:</Form.Label>
-                        <Form.Control
-                            type='date'
-                            required={true}
-                            value={rdate}
-                            onChange={(e) => setRdate(e.target.value)}
-                        />
-                    </Form.Group>
-                    </Col></Row>
+                            <Form.Group className="my-2" controlId="mdate">
+                                <Form.Label>Maintenance Date:</Form.Label>
+                                <Form.Control
+                                    type='date'
+                                    required={true}
+                                    value={mdate}
+                                    onChange={(e) => setMdate(e.target.value)}
+                                    style={{ padding: "10px" }}
+                                />
+                            </Form.Group>
+                        </Col><Col>
+                            <Form.Group className="my-2" controlId="rdate">
+                                <Form.Label>Repair Date:</Form.Label>
+                                <Form.Control
+                                    type='date'
+                                    required={true}
+                                    value={rdate}
+                                    onChange={(e) => setRdate(e.target.value)}
+                                    style={{ padding: "10px" }}
+                                />
+                            </Form.Group>
+                        </Col></Row>
                     <Form.Group className="my-2" controlId="desc">
                         <Form.Label>Remarks :</Form.Label>
                         <Form.Control
@@ -131,12 +189,13 @@ const AddEquipment = () => {
                             required={true}
                             value={desc}
                             onChange={(e) => setDesc(e.target.value)}
+                            style={{ padding: "10px" }}
                         />
                     </Form.Group>
 
                     {isLoading && <Loader />}
 
-                    <Button type='submit' variant="success" className="mt-3">
+                    <Button type='submit' variant="primary" style={{ maxWidth: "100%", height: "50px" }}>
                         Add Equipment
                     </Button>
                 </Form>

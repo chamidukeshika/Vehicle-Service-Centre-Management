@@ -19,11 +19,17 @@ import ProfileScreen from "../screens/ProfileScreen.jsx";
 import AdminRoutes from "./components/AdminRoutes.jsx";
 import AdminDashboard from "../screens/AdminDashboard.jsx";
 import AddOrder from "../screens/AddOrder.jsx";
-import Vindunu from "../screens/ViewOrder.jsx";
+import AddFeedbackScreen from "../screens/AddFeedbackScreen.jsx";
+import EditFeedbackScreen from "../screens/EditFeedbackScreen.jsx";
+import ViewFeedbackScreen from "../screens/ViewFeedbackScreen.jsx";
+import AddLubricant from "../screens/AddLubricant.jsx";
+import ViewLubricant from "../screens/ViewLubricant.jsx";
 
+
+import View from "../screens/ViewOrder.jsx";
+import AddRecord from "../screens/AddRecords.jsx";
 import AddEquipment from "../screens/AddEquipment.jsx";
 import ViewEquipment from "../screens/ViewEquipment.jsx";
-import AddRecords from "../screens/AddRecords.jsx";
 import RecordList from "../screens/RecordList.jsx";
 import AddFeedbackScreen from "../screens/AddFeedbackScreen.jsx";
 import EditFeedbackScreen from "../screens/EditFeedbackScreen.jsx";
@@ -32,10 +38,16 @@ import ViewFeedbackAdmin from "../screens/ViewFeedbackAdmin.jsx";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
-    <Route path="/" element={<App />}>
-      <Route index={true} path="/" element={<HomeScreen />} />
-      <Route path="/login" element={<LoginScreen />} />
-      <Route path="/register" element={<RegisterScreen />} />
+    <Route path='/' element={<App />}>
+      <Route index={true} path='/' element={<HomeScreen />} />
+      <Route path='/login' element={<LoginScreen />} />
+      <Route path='/register' element={<RegisterScreen />} />
+
+      {/* tharindu routes */}
+      <Route path='/listlubricant/add' element={<AddLubricant />} />
+      <Route path='/listlubricant/view' element={<ViewLubricant />} />
+
+        <Route path="/register" element={<RegisterScreen />} />
 
       {/* sumeth routes */}
       <Route path="/orders/add" element={<AddOrder />} />
@@ -65,11 +77,13 @@ const router = createBrowserRouter(
       
         
 
-      {/* Admin routes */}
-      <Route path="" element={<AdminRoutes />}>
+        {/* Admin routes */}
         <Route path="/admin" element={<AdminDashboard />} />
+
+        <Route path="" element={<AdminRoutes />}>
+        </Route>
       </Route>
-    </Route>
+   
   )
 );
 ReactDOM.createRoot(document.getElementById("root")).render(

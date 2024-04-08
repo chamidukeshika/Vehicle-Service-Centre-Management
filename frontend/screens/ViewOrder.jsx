@@ -6,7 +6,7 @@ function Vindunu() {
   return (
     <div>
       <h1 style={{marginLeft:500,marginTop:50}}>Order Details</h1>
-      <Link to="">
+      <Link to='../orders/add'>
       <button type="button"style={{marginLeft:50,marginTop:30}} class="btn btn-primary">Add Order</button>
       </Link>
 
@@ -24,6 +24,7 @@ function Vindunu() {
     </tr>
   </thead>
   <tbody>
+   
    
   </tbody>
 </table>

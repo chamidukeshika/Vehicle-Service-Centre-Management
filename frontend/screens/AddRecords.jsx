@@ -125,7 +125,7 @@ const AddRecords = () => {
                 <img src={img} alt="logo" style={{ width: '150px', height: 'auto', marginLeft: "550px", marginTop:"-90px" }} />
 
                 <Form onSubmit={submitHandler} style={{fontWeight:"500",marginTop:"-30px"}}>
-                    {/* Customer Name */}
+                    
                     {/* Customer Name */}
                     <Form.Group className="my-2" controlId="cname">
                         <Form.Label>Customer Name</Form.Label>
@@ -386,4 +386,3 @@ const AddRecords = () => {
 }
 
 export default AddRecords
-

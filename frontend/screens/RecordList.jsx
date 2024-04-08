@@ -4,7 +4,7 @@ import { Container, Form, Button, Table, Modal } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import Loader from "../src/components/Loader";
-import { useViewRecordsQuery, useDeleteRecordMutation } from '../slices/recordApiSlice.js';
+import { useViewRecordsQuery, useDeleteRecordMutation, useUpdateRecordMutation } from '../slices/recordApiSlice.js';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import img from '../src/assets/Mlogo.png';
 
@@ -16,9 +16,15 @@ const RecordList = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [selectedRecord, setSelectedRecord] = useState(null);
     const [showModal, setShowModal] = useState(false);
-    const itemsPerPage = 10;
+    const [updatedRecordData, setUpdatedRecordData] = useState(null);
+    const [showUpdateModal, setShowUpdateModal] = useState(false);
+    const [showConfirmation, setShowConfirmation] = useState(false);
+    const [recordToDelete, setRecordToDelete] = useState(null);
+    const itemsPerPage = 5;
     const navigate = useNavigate();
     const [deleteRecord, { isLoading: isDeleting }] = useDeleteRecordMutation();
+    const [updateRecord, { error }] = useUpdateRecordMutation();
+
 
     // useEffect hook to handle search term changes
     useEffect(() => {
@@ -41,15 +47,53 @@ const RecordList = () => {
         );
     }).slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage) : [];
 
-    // Function to handle updating record
-    const updateHandler = async (id) => {
+    const handleUpdateModalClose = () => {
+        setShowUpdateModal(false);
+        setUpdatedRecordData(null);
+    }
+    const handleUpdateInputChange = (e) => {
+        const { name, value } = e.target;
+        setUpdatedRecordData(prevState => ({
+            ...prevState,
+            [name]: value
+        }));
+    };
+
+    const handleUpdateSubmit = async () => {
         try {
-            navigate('/update');
+            const { error } = await updateRecord({ id: updatedRecordData._id, data: updatedRecordData });
+            if (!error) {
+                toast.success("Record updated successfully");
+                setShowUpdateModal(false);
+                refetch();
+            } else {
+                console.error(error);
+                toast.error(error?.data?.message || 'An error occurred while updating the record');
+            }
         } catch (err) {
             console.error(err);
-            toast.error(err?.data?.message || err.message || 'An error occurred');
+            toast.error('An error occurred while updating the record');
         }
     }
+
+    const handleUpdate = async (recordId) => {
+        try {
+            console.log('Updating record with ID:', recordId);
+            const recordToUpdate = records.find(record => record._id === recordId);
+            if (recordToUpdate) {
+                setUpdatedRecordData(recordToUpdate);
+                setShowUpdateModal(true);
+            } else {
+                console.error("Record not found");
+                toast.error('Record not found');
+            }
+        } catch (err) {
+            console.error(err);
+            toast.error('An error occurred while updating the record');
+        }
+    }
+
+
 
     // Function to handle deleting record
     const handleDelete = async (record_id) => {
@@ -58,8 +102,8 @@ const RecordList = () => {
             const { error } = await deleteRecord(record_id).unwrap();
             if (!error) {
                 toast.success("Record deleted successfully");
-                setShowModal(false);
-                refetch(); // Trigger a refetch after successful deletion
+                setShowConfirmation(false);
+                refetch();
             } else {
                 console.error(error);
                 toast.error(error?.data?.message || 'An error occurred while deleting the record');
@@ -75,6 +119,17 @@ const RecordList = () => {
         setSelectedRecord(record);
         setShowModal(true);
     }
+
+    const handleDeleteClick = (recordId) => {
+        setRecordToDelete(recordId);
+        setShowConfirmation(true);
+    };
+
+    const handleCancelDelete = () => {
+        setRecordToDelete(null);
+        setShowConfirmation(false);
+    };
+
 
     // Function to generate report
     // Function to generate report
@@ -231,10 +286,12 @@ const RecordList = () => {
                                     <td>{record.tcost}</td>
                                     <td>{new Date(record.outdate).toLocaleDateString()}</td>
                                     <td>
-                                        <Button onClick={() => updateHandler(record.id)}> <i className="bi bi-pencil-square"></i></Button>
-                                        <Button onClick={() => handleDelete(record._id)} className="ms-2" disabled={isDeleting}>
+                                        <Button onClick={() => handleUpdate(record._id)}> <i className="bi bi-pencil-square"></i></Button>
+                                        <Button onClick={() => handleDeleteClick(record._id)} className="ms-2" disabled={isDeleting}>
                                             <i className="bi bi-trash"></i>
                                         </Button>
+
+
                                         <Button onClick={() => viewHandler(record)} className="ms-2"><i className="bi bi-eye"></i></Button>
                                     </td>
                                 </tr>
@@ -255,7 +312,144 @@ const RecordList = () => {
                         </ul>
                     </nav>
                 </div>
+
+                {showConfirmation && recordToDelete && (
+
+                    <Modal show={true} onHide={handleCancelDelete} centered>
+                        <Modal.Header closeButton className="bg-danger text-light">
+                            <Modal.Title>Confirm Delete</Modal.Title>
+                        </Modal.Header>
+                        <Modal.Body>
+                            <p>Are you sure you want to delete this record?</p>
+                        </Modal.Body>
+                        <Modal.Footer>
+                            <Button variant="secondary" onClick={handleCancelDelete}>
+                                Cancel
+                            </Button>
+                            <Button variant="danger" onClick={() => handleDelete(recordToDelete)}>
+                                Delete
+                            </Button>
+                        </Modal.Footer>
+                    </Modal>
+                )}
             </Container>
+            {updatedRecordData && (
+    <Modal show={showUpdateModal} onHide={handleUpdateModalClose} centered>
+        <Modal.Header closeButton className="bg-primary text-light">
+            <Modal.Title>Edit Record Details</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+            <div className="container">
+                <div className="row">
+                    <div className="col-md-6">
+                        <h5 className="text-primary mb-4">Customer Information</h5>
+                        <Form>
+                            <Form.Group controlId="cname">
+                                <Form.Label>Customer Name</Form.Label>
+                                <Form.Control type="text" value={updatedRecordData.cname} onChange={handleUpdateInputChange} name="cname" />
+                            </Form.Group>
+                            <Form.Group controlId="cemail">
+                                <Form.Label>Email</Form.Label>
+                                <Form.Control type="email" value={updatedRecordData.cemail} onChange={handleUpdateInputChange} name="cemail" />
+                            </Form.Group>
+                            <Form.Group controlId="cphone">
+                                <Form.Label>Phone Number</Form.Label>
+                                <Form.Control type="tel" value={updatedRecordData.cphone} onChange={handleUpdateInputChange} name="cphone" />
+                            </Form.Group>
+                            <Form.Group controlId="indate">
+                                <Form.Label>In Date</Form.Label>
+                                <Form.Control type="text" value={new Date(updatedRecordData.indate).toLocaleDateString()} readOnly />
+                            </Form.Group>
+                        </Form>
+                    </div>
+                    <div className="col-md-6">
+                        <h5 className="text-primary mb-4">Vehicle Details</h5>
+                        <Form>
+                            <Form.Group controlId="vmodel">
+                                <Form.Label>Model</Form.Label>
+                                <Form.Control type="text" value={updatedRecordData.vmodel} onChange={handleUpdateInputChange} name="vmodel" />
+                            </Form.Group>
+                            <Form.Group controlId="mileage">
+                                <Form.Label>Mileage</Form.Label>
+                                <Form.Control type="text" value={updatedRecordData.mileage} onChange={handleUpdateInputChange} name="mileage" />
+                            </Form.Group>
+                            <Form.Group controlId="year">
+                                <Form.Label>Year</Form.Label>
+                                <Form.Control type="text" value={updatedRecordData.year} onChange={handleUpdateInputChange} name="year" />
+                            </Form.Group>
+                            <Form.Group controlId="outdate">
+                                <Form.Label>Out Date</Form.Label>
+                                <Form.Control type="text" value={new Date(updatedRecordData.outdate).toLocaleDateString()} readOnly />
+                            </Form.Group>
+                        </Form>
+                    </div>
+                </div>
+                <hr />
+                <div className="row">
+                    <div className="col-md-12">
+                        <h5 className="text-primary mb-4">Description</h5>
+                        <Form>
+                            <Form.Group controlId="desc">
+                                <Form.Label>Description</Form.Label>
+                                <Form.Control as="textarea" rows={3} value={updatedRecordData.desc} onChange={handleUpdateInputChange} name="desc" />
+                            </Form.Group>
+                        </Form>
+                    </div>
+                </div>
+                <hr />
+                <div className="row">
+                    <div className="col-md-12">
+                        <h5 className="text-primary mb-4">Parts Replaced & Cost Information</h5>
+                        <Form>
+                            {updatedRecordData.parts.map((part, index) => (
+                                <div className="row" key={index}>
+                                    <div className="col-md-6">
+                                        <Form.Group controlId={`part${index}`}>
+                                            <Form.Label>Part {index + 1}</Form.Label>
+                                            <Form.Control type="text" value={part.part} onChange={(e) => handlePartChange(e, index)} name={`part${index}`} />
+                                        </Form.Group>
+                                    </div>
+                                    <div className="col-md-6">
+                                        <Form.Group controlId={`cost${index}`}>
+                                            <Form.Label>Cost</Form.Label>
+                                            <Form.Control type="text" value={part.cost} onChange={(e) => handlePartChange(e, index)} name={`cost${index}`} />
+                                        </Form.Group>
+                                    </div>
+                                </div>
+                            ))}
+                            <div className="row">
+                                <div className="col-md-6">
+                                    <Form.Group controlId="lcost">
+                                        <Form.Label>Labor Cost</Form.Label>
+                                        <Form.Control type="text" value={updatedRecordData.lcost} name="lcost" readOnly />
+                                    </Form.Group>
+                                </div>
+                                <div className="col-md-6">
+                                    <Form.Group controlId="tcost">
+                                        <Form.Label>Total Cost</Form.Label>
+                                        <Form.Control type="text" value={updatedRecordData.tcost} readOnly />
+                                    </Form.Group>
+                                </div>
+                            </div>
+                        </Form>
+                    </div>
+                </div>
+            </div>
+        </Modal.Body>
+        <Modal.Footer>
+            <Button variant="secondary" onClick={handleUpdateModalClose}>
+                Cancel
+            </Button>
+            <Button variant="primary" onClick={handleUpdateSubmit}>
+                Save Changes
+            </Button>
+        </Modal.Footer>
+    </Modal>
+)}
+
+
+
+
             {selectedRecord && (
                 <Modal show={showModal} onHide={() => setShowModal(false)} centered>
                     <Modal.Header closeButton className="bg-primary text-light">
