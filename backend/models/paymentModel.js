@@ -13,7 +13,7 @@ const paymentSchema = mongoose.Schema({
     },
 
     CardNo: {
-        type: Number,
+        type: String,
         required:true
     },
     ExpDate: {

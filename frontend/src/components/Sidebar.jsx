@@ -1,5 +1,5 @@
 import React from "react";
-import { BiHome,BiMessage,BiSolidReport,BiStats,BiTask,BiHelpCircle } from 'react-icons/bi';
+import { BiHome,BiMessage,BiMoney,BiSolidReport,BiListCheck,BiPackage,BiTask,BiHelpCircle } from 'react-icons/bi';
 import "../Styles/Sidebar.css";
 import logom from '../assets/Logo2.png'
 const Sidebar = () => {
@@ -12,24 +12,32 @@ const Sidebar = () => {
 
         </div>
         <div className="menu--list">
-            <a href="#" className="item">
+            <a href="/" className="item">
                 <BiHome className="icon" />
-                Dashboard
+                Home
+                </a>
+                <a href="/listlubricant/add" className="item">
+                <BiListCheck className="icon"/>
+                List Items
             </a>
-            <a href="#" className="item">
+            <a href="/admin/records/add" className="item">
                 <BiTask className="icon" />
                 Service 
                 </a>
-                <a href="#" className="item">
-                <BiStats className="icon"/>
+                <a href="/orders/add" className="item">
+                <BiPackage className="icon"/>
                 Order 
                 </a>
-            <a href="#" className="item">
+                <a href="/payment/add" className="item">
+                <BiMoney className="icon"/>
+                Payment
+            </a>
+            <a href="/admin/equipments/add" className="item">
                 <BiSolidReport className="icon"/>
-                Report
+                Equipments
             </a>
             
-                <a href="#" className="item">
+                <a href="/addfeedback" className="item">
                 <BiMessage className="icon"/>
                 Feedback
             </a>

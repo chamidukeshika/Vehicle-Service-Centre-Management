@@ -5,6 +5,7 @@ import Loader from "../src/components/Loader";
 import { useSelector } from "react-redux"; 
 import { useInserteMutation } from "../slices/equipmentSlice";
 import EquipmentForm from "../src/components/EquipmentForm";
+import { Link, useNavigate } from "react-router-dom";
 
 const AddEquipment = () => {
     const [name, setName] = useState('');
@@ -17,6 +18,16 @@ const AddEquipment = () => {
     const [tprice, setTprice] = useState('');
     const [email, setEmail] = useState('');
 
+    const navigate = useNavigate();
+    const handleaddClick = () => {
+        // Navigate to the Add Service Record screen
+        navigate("/admin/equipments/add");
+    };
+
+    const handleviewClick = () => {
+        // Navigate to the Service Record List screen
+        navigate("/admin/equipments/");
+    };
     const [inserte, { isLoading }] = useInserteMutation();
 
     const { userInfo } = useSelector((state) => state.auth);
@@ -70,7 +81,16 @@ const AddEquipment = () => {
 
     return (
         <>
-            <EquipmentForm>
+            <div className="d-flex justify-content-center mt-5">
+                <div className="btn-group" role="group" aria-label="Basic radio toggle button group">
+                    <input type="radio" className="btn-check" name="btnradio" id="btnradio1" autoComplete="off"  checked />
+                    <label className="btn btn-outline-primary btn-lg" htmlFor="btnradio1" onClick={handleaddClick}>Add Equipment</label>
+
+                    <input type="radio" className="btn-check" name="btnradio" id="btnradio2" autoComplete="off" />
+                    <label className="btn btn-outline-primary btn-lg" htmlFor="btnradio2" onClick={handleviewClick} style={{ backgroundColor: 'rgba(0, 0, 0, 0.8)',color: 'white' }} >Equip. Inventory</label>
+                </div>
+            </div>
+            <EquipmentForm >
                 <h1>Add Equipment</h1>
                 <Form onSubmit={submitHandler}>
                     <Form.Group className="my-2" controlId="id">

@@ -5,7 +5,7 @@ import { Form, Button, Row, Col } from "react-bootstrap";
 import OrderForm from '../src/components/OrderForm';
 import { toast } from "react-toastify";
 import Loader from "../src/components/Loader";
-import { useInsertMutation } from "../slices/orderApiSlice";
+import { useInsertoMutation } from "../slices/orderApiSlice";
 
 const AddOrder = () => {
     const [name, setName] = useState('');
@@ -19,25 +19,46 @@ const AddOrder = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
-    const [insert, { isLoading }] = useInsertMutation();
+    const [inserto, { isLoading }] = useInsertoMutation();
    // const { userInfo } = useSelector((state) => state.auth);
 
    
 
-    const submitHandler = async (e) => {
-        e.preventDefault();
-        {
-            try {
-                const res = await insert({ name, brand, price, purchaseDate, ExpireDate, quantity }).unwrap();
-                toast.success('Order added successfully!');
-                navigate('/orders/add');
-            } catch (err) {
-                console.error(err);
-                toast.error(err?.data?.message || err.message || 'An error occurred');
-            }
-        
-        }
+   const submitHandler = async (e) => {
+    e.preventDefault();
+
+    // Validation
+    if (!name.trim() || !brand.trim() || !price.trim() || !quantity.trim()) {
+        toast.error("Please fill in all fields");
+        return;
     }
+    if (!/^[a-zA-Z]+$/.test(name.trim())) {
+        toast.error("Name must contain only letters");
+        return;
+    }
+    if (!/^[a-zA-Z]+$/.test(brand.trim())) {
+        toast.error("Brand must contain only letters");
+        return;
+    }
+    if (isNaN(parseFloat(price.trim()))) {
+        toast.error("Price must be a number");
+        return;
+    }
+    if (isNaN(parseInt(quantity.trim()))) {
+        toast.error("Quantity must be a number");
+        return;
+    }
+
+    // If validation passes, proceed with adding the order
+    try {
+        const res = await inserto({ name, brand, price, purchaseDate, ExpireDate, quantity }).unwrap();
+        toast.success('Order added successfully!');
+        navigate('/orders/add');
+    } catch (err) {
+        console.error(err);
+        toast.error(err?.data?.message || err.message || 'An error occurred');
+    }
+};
 
 
     return (

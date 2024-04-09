@@ -55,15 +55,15 @@ const Header = () => {
               <NavDropdown.Item>Request Part</NavDropdown.Item>
             </LinkContainer>
           </NavDropdown>
-          <LinkContainer to="/appointment" style={{ marginRight: "50px" }}>
-            <Nav.Link className={location.pathname === "/appointment" ? "nav-link active" : "nav-link"} >Make Appointment</Nav.Link>
+          <LinkContainer to="/app/addapp" style={{ marginRight: "50px" }}>
+            <Nav.Link className={location.pathname === "/app/addapp" ? "nav-link active" : "nav-link"} >Make Appointment</Nav.Link>
           </LinkContainer>
           <LinkContainer to="/inquire" style={{ marginRight: "auto" }}>
             <Nav.Link className={location.pathname === "/inquire" ? "nav-link active" : "nav-link"} >Inquires</Nav.Link>
           </LinkContainer>
           {userInfo ? (
             <NavDropdown title={`Welcome ${userInfo.name}`} id="username-dropdown">
-              <LinkContainer to='/profile'>
+              <LinkContainer to='/admin/dashboard'>
                 <NavDropdown.Item>Profile</NavDropdown.Item>
               </LinkContainer>
               <NavDropdown.Item onClick={logoutHandler}>Logout</NavDropdown.Item>

@@ -11,7 +11,7 @@ import connectDB from './config/db.js';
 import { notFound, errorHandler } from './middleware/errorMiddleware.js';
 import cors from 'cors';
 import recordrouter from './routes/recordRoutes.js';
-import approuter from './routes/appRouters.js'
+import approuter from './routes/appRouters.js';
 import lubricantrouter from './routes/lubricantRoutes.js';
 
 dotenv.config();
