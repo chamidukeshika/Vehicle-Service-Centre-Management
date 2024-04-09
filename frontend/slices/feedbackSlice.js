@@ -17,7 +17,7 @@ export const feedbackApiSlice = apiSlice.injectEndpoints({
             })
         }),
         updatef: builder.mutation({
-            query: (id, data) => ({
+            query: ({id, data}) => ({
                 url: `${fbk_URL}/updatefeedback/${id}`,
                 method: 'PUT',
                 body: data

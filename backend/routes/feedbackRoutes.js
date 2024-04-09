@@ -7,7 +7,7 @@ const feedbackroutes = express.Router();
 
 feedbackroutes.post('/addfeedback', addFeedback);
 feedbackroutes.get('/viewfeedback', getFeedbacks);
-feedbackroutes.put('/updatefeedback', updateFeedbacks);
+feedbackroutes.put('/updatefeedback/:id', updateFeedbacks);
 feedbackroutes.delete('/deletefeedback/:id',deleteFeedback);
 
 export default feedbackroutes;

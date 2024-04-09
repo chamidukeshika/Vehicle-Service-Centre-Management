@@ -12,7 +12,7 @@ const feedbackSchema = mongoose.Schema({
         required:true
     },
 
-    addfeedback: {
+    addFeedback: {
         type: String,
         required:true
     },

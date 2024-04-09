@@ -19,18 +19,19 @@ import ProfileScreen from "../screens/ProfileScreen.jsx";
 import AdminRoutes from "./components/AdminRoutes.jsx";
 import AdminDashboard from "../screens/AdminDashboard.jsx";
 import AddOrder from "../screens/AddOrder.jsx";
-import AddFeedbackScreen from "../screens/AddFeedbackScreen.jsx";
-import EditFeedbackScreen from "../screens/EditFeedbackScreen.jsx";
-import ViewFeedbackScreen from "../screens/ViewFeedbackScreen.jsx";
 import AddLubricant from "../screens/AddLubricant.jsx";
 import ViewLubricant from "../screens/ViewLubricant.jsx";
 
 
 import View from "../screens/ViewOrder.jsx";
-import AddRecord from "../screens/AddRecords.jsx";
+import AddRecords from "../screens/AddRecords.jsx";
 import AddEquipment from "../screens/AddEquipment.jsx";
+
+
 import ViewEquipment from "../screens/ViewEquipment.jsx";
 import RecordList from "../screens/RecordList.jsx";
+
+
 import AddFeedbackScreen from "../screens/AddFeedbackScreen.jsx";
 import EditFeedbackScreen from "../screens/EditFeedbackScreen.jsx";
 import ViewFeedbackScreen from "../screens/ViewFeedbackScreen.jsx";
@@ -51,7 +52,7 @@ const router = createBrowserRouter(
 
       {/* sumeth routes */}
       <Route path="/orders/add" element={<AddOrder />} />
-      <Route path="/orders/sumeth" element={<Vindunu/>} />
+      <Route path="/orders/View" element={<View/>} />
 
       {/* sewmini routes */}
       <Route path='/addfeedback' element={<AddFeedbackScreen />} />
