@@ -56,7 +56,7 @@ const getLubricants = expressAsyncHandler(async (req, res) => {
 
 const updateLubricants = asyncHandler(async (req, res) => {
 
-    const { id } = req.body;
+    const { id } = req.params;
     
     const lubricants = await Lubricants.findById(id);
 
@@ -83,7 +83,7 @@ const updateLubricants = asyncHandler(async (req, res) => {
 
 const deleteLubricant = expressAsyncHandler(async (req, res) => {
     
-    const { id } = req.body;
+    const { id } = req.params;
 
     const lubricantdelete = await Lubricants.findByIdAndDelete(id);
 

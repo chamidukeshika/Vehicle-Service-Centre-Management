@@ -6,7 +6,7 @@ const lubricantrouter = express.Router();
 
 lubricantrouter.post('/add', addLubricant);
 lubricantrouter.get('/view', getLubricants);
-lubricantrouter.put('/update', updateLubricants);
-lubricantrouter.delete('/delete',deleteLubricant);
+lubricantrouter.put('/update/:id', updateLubricants);
+lubricantrouter.delete('/delete/:id',deleteLubricant);
 
 export default lubricantrouter;
