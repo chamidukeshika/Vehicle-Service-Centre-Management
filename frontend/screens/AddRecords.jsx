@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { Pagination } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { Form, Button, Row, Col } from "react-bootstrap";
@@ -9,6 +10,7 @@ import { recordApiSlice, useInsertRecordMutation } from "../slices/recordApiSlic
 import RecordForm from "../src/components/RecordForm";
 import { BsPlus, BsTrash } from 'react-icons/bs';
 import img from '../src/assets/Mlogo.png';
+
 
 const AddRecords = () => {
     const [cname, setCname] = useState('');

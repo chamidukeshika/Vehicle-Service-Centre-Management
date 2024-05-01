@@ -45,20 +45,20 @@ const router = createBrowserRouter(
       <Route path='/listlubricant/add' element={<AddLubricant />} />
       <Route path='/listlubricant/view' element={<ViewLubricant />} />
 
-        <Route path="/register" element={<RegisterScreen />} />
+      <Route path="/register" element={<RegisterScreen />} />
 
       {/* sumeth routes */}
       <Route path="/orders/add" element={<AddOrder />} />
-      <Route path="/orders/View" element={<View/>} />
+      <Route path="/orders/View" element={<View />} />
 
       {/* sewmini routes */}
       <Route path='/addfeedback' element={<AddFeedbackScreen />} />
       <Route path='/editfeedback' element={<EditFeedbackScreen />} />
-      <Route path='/viewfeedback' element={<ViewFeedbackScreen/>}/>
-      <Route path='/viewfeedbackadmin' element={<ViewFeedbackAdmin/>}/>
+      <Route path='/viewfeedback' element={<ViewFeedbackScreen />} />
+      <Route path='/viewfeedbackadmin' element={<ViewFeedbackAdmin />} />
       <Route path='/inquire' element={<AddInquiryScreen />} />
-      <Route path='/editinquire' element={<EditInquiryScreen/>} />
-      <Route path='/viewinquire' element={<ViewInquiryScreen/>} />
+      <Route path='/editinquire' element={<EditInquiryScreen />} />
+      <Route path='/viewinquire' element={<ViewInquiryScreen />} />
 
 
       {/* Private routes */}
@@ -69,29 +69,25 @@ const router = createBrowserRouter(
       {/* keshika routes */}
       <Route path="/admin/equipments/add" element={<AddEquipment />} />
       <Route path="/admin/equipments/" element={<ViewEquipment />} />
+
+
       <Route path='/admin/records/add' element={<AddRecords />} />
-      <Route path='/admin/equipments/add' element={<AddEquipment />} />
-      <Route path='/admin/equipments/' element={<ViewEquipment />} />
       <Route path='/admin/records/list' element={<RecordList />} />
 
 
-      
-      
-        
+      {/* Admin routes */}
+      <Route path="/admin/dashboard" element={<AdminDashboard />} />
 
-        {/* Admin routes */}
-        <Route path="/admin/dashboard" element={<AdminDashboard />} />
-
-        <Route path="" element={<AdminRoutes />}>
-        </Route>
-       {/* Admin routes */}
+      <Route path="" element={<AdminRoutes />}>
+      </Route>
+      {/* Admin routes */}
       <Route path='' element={<AdminRoutes />}>
         <Route path='/admin' element={<AdminDashboard />} />
       </Route>
-   
 
-        
-     
+
+
+
 
     </Route>
   )
