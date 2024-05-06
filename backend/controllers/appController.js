@@ -49,7 +49,7 @@ const getAppointments = expressAsyncHandler(async (req, res) => {
 
 const updateAppointments = asyncHandler(async (req, res) => {
 
-    const { id } = req.body;
+    const { id } = req.params;
     
     const appointments = await Appointments.findById(id);
 
@@ -77,7 +77,7 @@ const updateAppointments = asyncHandler(async (req, res) => {
 
 const deleteAppointment = expressAsyncHandler(async (req, res) => {
     
-    const { id } = req.body;
+    const { id } = req.params;
 
     const appointmentdelete = await Appointments.findByIdAndDelete(id);
 

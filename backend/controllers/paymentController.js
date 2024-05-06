@@ -4,31 +4,24 @@ import expressAsyncHandler from 'express-async-handler';
 
 
 const addPayment = asyncHandler(async (req, res) => {
+    const { FirstName, LastName, CardNo, ExpDate, cvvNum } = req.body;
 
-    const { FirstName,LastName,CardNo,ExpDate,cvvNum } = req.body;
-
-    const payment = await Payments.create({
-        FirstName,
-        LastName,
-        CardNo,
-        ExpDate,
-        cvvNum
-    });
-
-    if (payment) {
-        res.status(201).json({
-            _id: payment._id, 
-            FirstName: payment.FirstName,
-            LastName: payment.LastName,
-            CardNo: payment.CardNo,
-            ExpDate: payment.ExpDate,
-            cvvNum: payment.cvvNum
+    try {
+        const payment = await Payments.create({
+            FirstName,
+            LastName,
+            CardNo,
+            ExpDate,
+            cvvNum
         });
-    } else {
-        res.status(400);
-        throw new Error('Invalid card details');
+
+        res.status(201).json(payment);
+    } catch (error) {
+        console.error(error);
+        res.status(400).json({ message: 'Invalid card details' });
     }
 });
+
 
 
 const getPayments = expressAsyncHandler(async (req, res) => {
@@ -46,37 +39,38 @@ const getPayments = expressAsyncHandler(async (req, res) => {
 
 
 const updatePayments = asyncHandler(async (req, res) => {
+    const { id } = req.params;
 
-    const { id } = req.body;
-    
-    const payments = await Payments.findById(id);
+    try {
+        const payment = await Payments.findById(id);
 
-    if (payments) {
-        payments.FirstName = req.body.FirstName || payments.FirstName;
-        payments.LastName = req.body.LastName || payments.LastName;
-        payments.CardNo = req.body.CardNo || payments.CardNo;
-        payments.ExpDate = req.body.ExpDate || payments.ExpDate;
-        payments.cvv= req.body.cvv || payments.cvv;
+        if (payment) {
+            payment.FirstName = req.body.FirstName || payment.FirstName;
+            payment.LastName = req.body.LastName || payment.LastName;
+            payment.CardNo = req.body.CardNo || payment.CardNo;
+            payment.ExpDate = req.body.ExpDate || payment.ExpDate;
+            payment.cvvNum = req.body.cvvNum || payment.cvvNum;
 
-        const updatePayment = await payments.save();
+            const updatedPayment = await payment.save();
 
-        res.status(200).json({
-            message: 'Update Card Details Successfully' ,updatePayment
-        })
-    } else {
-        res.status(404);
-        throw new Error('Card Details Not Found');
+            res.status(200).json(updatedPayment);
+        } else {
+            res.status(404).json({ message: 'Payment not found' });
+        }
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Server error' });
     }
-})
+});
 
 const deletePayment = expressAsyncHandler(async (req, res) => {
     
-    const { id } = req.body;
+    const { id } = req.params;
 
     const paymentdelete = await Payments.findByIdAndDelete(id);
 
     if (paymentdelete) {
-        res.status(200).json({ message: "Card details deleted" });
+        res.status(200).json({ message: 'Card details deleted' });
     }
     else {
         res.status(200).json({ message: "Failed Deleted" });

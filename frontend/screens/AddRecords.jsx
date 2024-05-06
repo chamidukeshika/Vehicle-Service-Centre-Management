@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { Pagination } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { Form, Button, Row, Col } from "react-bootstrap";
@@ -9,6 +10,7 @@ import { recordApiSlice, useInsertRecordMutation } from "../slices/recordApiSlic
 import RecordForm from "../src/components/RecordForm";
 import { BsPlus, BsTrash } from 'react-icons/bs';
 import img from '../src/assets/Mlogo.png';
+
 
 const AddRecords = () => {
     const [cname, setCname] = useState('');
@@ -97,6 +99,13 @@ const AddRecords = () => {
         // Validate phone number (you can add more validation here if needed)
         if (cphone.length !== 10 || !/^\d+$/.test(cphone)) {
             toast.error('Enter a valid phone number containing only numeric digits');
+            
+        }else if (!/^[A-Za-z\s]+$/.test(cname)) {
+            toast.error('Customer name must not contain special characters or numbers');
+           
+        }else if (!/^[A-Za-z\s]+$/.test(tname)) {
+            toast.error('Technician name must not contain special characters or numbers');
+           
         } else {
             try {
                 const partsData = partsList.map(part => ({ part: part.part, cost: part.cost }));

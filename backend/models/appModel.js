@@ -1,43 +1,39 @@
 import mongoose from "mongoose";
 
 const appointmentsSchema = mongoose.Schema({
-
     vname: {
         type: String,
-        required:true
+        required: true
     },
-
     vbrand: {
         type: String,
-        required:true
+        required: true
     },
-
     vregno: {
         type: String,
-        required:true
+        required: true
     },
     stype: {
         type: String,
-        required:true
+        required: true
     },
     sdate: {
         type: Date,
-        required:true
+        required: true
     },
     stime: {
-        type:String,
-        required:true
+        type: String,
+        required: true
     },
     userid: {
         type: String,
-        required:true
-    },
+        required: true
+        // If this field is optional, you can remove the required attribute
+    }
+}, {
+    timestamps: true
+});
 
-},
-    {
-        timestamps: true
-    });
+const Appointments = mongoose.model('Appointments', appointmentsSchema);
 
-    const Appointments = mongoose.model('Appointments', appointmentsSchema);
-
-export default Appointments
+export default Appointments;

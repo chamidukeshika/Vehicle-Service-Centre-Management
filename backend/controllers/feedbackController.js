@@ -5,12 +5,12 @@ import expressAsyncHandler from 'express-async-handler';
 
 const addFeedback = asyncHandler(async (req, res) => {
 
-    const { email,OrderID,addfeedback ,userid} = req.body;
+    const { email,OrderID,addFeedback ,userid} = req.body;
 
     const feedback = await Feedbacks.create({
         email,
         OrderID,
-        addfeedback,
+        addFeedback,
         userid
     });
 
@@ -18,7 +18,7 @@ const addFeedback = asyncHandler(async (req, res) => {
         res.status(201).json({
             email: feedback.email,
             OrderID: feedback.OrderID,
-            addfeedback: feedback.addfeedback,
+            addFeedback: feedback.addFeedback,
             useid: feedback.userid
         });
     } else {
@@ -41,33 +41,42 @@ const getFeedbacks = expressAsyncHandler(async (req, res) => {
 
 })
 
-
 const updateFeedbacks = asyncHandler(async (req, res) => {
+    // Destructure required fields from request body
+    const { id } = req.params;
 
-    const { id } = req.body;
+    // Check if the required fields are present
     
-    const feedbacks = await Feedbacks.findById(id);
 
-    if (feedbacks) {
-        feedbacks.email = req.body.email || feedbacks.email;
-        feedbacks.OrderID = req.body.OrderID || feedbacks.OrderID;
-        feedbacks.addfeedback = req.body.addfeedback || feedbacks.addfeedback;
-        feedbacks.userid = userid
+    // Find the feedback by ID
+    const feedback = await Feedbacks.findById(id);
 
-        const updateFeedbacks = await feedbacks.save();
+    if (feedback) {
+        // Update feedback properties with new values
+        feedback.email = req.body.email || feedback.email;
+        feedback.OrderID = req.body.OrderID || feedback.OrderID;
+        feedback.addFeedback = req.body.addFeedback || feedback.addFeedback;
+        feedback.userid = req.body.userid || feedback.userid;
 
+        // Save the updated feedback
+        const updatedFeedback = await feedback.save();
+
+        // Send success response with updated feedback
         res.status(200).json({
-            message: 'Update feedback Successfully' ,updateFeedbacks
-        })
+            message: 'Feedback updated successfully',
+            feedback: updatedFeedback
+        });
     } else {
+        // If feedback is not found, send 404 response
         res.status(404);
-        throw new Error('Feedback details Not Found');
+        throw new Error('Feedback details not found');
     }
-})
+});
+
 
 const deleteFeedback = expressAsyncHandler(async (req, res) => {
     
-    const { id } = req.body;
+    const { id } = req.params;
 
     const feedbackdelete = await Feedbacks.findByIdAndDelete(id);
 

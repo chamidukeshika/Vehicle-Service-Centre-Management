@@ -5,7 +5,7 @@ import { Form, Button, Row, Col } from 'react-bootstrap';
 import LubricantForm from '../src/components/LubricantForm';
 import { toast } from 'react-toastify';
 import Loader from '../src/components/Loader';
-import { useInsertMutation } from '../slices/lubricantSlice';
+import { useInsertLMutation } from '../slices/lubricantSlice';
 
 const AddLubricant = () => {
     const [name, setName] = useState('');
@@ -19,7 +19,7 @@ const AddLubricant = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
-    const [insert, { isLoading }] = useInsertMutation();
+    const [insertL, { isLoading }] = useInsertLMutation();
     const { userInfo } = useSelector((state) => state.auth);
     const userId = userInfo._id;
 
@@ -44,7 +44,7 @@ const AddLubricant = () => {
                     userId,
                 };
 
-                const res = await insert(formData).unwrap();
+                const res = await insertL(formData).unwrap();
                 toast.success('Lubricant added successfully!');
                 navigate('');
             } catch (err) {

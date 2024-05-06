@@ -3,27 +3,27 @@ const LUBRI_URL = '/api/lubricant';
 
 export const lubriApiSlice = apiSlice.injectEndpoints({
     endpoints: (builder) => ({
-        insert: builder.mutation({
+        insertL: builder.mutation({
             query: (data) => ({
                 url: `${LUBRI_URL}/add`,
                 method: 'POST',
                 body: data
             })
         }),
-        view: builder.query({
+        viewL: builder.query({
             query: () => ({
                 url: `${LUBRI_URL}/view`,
                 method: 'GET'
             })
         }),
-        update: builder.mutation({
-            query: (id, data) => ({
+        updateL: builder.mutation({
+            query: ({id, data}) => ({
                 url: `${LUBRI_URL}/update/${id}`,
                 method: 'PUT',
                 body: data
             })
         }),
-        delete: builder.mutation({
+        deleteL: builder.mutation({
             query: (id) => ({
                 url: `${LUBRI_URL}/delete/${id}`, 
                 method: 'DELETE'
@@ -33,8 +33,8 @@ export const lubriApiSlice = apiSlice.injectEndpoints({
 })
 
 export const {
-    useInsertMutation,
-    useViewQuery,
-    useUpdateMutation,
-    useDeleteMutation
+    useInsertLMutation,
+    useViewLQuery,
+    useUpdateLMutation,
+    useDeleteLMutation
 } = lubriApiSlice;

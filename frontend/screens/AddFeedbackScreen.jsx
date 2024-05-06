@@ -21,7 +21,7 @@ function AddFeedbackScreen() {
     e.preventDefault();
     
     try {
-      const res = await insertf({ email, OrderID: orderID, addfeedback: addFeedback, userid }).unwrap(); // Ensure that the field is named addfeedback
+      const res = await insertf({ email, OrderID: orderID, addFeedback: addFeedback, userid }).unwrap(); // Ensure that the field is named addfeedback
       if (res) {
         Swal.fire({
           icon: "success",
