@@ -39,7 +39,7 @@ const Header = () => {
 
       <Navbar.Toggle aria-controls="responsive-navbar-nav" />
       <Navbar.Collapse id="responsive-navbar-nav">
-        <Nav className="ms-auto flex-grow-1" style={{ marginRight: "50px" }}>
+        <Nav className="ms-auto flex-grow-1" style={{ margin: "auto" }}>
           <LinkContainer to="/" exact style={{ marginRight: "50px", marginLeft: "100px" }}>
             <Nav.Link className={location.pathname === "/" ? "nav-link active" : "nav-link"} >Home</Nav.Link>
           </LinkContainer>
@@ -60,6 +60,9 @@ const Header = () => {
           </LinkContainer>
           <LinkContainer to="/inquire" style={{ marginRight: "auto" }}>
             <Nav.Link className={location.pathname === "/inquire" ? "nav-link active" : "nav-link"} >Inquires</Nav.Link>
+          </LinkContainer>
+          <LinkContainer to="/inquire" style={{ marginRight: "200px" }}>
+            <Nav.Link className={location.pathname === "/inquire" ? "nav-link active" : "nav-link"} >Services</Nav.Link>
           </LinkContainer>
           {userInfo ? (
             <NavDropdown title={`Welcome ${userInfo.name}`} id="username-dropdown">

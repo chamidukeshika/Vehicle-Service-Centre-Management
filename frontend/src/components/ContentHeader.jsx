@@ -5,7 +5,7 @@ import "../Styles/Content.css";
 const ContentHeader = () => {
     return (
         <div className="content--header">
-            <h1 className="header--title">Dashboard</h1>
+            <h1 className="header--title">Admin Dashboard</h1>
             <div className="header--activity">
                 <div className="search-box">
                     <input type="text" placeholder="Search anything here.." />

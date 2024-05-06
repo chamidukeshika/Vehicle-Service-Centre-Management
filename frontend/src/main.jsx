@@ -15,7 +15,7 @@ import PrivateRoutes from "./components/PrivateRoutes.jsx";
 import HomeScreen from "../screens/HomeScreen.jsx";
 import LoginScreen from "../screens/LoginScreen.jsx";
 import RegisterScreen from "../screens/RegisterScreen.jsx";
-import ProfileScreen from "../screens/ProfileScreen.jsx";
+import ProfileScreen from "../screens/CustomerDashboard.jsx";
 import AdminRoutes from "./components/AdminRoutes.jsx";
 import AdminDashboard from "../screens/AdminDashboard.jsx";
 import AddOrder from "../screens/AddOrder.jsx";
@@ -45,11 +45,11 @@ const router = createBrowserRouter(
       <Route path='/listlubricant/add' element={<AddLubricant />} />
       <Route path='/listlubricant/view' element={<ViewLubricant />} />
 
-        <Route path="/register" element={<RegisterScreen />} />
+       
 
       {/* sumeth routes */}
-      <Route path="/orders/add" element={<AddOrder />} />
-      <Route path="/orders/View" element={<View/>} />
+      <Route path='/orders/add' element={<AddOrder />} />
+      <Route path='/orders/View' element={<View/>} />
 
       {/* sewmini routes */}
       <Route path='/addfeedback' element={<AddFeedbackScreen />} />
@@ -67,26 +67,18 @@ const router = createBrowserRouter(
       </Route>
 
       {/* keshika routes */}
-      <Route path="/admin/equipments/add" element={<AddEquipment />} />
       <Route path="/admin/equipments/" element={<ViewEquipment />} />
       <Route path='/admin/records/add' element={<AddRecords />} />
       <Route path='/admin/equipments/add' element={<AddEquipment />} />
-      <Route path='/admin/equipments/' element={<ViewEquipment />} />
       <Route path='/admin/records/list' element={<RecordList />} />
 
 
       
       
-        
 
-        {/* Admin routes */}
-        <Route path="/admin/dashboard" element={<AdminDashboard />} />
-
-        <Route path="" element={<AdminRoutes />}>
-        </Route>
        {/* Admin routes */}
       <Route path='' element={<AdminRoutes />}>
-        <Route path='/admin' element={<AdminDashboard />} />
+      <Route path="/admin/dashboard" element={<AdminDashboard />} />
       </Route>
    
 

@@ -8,15 +8,9 @@ const AdminRoutes = () => {
     const { userInfo } = useSelector((state) => state.auth);
 
     // Check if userInfo exists and if the email and password match
-    const isAuthenticated = userInfo && userInfo.email === "chamidukeshikaz@gmail.com" && userInfo.password === "12345";
+    const isAuthenticated = userInfo && userInfo.email === "chamidukeshikaz@gmail.com";
 
-    useEffect(() => {
-        if (!isAuthenticated) {
-            toast.error("Log as Admin for continue..");
-        }
-    }, [isAuthenticated]);
-
-    return isAuthenticated ? <Outlet /> : <Navigate to = '/login' replace/>;
+    return isAuthenticated ? <Outlet /> : <Navigate to = '/profile' replace/>;
 }
 
 export default AdminRoutes;
