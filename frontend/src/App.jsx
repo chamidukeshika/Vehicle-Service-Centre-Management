@@ -9,8 +9,8 @@ import { Container } from 'react-bootstrap'
 
 const App = () => {
   const location = useLocation();
-  // Check if the current pathname starts with "/admin"
-  const isAdminRoute = location.pathname.startsWith('/admin/dashboard');
+  // Check if the current pathname starts with "/admin" or "/profile"
+  const isAdminRoute = location.pathname.startsWith('/admin/dashboard') || location.pathname.startsWith('/profile');
 
   return (
     <>

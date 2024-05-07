@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { Pagination } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { Form, Button, Row, Col } from "react-bootstrap";
@@ -9,6 +10,7 @@ import { recordApiSlice, useInsertRecordMutation } from "../slices/recordApiSlic
 import RecordForm from "../src/components/RecordForm";
 import { BsPlus, BsTrash } from 'react-icons/bs';
 import img from '../src/assets/Mlogo.png';
+
 
 const AddRecords = () => {
     const [cname, setCname] = useState('');
@@ -33,7 +35,7 @@ const AddRecords = () => {
 
     const [insertRecord, { isLoading }] = useInsertRecordMutation();
     const { userInfo } = useSelector((state) => state.auth);
-
+    const userId = userInfo._id;
     const calculateTotalCost = () => {
         let total = 0;
         partsList.forEach((item) => {
@@ -121,7 +123,8 @@ const AddRecords = () => {
                     desc,
                     parts: partsData, // Send the parts array as structured data
                     lcost,
-                    tcost
+                    tcost,
+                    userId
                 };
                 const res = await insertRecord(recordData).unwrap();
                 toast.success("Record Added Successfully");
@@ -137,6 +140,7 @@ const AddRecords = () => {
 
     return (
         <>
+            
             <div className="d-flex justify-content-center mt-5">
                 <div className="btn-group" role="group" aria-label="Basic radio toggle button group">
                     <input type="radio" className="btn-check" name="btnradio" id="btnradio1" autoComplete="off"  checked />
@@ -145,6 +149,7 @@ const AddRecords = () => {
                     <input type="radio" className="btn-check" name="btnradio" id="btnradio2" autoComplete="off" />
                     <label className="btn btn-outline-primary btn-lg" htmlFor="btnradio2" onClick={handleRecordListClick} style={{ backgroundColor: 'rgba(0, 0, 0, 0.8)',color: 'white' }} >Service Record List</label>
                 </div>
+                
             </div>
             <RecordForm>
                 <h1>Service Record Form</h1>

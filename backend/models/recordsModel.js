@@ -59,6 +59,12 @@ const RecordsSchema = mongoose.Schema({
     tcost: {
         type: Number,
         required: true
+    },
+    userId: {
+        type: String,
+        required: true
+
+       
     }
 }, {
     timestamps: true

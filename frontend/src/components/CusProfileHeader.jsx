@@ -2,10 +2,10 @@ import React from "react";
 import { BiNotification, BiSearch } from "react-icons/bi";
 import "../Styles/Content.css";
 
-const ContentHeader = () => {
+const CusContentHeader = () => {
     return (
         <div className="content--header">
-            <h1 className="header--title">Admin Dashboard</h1>
+            <h1 className="header--title">Customer Dashboard</h1>
             <div className="header--activity">
                 <div className="search-box">
                     <input type="text" placeholder="Search anything here.." />
@@ -20,4 +20,4 @@ const ContentHeader = () => {
     );
 }
 
-export default ContentHeader;
+export default CusContentHeader;
