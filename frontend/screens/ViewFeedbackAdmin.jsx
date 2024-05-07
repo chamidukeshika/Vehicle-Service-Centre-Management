@@ -6,6 +6,8 @@ import Loader from "../src/components/Loader";
 import { useViewfQuery, useUpdatefMutation, useDeletefMutation } from '../slices/feedbackSlice.js';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import {  useSelector } from "react-redux";
+import jsPDF from 'jspdf';
+import 'jspdf-autotable';
 
 // Function to render a tooltip for the edit button
 const renderEditTooltip = (props) => (
@@ -27,17 +29,17 @@ const ViewFeedbackAdmin = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const [showUpdateModal, setShowUpdateModal] = useState(false);
-  const [selectedFeedback, setSelectedFeedback] = useState(null);
-  const [editedFeedback, setEditedFeedback] = useState(null);
+  const [selectedItem, setSelectedItem] = useState(null);
+  const [editedItem, setEditedItem] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [recordToDelete, setRecordToDelete] = useState(null); // Initialize recordToDelete state
-  const[email, setEmail] = useState('');
-  const [orderID, setOrderID] = useState("");
-  const [addFeedback, setAddFeedback] = useState("");
+  // const[email, setEmail] = useState('');
+  // const [orderID, setOrderID] = useState("");
+  // const [addFeedback, setAddFeedback] = useState("");
 
   const feedbacksPerPage = 10; // Number of items to display per page
   const navigate = useNavigate();
-  const { userInfo } = useSelector((state) => state.auth);
+  // const { userInfo } = useSelector((state) => state.auth);
   const [deletef] = useDeletefMutation();
 
  
@@ -67,12 +69,12 @@ const ViewFeedbackAdmin = () => {
 
   const indexOfLastFeedback = currentPage * feedbacksPerPage;
   const indexOfFirstFeedback = indexOfLastFeedback - feedbacksPerPage;
-  const currentFeedbacks = filteredFeedbacks ? filteredFeedbacks.slice(indexOfFirstFeedback, indexOfLastFeedback) : [];
+  const  currentItems = filteredFeedbacks ? filteredFeedbacks.slice(indexOfFirstFeedback, indexOfLastFeedback) : [];
 
   const [Updatef] = useUpdatefMutation();
 
   const updateHandler = (feedbackId) => {
-    const feedback = feedbacks.find(feedback => feedback._id === feedbackId);
+    const feedback = feedbacks.find((feedback) => feedback._id === feedbackId);
     if (feedback){
       console.log("Selected feedback:", feedback);
       setSelectedFeedback(feedback);
@@ -84,27 +86,6 @@ const ViewFeedbackAdmin = () => {
     }
   }
 
-  const handleUpdate = async () => {
-    try {
-      setIsLoading(true); // Set loading state to true during update operation
-      console.log("Updating feedback:", editedFeedback);
-      const { error } = await Updatef({ id: editedFeedback._id, data: {email, OrderID:orderID , addfeedback: addFeedback} });
-      // Pass item ID and updated data to updateeq function
-      if (!error) {
-        toast.success("Record updated successfully");
-        setShowUpdateModal(false);
-        refetch();
-      }else{
-        console.error(error);
-        toast.error(error?.data?.message || 'An error occurred while updating the record');
-      }
-    } catch (err) {
-      console.error(err);
-      toast.error('An error occurred while updating the record');
-    } finally {
-      setIsLoading(false);
-    }
-  }
 
   const deleteHandler = async (id) => {
     try {
@@ -122,12 +103,7 @@ const ViewFeedbackAdmin = () => {
       console.error(err);
       toast.error('An error occurred  while deleting the record');
     }
-  }
-
-const handleUpdateModalClose = () => {
-  setShowUpdateModal(false);
-  setEditedFeedback(null);
-} ;
+  };
 
 const handleDeleteClick = (id) => {
   setRecordToDelete(id); // Set recordToDelete when delete button is clicked
@@ -144,6 +120,33 @@ const handleCancelDelete = () => {
   setRecordToDelete(null); // Reset recordToDelete state when delete confirmation is canceled
 };
 
+const generateReport = () => {
+  const doc = new jsPDF();
+
+  // Title and headers
+  doc.setFontSize(18);
+  doc.text("Feedback Report", 14, 22);
+
+  const tableColumns = ["UserID", "Email", "Order ID", "Feedback"];
+
+  const tableRows = currentItems.map((item) => [
+    item.userid || "N/A",
+    item.email || "N/A",
+    item.OrderID || "N/A",
+    item.addFeedback || "N/A",
+  ]);
+
+  // Add the table
+  doc.autoTable({
+    head: [tableColumns],
+    body: tableRows,
+    startY: 30,
+    theme: 'striped',
+  });
+
+  // Save the PDF
+  doc.save("feedback_report.pdf");
+};
 
 
   return (
@@ -170,13 +173,13 @@ const handleCancelDelete = () => {
               </li>
               <li className="page-item"><span className="page-link">{currentPage}</span></li>
               <li className="page-item">
-                <button className="page-link" onClick={handleNextPage} disabled={currentFeedbacks.length < feedbacksPerPage}>Next</button>
+                <button className="page-link" onClick={handleNextPage} disabled={currentItems.length < feedbacksPerPage}>Next</button>
               </li>
             </ul>
           </nav>
         </div>
 
-        {currentFeedbacks.length > 0 ? (
+        {currentItems.length > 0 ? (
           <Table striped hover className="mb-4" borderless style={{ textAlign: "center" }} >
             <thead>
               <tr>
@@ -188,28 +191,20 @@ const handleCancelDelete = () => {
               </tr>
             </thead>
             <tbody>
-              {currentFeedbacks.map(feedback => (
+              {currentItems.map((item) => (
                 
-                <tr key={feedback._id}>
-                  <td>{feedback.userid || "empty" }</td>
-                  <td>{feedback.email  || "empty"}</td>
-                  <td>{feedback.OrderID  || "empty"}</td>
-                  <td>{feedback.addfeedback  || "empty"}</td>
+                <tr key={item._id}>
+                  <td>{item._id || "empty" }</td>
+                  <td>{item.email  || "empty"}</td>
+                  <td>{item.OrderID  || "empty"}</td>
+                  <td>{item.addFeedback  || "empty"}</td>
                   <td>
-                    <OverlayTrigger
-                      placement = "top"
-                      overlay = {renderEditTooltip}
-                      >
-                        <Button onClick={() => updateHandler(feedback._id)} varient="primary" className="me-2" >
-                           <i className="bi bi-pencil-square"></i>
-                        </Button>
-                      </OverlayTrigger>
-
+                    
                     <OverlayTrigger
                       placement = "top"
                       overlay = {renderDeleteTooltip}
                       >
-                        <Button onClick={() => handleDeleteClick(feedback._id)} varient="primary" className="ms-2">
+                        <Button onClick={() => handleDeleteClick(item._id)} varient="primary" className="ms-2">
                           <i className="bi bi-trash"></i>
                           </Button>
                       </OverlayTrigger>
@@ -222,6 +217,13 @@ const handleCancelDelete = () => {
         ) : (
           <Loader />
         )}
+
+        {/* Button to Generate Report */}
+        <div className="text-center mt-4">
+          <Button onClick={generateReport} variant="primary" size="lg" style={{ width: "300px" , border: "1px solid #007bff"}}>
+            Generate Report
+          </Button>
+        </div>
         
 
         <Modal show={recordToDelete !== null} onHide={handleCancelDelete} centered>
@@ -241,75 +243,7 @@ const handleCancelDelete = () => {
           </Modal.Footer>
         </Modal>
 
-        <Modal show={showUpdateModal} onHide={handleUpdateModalClose} centered>
-          <Modal.Header closeButton className="bg-primary text-light">
-            <Modal.Title>Edit Feedback </Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
-            <Form>
-              <Form.Group controlId="name">
-                <Form.Label>Customer Name</Form.Label>
-                <Form.Control
-                  type='text'
-                  disabled
-                  value={userInfo.name || ""}
-                  style={{ padding: "10px" }}
-                />
-
-
-              </Form.Group>
-
-              <Form.Group controlId="email">
-                <Form.Label>Email: </Form.Label>
-                <Form.Control
-                  type="email"
-                  required
-                  placeholder="Enter Your email "
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  style={{ padding: "10px" }}
-                > 
-                </Form.Control>
-              </Form.Group>
-
-              <Form.Group className="s-2" controlId="orderID"> {/* Changed controlId to orderID */}
-              <br />
-              {/* <h6>Order Information</h6> */}
-              <Form.Label>Order ID</Form.Label>
-              <Form.Control
-                type="text"
-                required
-                placeholder="Enter Order ID"
-                value={orderID}
-                onChange={(e) => setOrderID(e.target.value)}
-                style={{ padding: "10px" }}
-              ></Form.Control>
-            </Form.Group>
-
-            {/* <p>Feedback: {selectedFeedback.addFeedback}</p> */}
-
-            <Form.Group className="s-3" controlId="addFeedback"> {/* Changed controlId to addFeedback */}
-              <Form.Label>Add Your Feedback Here!</Form.Label>
-              <Form.Control
-                as="textarea"
-                required
-                placeholder="Enter feedback"
-                // value={feedbacks}
-                // onChange={(e) => setAddFeedback(e.target.value)}
-              ></Form.Control>
-            </Form.Group>
-              
-            </Form>
-          </Modal.Body>
-          <Modal.Footer>
-            <Button variant="secondary" onClick={handleUpdateModalClose}>
-              Cancel
-            </Button>
-            <Button variant="primary" onClick={handleUpdate}>
-              Save Changes
-            </Button>
-          </Modal.Footer>
-        </Modal>
+        
 
 
       </Container>

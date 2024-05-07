@@ -43,6 +43,7 @@ function AddFeedbackScreen() {
     }
   };
   
+
   
   return (
     <>
@@ -97,12 +98,15 @@ function AddFeedbackScreen() {
             <br />
 
             <div className="d-flex justify-content-center mt-3">
+              
               <Button type="submit" variant="primary" className="s-3 mr-2">
                 Submit Feedback
               </Button>
+              <Link to="/editfeedback">
               <Button type="button" variant="primary" className="s-3 ml-2">
                 View Feedback
               </Button>
+              </Link>
             </div>
           </Form>
         </FeedbackContainer>

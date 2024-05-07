@@ -26,6 +26,7 @@ import ViewAppN from "../screens/NewViewApp.jsx";
 import AddFeedbackScreen from "../screens/AddFeedbackScreen.jsx";
 import EditFeedbackScreen from "../screens/EditFeedbackScreen.jsx";
 import ViewFeedbackScreen from "../screens/ViewFeedbackScreen.jsx";
+import ViewFeedbackAdmin from "../screens/ViewFeedbackAdmin.jsx";
 import AddLubricant from "../screens/AddLubricant.jsx";
 import ViewLubricant from "../screens/ViewLubricant.jsx";
 
@@ -83,7 +84,11 @@ const router = createBrowserRouter(
       <Route path='/payment/add' element={<AddPayment />} />
       <Route path='/payment/view' element={<ViewPayment />} />
 
-
+      {/* Sewmini routes */}
+      <Route path="/addfeedback" element={<AddFeedbackScreen />} />
+      <Route path="/editfeedback" element={<EditFeedbackScreen />} />
+      <Route path="/viewfeedback" element={<ViewFeedbackScreen />} />
+      <Route path="/viewfeedbackadmin" element={<ViewFeedbackAdmin />} />
 
         {/* Admin routes */}
         <Route path="/admin/dashboard" element={<AdminDashboard />} />

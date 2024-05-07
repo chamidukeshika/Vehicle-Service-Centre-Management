@@ -2,15 +2,11 @@ import React, { useState } from "react";
 // import {useState, useEffect} from "react";
 import { Container, Row, Col } from "react-bootstrap";
 
-const ViewFeedbackContainer = ({ children }) => {
-  const [numRows, setNumRows] = useState(3);
+const ViewFeedbackContainer = ({ children }) => (
 
-  return (
     <div className="mt-5 mb-5">
       <Container>
-        {Array.from({ length: numRows }).map((_, rowIndex) => (
-          <Row className="justify-content-center" key={rowIndex}>
-            {/* first column */}
+          <Row className="justify-content-center">
             <Col xs={12} md={6} className="mb-3">
                 <div
                   className="card p-5"
@@ -23,26 +19,10 @@ const ViewFeedbackContainer = ({ children }) => {
                   {children}
                 </div>
             </Col>
-              {/* Second Column */}
-              <Col xs={12} md={6} className="mb-3">
-                <div
-                  className="card p-5"
-                  style={{
-                    backgroundColor: "rgba(255, 255, 255, 0.8)",
-                    height: "300px",
-                    width: "500px",
-                  }}
-                >
-                  {children}
-                </div>
-            </Col>
           </Row>
-        ))}
+        </Container>
+      </div>  
+      );
 
-        <br></br>
-      </Container>
-    </div>
-  );
-};
 
 export default ViewFeedbackContainer;

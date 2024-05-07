@@ -179,7 +179,7 @@ const EditFeedbackScreen = () => {
             <h3> Want to change your feedback? </h3>
             {currentItems.map((item) => (
               <div key={item._id}>
-                <h6>UserName : {item.name || "empty"}</h6>
+                <h6>UserId : {item._id || "empty"}</h6>
                 <h6> Email : {item.email || "empty"}</h6>
                 <h6>Order Id : {item.OrderID || "empty"}</h6>
                 <p>{item.addFeedback || "empty"}</p>

@@ -1,42 +1,7 @@
-// import React from 'react';
-// import { Container, Row, Col } from 'react-bootstrap';
-
-// const FeedbackContainer = ({ children }) => {
-//     return (
-//         <div className="s-5 sb-5">
-//             <Container>
-//                 <Row className='justify-content-md-center s-2 formlog'>
-//                 <Col xs={12} md={6} className='d-none d-md-block'>
-//                 <h1 style={{ margin: '0' }}>&copy; Tell us know how we did!</h1><br></br>
-
-//                 <>
-//                 <button1 to='/viewFeedback'>
-//                     <Nav.Link>
-//                     <FaUser className="se-1" /> View Feedback!
-//                     </Nav.Link>
-//                 </button1>
-//                 <button2 to='/editFeedback'>
-//                     <Nav.Link>
-//                     <FaSignInAlt className="se-2" /> Edit Feedback!
-//                     </Nav.Link>
-//                 </button2>
-//                 </>
-//                     </Col>
-//                     <Col xs={12} md={6} className='card p-5' style={{ backgroundColor: 'rgba(255, 255, 255, 0.8)' }}>
-//                         {children}
-//                     </Col>
-
-//                 </Row>
-//             </Container>
-//         </div>
-//     );
-// };
-
-// export default FeedbackContainer;
-
 import React from "react";
 import { Button, Container, Row, Col } from "react-bootstrap";
 import img2 from "../assets/npic2.jpg";
+import { Link } from "react-router-dom";
 
 const FeedbackContainer = ({ children }) => {
   return (
@@ -91,14 +56,16 @@ const FeedbackContainer = ({ children }) => {
             <br></br> */}
 
             <div className="d-flex justify-content-center mt-3">
-              <Button
-                type="submit"
-                variant="primary"
-                size="lg"
-                style={{ width: "300px" , border: "1px solid #007bff"}} // Adjust the width and color as needed
-              >
-                View Others Feedbacks
-              </Button>
+              <Link to="/viewfeedback">
+                <Button
+                  type="submit"
+                  variant="primary"
+                  size="lg"
+                  style={{ width: "300px", border: "1px solid #007bff" }} // Adjust the width and color as needed
+                >
+                  View Others Feedbacks
+                </Button>
+              </Link>
             </div>
 
             <br></br>
