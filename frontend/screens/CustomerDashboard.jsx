@@ -1,6 +1,6 @@
 import React from 'react'
 import CusSlider from '../src/components/CusSlidebar.jsx'
-import Content from '../src/components/Content.jsx'
+import Cuscontent from '../src/components/Cuscont.jsx'
 import '../src/Styles/Admindashboard.css';
 import Profile from '../src/components/Profile.jsx';
 
@@ -9,7 +9,7 @@ const AdminDashboard = () => {
     <div className='dashboard'>
       <CusSlider/>
       <div className="dashboard--content">
-        <Content />
+        <Cuscontent />
         <Profile />
 
         

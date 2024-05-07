@@ -61,8 +61,8 @@ const Header = () => {
           <LinkContainer to="/inquire" style={{ marginRight: "auto" }}>
             <Nav.Link className={location.pathname === "/inquire" ? "nav-link active" : "nav-link"} >Inquires</Nav.Link>
           </LinkContainer>
-          <LinkContainer to="/inquire" style={{ marginRight: "200px" }}>
-            <Nav.Link className={location.pathname === "/inquire" ? "nav-link active" : "nav-link"} >Services</Nav.Link>
+          <LinkContainer to="/service" style={{ marginRight: "200px" }}>
+            <Nav.Link className={location.pathname === "/service" ? "nav-link active" : "nav-link"} >Services</Nav.Link>
           </LinkContainer>
           {userInfo ? (
             <NavDropdown title={`Welcome ${userInfo.name}`} id="username-dropdown">

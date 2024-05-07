@@ -17,6 +17,13 @@ export const recordApiSlice = apiSlice.injectEndpoints({
                 method: 'GET'
             })
         }),
+        getRecordsByEmail: builder.query({ // Add a new query for fetching records by user's email
+            query: (cemail) => ({
+                url: `${USERS_URL}/view/${cemail}`, // Update the URL to include the email
+                method: 'GET'
+            })
+        }),
+        
         updateRecord: builder.mutation({
             query: ({ id, data }) => ({
                 url: `${USERS_URL}/updaterecords/${id}`,
@@ -37,6 +44,7 @@ export const recordApiSlice = apiSlice.injectEndpoints({
 export const {
     useInsertRecordMutation,
     useViewRecordsQuery,
+    useGetRecordsByEmailQuery,
     useUpdateRecordMutation,
     useDeleteRecordMutation
 } = recordApiSlice;

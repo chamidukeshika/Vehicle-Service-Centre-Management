@@ -5,10 +5,10 @@ import expressAsyncHandler from 'express-async-handler';
 
 const addRecords = asyncHandler(async (req, res) => {
 
-    const { cname, cemail, cphone, indate, outdate, vmodel, mileage, year, section, tname, desc, parts, cost, lcost, tcost } = req.body;
+    const { cname, cemail, cphone, indate, outdate, vmodel, mileage, year, section, tname, desc, parts, cost, lcost, tcost,userId } = req.body;
 
     const record = await Records.create({
-        cname, cemail, cphone, indate, outdate, vmodel, mileage, year, section, tname, desc, parts, cost, lcost, tcost
+        cname, cemail, cphone, indate, outdate, vmodel, mileage, year, section, tname, desc, parts, cost, lcost, tcost, userId
     });
 
     if (record) {
@@ -28,8 +28,8 @@ const addRecords = asyncHandler(async (req, res) => {
             parts: record.parts,
             cost: record.cost,
             lcost: record.lcost,
-            tcost: record, tcost
-
+            tcost: record.tcost,
+            userId: record.userId
 
         });
     } else {
@@ -87,6 +87,20 @@ const updateRecords = asyncHandler(async (req, res) => {
     }
 })
 
+const getRecordsByEmail = asyncHandler(async (req, res) => {
+    const cemail = req.params.cemail; // Assuming you're passing the email as a parameter
+
+    const recordList = await Records.find({ cemail: cemail });
+
+    if (recordList.length === 0) {
+        res.status(404).json({ message: "No records found for this email" });
+        return;
+    }
+
+    res.status(200).json(recordList);
+});
+
+
 const deleteRecords = expressAsyncHandler(async (req, res) => {
 
     const { id } = req.params;
@@ -113,5 +127,6 @@ export {
     addRecords,
     getRecords,
     updateRecords,
-    deleteRecords
+    deleteRecords,
+    getRecordsByEmail 
 }
