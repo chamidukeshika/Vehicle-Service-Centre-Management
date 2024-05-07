@@ -34,7 +34,7 @@ const Sidebar = () => {
                     My Appointments
                 </a>
 
-                <a href="/" className="item">
+                <a href="/addfeedback" className="item">
                     <BiMessage className="icon" />
                     Feedback
                 </a>

@@ -30,7 +30,6 @@ import ViewFeedbackScreen from "../screens/ViewFeedbackScreen.jsx";
 import ViewFeedbackAdmin from "../screens/ViewFeedbackAdmin.jsx";
 import AddLubricant from "../screens/AddLubricant.jsx";
 import ViewLubricant from "../screens/ViewLubricant.jsx";
-import ViewFeedbackAdmin from "../screens/ViewFeedbackAdmin.jsx";
 import AddInquiryScreen from "../screens/AddInquiryScreen.jsx";
 import EditInquiryScreen from "../screens/EditInquiryScreen.jsx";
 import ViewInquiryScreen from "../screens/ViewInquiryScreen.jsx";
