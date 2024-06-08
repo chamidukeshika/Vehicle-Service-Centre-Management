@@ -6,7 +6,7 @@ import AppointmentForm from "../src/components/AppointmentForm";
 import { toast } from "react-toastify";
 import Loader from "../src/components/Loader";
 import { useInsertAppMutation } from "../slices/appointmentSlice.js";
-
+//adding
 const AddAppointment = () => {
   const [vname, setName] = useState("");
   const [vbrand, setBrand] = useState("");
