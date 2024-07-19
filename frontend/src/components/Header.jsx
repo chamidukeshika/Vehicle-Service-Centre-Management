@@ -47,7 +47,7 @@ const Header = () => {
             <LinkContainer to='/spareparts' >
               <NavDropdown.Item>Vehicle Spare Parts</NavDropdown.Item>
             </LinkContainer>
-            <LinkContainer to='/lubricants'>
+            <LinkContainer to='/listlubricant/add'>
               <NavDropdown.Item>Lubricants</NavDropdown.Item>
             </LinkContainer>
             <NavDropdown.Divider />
@@ -55,8 +55,8 @@ const Header = () => {
               <NavDropdown.Item>Request Part</NavDropdown.Item>
             </LinkContainer>
           </NavDropdown>
-          <LinkContainer to="/app/addapp" style={{ marginRight: "50px" }}>
-            <Nav.Link className={location.pathname === "/app/addapp" ? "nav-link active" : "nav-link"} >Make Appointment</Nav.Link>
+          <LinkContainer to="/app/cus" style={{ marginRight: "50px" }}>
+            <Nav.Link className={location.pathname === "/app/cus" ? "nav-link active" : "nav-link"} >Make Appointment</Nav.Link>
           </LinkContainer>
           <LinkContainer to="/inquire" style={{ marginRight: "auto" }}>
             <Nav.Link className={location.pathname === "/inquire" ? "nav-link active" : "nav-link"} >Inquires</Nav.Link>

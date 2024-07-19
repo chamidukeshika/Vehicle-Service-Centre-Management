@@ -28,6 +28,11 @@ const OrderSchema = mongoose.Schema({
         type:Date,
         required:true
     },
+     userid: {
+        type: String,
+        required: true
+        // If this field is optional, you can remove the required attribute
+    }
 
 },
     {
@@ -36,4 +41,4 @@ const OrderSchema = mongoose.Schema({
 
     const Orders = mongoose.model('Orders', OrderSchema);
 
-export default Orders
+export default Orders

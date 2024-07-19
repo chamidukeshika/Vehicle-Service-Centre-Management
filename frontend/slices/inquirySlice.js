@@ -1,4 +1,5 @@
 import { apiSlice } from "./apiSlice";
+
 const inq_URL = '/api/inquiry';
 
 export const inquiryApiSlice = apiSlice.injectEndpoints({
@@ -17,7 +18,7 @@ export const inquiryApiSlice = apiSlice.injectEndpoints({
             })
         }),
         updatei: builder.mutation({
-            query: (id, data) => ({
+            query: ({id, data}) => ({
                 url: `${inq_URL}/updateinquiry/${id}`,
                 method: 'PUT',
                 body: data
@@ -25,16 +26,16 @@ export const inquiryApiSlice = apiSlice.injectEndpoints({
         }),
         deletei: builder.mutation({
             query: (id) => ({
-                url: `${inq_URL}/deleteinquiry/${id}`, // assuming delete endpoint is /api/admin/equipments/delete/:id
+                url: `${inq_URL}/deleteinquiry/${id}`,
                 method: 'DELETE'
             })
         })
     })
-})
+});
 
 export const {
     useInsertiMutation,
     useViewiQuery,
     useUpdateiMutation,
-    useDeleteiMutation
+    useDeleteiMutation // Corrected export name
 } = inquiryApiSlice;

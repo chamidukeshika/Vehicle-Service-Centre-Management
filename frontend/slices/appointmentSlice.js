@@ -18,6 +18,14 @@ const appointApiSlice = apiSlice.injectEndpoints({
                 method: 'GET'
             })
         }),
+        //me tika
+        viewAppById: builder.query({
+            query: (Id) => ({
+                url: `${APPOINT_URL}/viewapp/${Id}`,
+                method: 'GET'
+            })
+        }),
+        //methanta
         updateApp: builder.mutation({
             query: ({ id, data }) => ({
                 url: `${APPOINT_URL}/update/${id}`,
@@ -38,5 +46,6 @@ export const {
     useInsertAppMutation,
     useViewAppQuery,
     useUpdateAppMutation,
-    useDeleteAppMutation
+    useDeleteAppMutation,
+    useViewAppByIdQuery
 } = appointApiSlice;

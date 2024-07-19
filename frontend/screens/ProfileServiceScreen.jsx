@@ -90,7 +90,7 @@ const ProfileServiceScreen = () => {
         <Container style={{backgroundColor:"white",maxHeight:"100%"}}>
            <h1 className="text-center text-black" style={{ marginTop: "10px", padding: "50px" }}>My Service History </h1>
 
-            <img src={img} alt="logo" style={{ width: '150px', height: 'auto', marginLeft: "1150px",marginTop:"-150px" }} />
+            <img src={img} alt="logo" style={{ width: '150px', height: 'auto', marginLeft: "950px",marginTop:"-150px" }} />
 
             <Form.Group controlId="search" className="mb-2" style={{ maxWidth: "100%" }}>
                 <div className="position-relative" >

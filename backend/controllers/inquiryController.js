@@ -5,7 +5,7 @@ import expressAsyncHandler from 'express-async-handler';
 
 const addInquiry = asyncHandler(async (req, res) => {
 
-    const { name,email,contactNumber,inquiryType,pdate,inquirySubject,description,cus_id, } = req.body;
+    const { name, email, contactNumber, inquiryType, pdate, inquirySubject, description, cus_id, response } = req.body;
 
     const inquiry = await Inquiries.create({
         name,
@@ -16,19 +16,21 @@ const addInquiry = asyncHandler(async (req, res) => {
         inquirySubject,
         description,
         cus_id,
+        response,
     });
 
     if (inquiry) {
         res.status(201).json({
-            _id: inquiry._id, 
+            _id: inquiry._id,
             name: inquiry.name,
             email: inquiry.email,
-            contactNumber: inquiry.contactNumber,
-            inquiryType:inquiry.inquiryType,
+            ContactNumber: inquiry.contactNumber,
+            inquiryType: inquiry.inquiryType,
             pdate: inquiry.pdate,
-            inquirySubject:inquiry.inquirySubject,
+            inquirySubject: inquiry.inquirySubject,
             description: inquiry.description,
-            cus_id:inquiry.cus_id,
+            cus_id: inquiry.cus_id,
+            response: inquiry.response,
         });
     } else {
         res.status(400);
@@ -37,8 +39,9 @@ const addInquiry = asyncHandler(async (req, res) => {
 });
 
 
+
 const getInquiries = expressAsyncHandler(async (req, res) => {
-    
+
     const inquiryList = await Inquiries.find({});
 
     if (inquiryList.length === 0) {
@@ -53,8 +56,10 @@ const getInquiries = expressAsyncHandler(async (req, res) => {
 
 const updateInquiries = asyncHandler(async (req, res) => {
 
-    const { id } = req.body;
-    
+    const { id } = req.params;
+
+
+
     const inquiries = await Inquiries.findById(id);
 
     if (inquiries) {
@@ -65,11 +70,11 @@ const updateInquiries = asyncHandler(async (req, res) => {
         inquiries.pdate = req.body.pdate || inquiries.pdate;
         inquiries.inquirySubject = req.body.inquirySubject || inquiries.inquirySubject;
         inquiries.description = req.body.description || inquiries.description;
-
+        inquiries.response = req.body.response || inquiries.response;
         const updateInquiries = await inquiries.save();
 
         res.status(200).json({
-            message: 'Update Inquiry Successfully' ,updateInquiries
+            message: 'Update Inquiry Successfully', updateInquiries
         })
     } else {
         res.status(404);
@@ -78,8 +83,8 @@ const updateInquiries = asyncHandler(async (req, res) => {
 })
 
 const deleteInquiry = expressAsyncHandler(async (req, res) => {
-    
-    const { id } = req.body;
+
+    const { id } = req.params;
 
     const inquirydelete = await Inquiries.findByIdAndDelete(id);
 
@@ -91,9 +96,6 @@ const deleteInquiry = expressAsyncHandler(async (req, res) => {
 
     }
 })
-
-
-
 
 
 

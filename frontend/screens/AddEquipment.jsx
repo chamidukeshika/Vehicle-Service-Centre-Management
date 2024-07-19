@@ -84,7 +84,7 @@ const AddEquipment = () => {
             <div className="d-flex justify-content-center mt-5">
                 <div className="btn-group" role="group" aria-label="Basic radio toggle button group">
                     <input type="radio" className="btn-check" name="btnradio" id="btnradio1" autoComplete="off"  checked />
-                    <label className="btn btn-outline-primary btn-lg" htmlFor="btnradio1" onClick={handleaddClick}>Add Equipment</label>
+                    <label className="btn btn-outline-primary btn-lg" htmlFor="btnradio1" onClick={handleaddClick}style={{ backgroundColor: 'rgba(255, 255, 255, 0.8)',color: 'black' }}>Add Equipment</label>
 
                     <input type="radio" className="btn-check" name="btnradio" id="btnradio2" autoComplete="off" />
                     <label className="btn btn-outline-primary btn-lg" htmlFor="btnradio2" onClick={handleviewClick} style={{ backgroundColor: 'rgba(0, 0, 0, 0.8)',color: 'white' }} >Equip. Inventory</label>
@@ -125,7 +125,7 @@ const AddEquipment = () => {
                             required={true}
                             value={section}
                             onChange={(e) => setSection(e.target.value)}
-                            style={{ padding: "10px" }}
+                            style={{ padding: "10px",height:"40px" }}
                         >
                             <option value="" >Select Section</option>
                             <option value="Service" >Service Section</option>
@@ -170,6 +170,7 @@ const AddEquipment = () => {
                                     value={tprice}
                                     onChange={(e) => setTprice(e.target.value)}
                                     style={{ padding: "10px" }}
+                                    disabled
                                 />
                             </Form.Group></Col></Row>
 

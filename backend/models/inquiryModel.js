@@ -40,7 +40,12 @@ const inquirySchema = mongoose.Schema({
     cus_id:{
         type: String,
         required:true
+    },
+
+    response:{
+        type: String,
     }
+
 },
     {
         timestamps: true
@@ -48,5 +53,4 @@ const inquirySchema = mongoose.Schema({
 
     const Inquiry = mongoose.model('Inquiry', inquirySchema);
 
-export default Inquiry
-
+export default Inquiry

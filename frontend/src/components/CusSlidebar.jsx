@@ -21,11 +21,11 @@ const Sidebar = () => {
                     <BiTask className="icon" />
                     My Services
                 </a>
-                <a href="/" className="item">
+                <a href="/orders/cus" className="item">
                     <BiPackage className="icon" />
                     My Orders
                 </a>
-                <a href="/" className="item">
+                <a href="/payment/cus" className="item">
                     <BiMoney className="icon" />
                     Payment Details
                 </a>

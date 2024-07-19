@@ -1,13 +1,26 @@
-import React, { useState, useEffect, useRef } from "react"; // Importing useRef
+import React, { useState, useEffect, useRef } from "react";
 import { Link } from 'react-router-dom';
 import { Container, Form, Table, OverlayTrigger, Tooltip, Modal, Button } from "react-bootstrap";
 import { toast } from "react-toastify";
 import Loader from "../src/components/Loader";
 import { useReactToPrint } from "react-to-print";
-import { useViewoQuery, useUpdateoMutation, useDeleteoMutation } from '../slices/orderApiSlice.js';
+import { useSelector } from 'react-redux'; // Importing useSelector from Redux
+import { useViewoQuery,useViewOrderByIdQuery, useUpdateoMutation, useDeleteoMutation } from '../slices/orderApiSlice.js';
 
-const ViewOrders = () => {
-  const { data: orders, refetch } = useViewoQuery();
+
+const ViewCusOrders = () => {
+    const { userInfo } = useSelector((state) => state.auth); // Using useSelector from Redux
+
+    // Handling the case where userInfo is null
+    if (!userInfo) {
+        // You can return some JSX here or handle it in a way appropriate for your application
+        return <div>User information is not available</div>;
+    }
+
+    const { _id: userId } = userInfo;
+    const { data: orders, refetch } = useViewOrderByIdQuery(userId);
+
+
   const [searchTerm, setSearchTerm] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const [showUpdateModal, setShowUpdateModal] = useState(false);
@@ -140,7 +153,7 @@ const ViewOrders = () => {
           borderRadius: "10px",
         }}
       >
-        <h1 className="text-center text-black mb-4 mt-8">View Orders</h1>
+        <h1 className="text-center text-black mb-4 mt-8">Customer Orders</h1>
         {/* Search Input */}
 
         <div style={{ display: 'flex' }}>
@@ -161,7 +174,7 @@ const ViewOrders = () => {
       Add Order
     </button>
   </Link>
-  <Link to="../delivery/View">
+  <Link to="../delivery/cus">
     <button
       type="button"
       className="btn btn-primary"
@@ -412,4 +425,4 @@ const ViewOrders = () => {
   );
 }; 
 
-export default ViewOrders;
+export default ViewCusOrders;

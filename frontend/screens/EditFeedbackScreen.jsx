@@ -13,13 +13,15 @@ import {
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import Loader from "../src/components/Loader";
+import {  useSelector } from "react-redux";
 import {
-  useViewfQuery,
   useUpdatefMutation,
   useDeletefMutation,
+  useViewByIdQuery
 } from "../slices/feedbackSlice.js";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import EditFeedbackContainer from "../src/components/EditFeedbackContainer.jsx";
+import User from "../../backend/models/userModels.js";
 
 // Function to render a tooltip for the edit button
 const renderEditTooltip = (props) => (
@@ -36,7 +38,12 @@ const renderDeleteTooltip = (props) => (
 );
 
 const EditFeedbackScreen = () => {
-  const { data: feedbacks, refetch } = useViewfQuery();
+
+
+  const { userInfo } = useSelector((state) => state.auth);
+    const { _id: userId } = userInfo;
+
+  const { data: feedbacks, refetch } = useViewByIdQuery(userId);
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [showUpdateModal, setShowUpdateModal] = useState(false);
@@ -178,11 +185,11 @@ const EditFeedbackScreen = () => {
           <EditFeedbackContainer>
             <h3> Want to change your feedback? </h3>
             {currentItems.map((item) => (
-              <div key={item._id}>
-                <h6>UserId : {item._id || "empty"}</h6>
+              <div key={item._id}><br/>
+                
                 <h6> Email : {item.email || "empty"}</h6>
                 <h6>Order Id : {item.OrderID || "empty"}</h6>
-                <p>{item.addFeedback || "empty"}</p>
+                <h6>Feedback :{item.addFeedback || "empty"}</h6>
 
                 <OverlayTrigger placement="top" overlay={renderEditTooltip}>
                   <div className="d-flex justify-content-center mt-3">

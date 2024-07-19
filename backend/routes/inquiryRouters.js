@@ -6,7 +6,7 @@ const inquiryrouter = express.Router();
 
 inquiryrouter.post('/addinquiry', addInquiry);
 inquiryrouter.get('/viewinquiry', getInquiries);
-inquiryrouter.put('/updateinquiry', updateInquiries);
-inquiryrouter.delete('/deleteinquiry',deleteInquiry);
+inquiryrouter.put('/updateinquiry/:id', updateInquiries);
+inquiryrouter.delete('/deleteinquiry/:id',deleteInquiry);
 
 export default inquiryrouter;

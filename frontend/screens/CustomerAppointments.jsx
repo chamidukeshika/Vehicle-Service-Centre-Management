@@ -1,12 +1,18 @@
 import React, { useState, useEffect, useRef } from "react";
+import {  useSelector } from "react-redux";
 import { Container, Table, Button, Modal, Form } from "react-bootstrap";
-import { useViewAppQuery, useUpdateAppMutation, useDeleteAppMutation } from '../slices/appointmentSlice';
+import { useViewAppByIdQuery, useUpdateAppMutation, useDeleteAppMutation } from '../slices/appointmentSlice';
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { useReactToPrint } from "react-to-print";
 
-const AppointmentView = () => {
-  const { data: appointments, refetch } = useViewAppQuery();
+const CustomerAppointments = () => {
+//me tika
+    const { userInfo } = useSelector((state) => state.auth);
+    const { _id: userId } = userInfo;
+    const { data: appointments, refetch } = useViewAppByIdQuery(userId);
+ //methanta 
+
   const [showUpdateModal, setShowUpdateModal] = useState(false);
   const [selectedAppointment, setSelectedAppointment] = useState(null);
   const [editedAppointment, setEditedAppointment] = useState(null);
@@ -108,37 +114,12 @@ const AppointmentView = () => {
     setCurrentPage(page);
   };
 
-//Report Generation
   const ComponentsRef = useRef();
   const handlePrint = useReactToPrint({
     content: () => ComponentsRef.current,
     documentTitle: "Users Report",
     onAfterPrint: () => alert("Users Report Successfully Downloaded!"),
   });
-//Send Mail
-  const handleSendReport = () => {
-    // Create the email parameters
-    const emailAddress = "sumethvindinu@gmail.com";
-    const subject = " Regarding the Appointment Issue";
-    const body = `
-Dear [Recipient's Name],
-
-Our appointment system requires immediate attention due to an identified issue. Your prompt action is appreciated to resolve this matter efficiently.
-
-Thank you.
-
-Best regards,
-Matara Mortors
-`;
-
-
-    // Create the mailto link
-    const mailtoUrl = `mailto:${emailAddress}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-
-    // Open the default email client with the mailto link
-    window.location.href = mailtoUrl;
-}
-
 
   const renderAppointments = () => {
     if (!appointments) return null;
@@ -155,7 +136,7 @@ Matara Mortors
     const currentAppointments = filteredAppointments.slice(indexOfFirstItem, indexOfLastItem);
 
     return (
-      <Table striped bordered hover ref={ComponentsRef}  style={{ backgroundColor: "white" }}>
+      <Table striped bordered hover ref={ComponentsRef} style={{ backgroundColor: "white" }}>
         <thead>
           <tr>
             <th>Vehicle Name</th>
@@ -164,7 +145,7 @@ Matara Mortors
             <th>Service Type</th>
             <th>Service Date</th>
             <th>Service Time</th>
-            <th>Email</th>
+            
             <th>Actions</th>
           </tr>
         </thead>
@@ -177,7 +158,7 @@ Matara Mortors
               <td>{appointment.stype}</td>
               <td>{new Date(appointment.sdate).toLocaleDateString()}</td>
               <td>{appointment.stime}</td>
-              <td>{appointment.email}</td>
+              
               <td>
                 <Button onClick={() => handleEdit(appointment)}>Edit</Button>
                 <Button variant="danger" onClick={() => handleDeleteClick(appointment._id)}>Delete</Button>
@@ -191,21 +172,19 @@ Matara Mortors
 
   return (
     <Container>
-      <h1>View Appointments</h1>
+      <h1>View Customer Appointments</h1>
       <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "5px" }}>
-  <button onClick={addPaymentHandle} style={{ marginLeft: "700px" }} type="button" className="btn btn-primary">Add Appointment</button>
-  <button onClick={handlePrint} style={{ marginLeft: "0px" }} type="button" className="btn btn-primary">Download Report</button>
-  <button onClick={handleSendReport} type="button" className="btn btn-primary">Send Email</button>
-</div>
-<Form.Group controlId="search">
-  <Form.Control
-    type="text"
-    placeholder="Search..."
-    value={searchTerm}
-    onChange={(e) => setSearchTerm(e.target.value)}
-    
-  />
-</Form.Group>
+        <button onClick={addPaymentHandle} type="button" className="btn btn-primary">Add Appointment</button>
+        <button onClick={handlePrint} type="button" className="btn btn-primary">Download Report</button>
+      </div>
+      <Form.Group controlId="search">
+        <Form.Control
+          type="text"
+          placeholder="Search..."
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+        />
+      </Form.Group>
       {renderAppointments()}
       <div className="d-flex justify-content-between">
         <Button onClick={handlePrevPage} disabled={currentPage === 1}>Previous</Button>
@@ -214,6 +193,8 @@ Matara Mortors
       <div className="text-center mt-3">
         Page {currentPage} of {totalPages}
       </div>
+
+      {/* Update Modal */}
       <Modal show={showUpdateModal} onHide={() => setShowUpdateModal(false)}>
         <Modal.Header closeButton>
           <Modal.Title>Edit Appointment</Modal.Title>
@@ -248,14 +229,18 @@ Matara Mortors
               />
             </Form.Group>
             <Form.Group controlId="formServiceType">
-              <Form.Label>Service Type</Form.Label>
-              <Form.Control 
-                type="text" 
-                placeholder="Enter service type" 
-                value={editedAppointment?.stype || ""} 
-                onChange={(e) => handleInputChange(e, 'stype')} 
-              />
-            </Form.Group>
+  <Form.Label>Service Type</Form.Label>
+  <Form.Select
+    value={editedAppointment?.stype || ""}
+    onChange={(e) => handleInputChange(e, 'stype')}
+  >
+    <option value="">Select Service Type</option>
+    <option value="Full Service">Full Service</option>
+    <option value="Body Wash">Body Wash</option>
+    <option value="Repair">Repair</option>
+  </Form.Select>
+</Form.Group>
+
             <Form.Group controlId="formServiceDate">
               <Form.Label>Service Date</Form.Label>
               <Form.Control 
@@ -305,4 +290,4 @@ Matara Mortors
   );
 };
 
-export default AppointmentView;
+export default CustomerAppointments;

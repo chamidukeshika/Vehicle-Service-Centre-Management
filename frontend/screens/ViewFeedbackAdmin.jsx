@@ -86,7 +86,7 @@ const ViewFeedbackAdmin = () => {
     }
   }
 
-
+  const { userInfo } = useSelector((state) => state.auth);
   const deleteHandler = async (id) => {
     try {
       console.log(`Deleting item with id ${id}`);
@@ -127,10 +127,10 @@ const generateReport = () => {
   doc.setFontSize(18);
   doc.text("Feedback Report", 14, 22);
 
-  const tableColumns = ["UserID", "Email", "Order ID", "Feedback"];
+  const tableColumns = ["User Name", "Email", "Order ID", "Feedback"];
 
   const tableRows = currentItems.map((item) => [
-    item.userid || "N/A",
+    item.email? item.email.replace('@gmail.com', '') : "empty",
     item.email || "N/A",
     item.OrderID || "N/A",
     item.addFeedback || "N/A",
@@ -183,7 +183,7 @@ const generateReport = () => {
           <Table striped hover className="mb-4" borderless style={{ textAlign: "center" }} >
             <thead>
               <tr>
-                <th>UserID</th>
+                <th>User Name</th>
                 <th>Email</th>
                 <th>Order ID</th>
                 <th>Feedback</th>
@@ -194,7 +194,7 @@ const generateReport = () => {
               {currentItems.map((item) => (
                 
                 <tr key={item._id}>
-                  <td>{item._id || "empty" }</td>
+                  <td>{item.email? item.email.replace('@gmail.com', '') : "empty"}</td>
                   <td>{item.email  || "empty"}</td>
                   <td>{item.OrderID  || "empty"}</td>
                   <td>{item.addFeedback  || "empty"}</td>

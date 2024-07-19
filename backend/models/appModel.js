@@ -25,6 +25,10 @@ const appointmentsSchema = mongoose.Schema({
         type: String,
         required: true
     },
+    email: {
+        type: String,
+        required: true
+    },
     userid: {
         type: String,
         required: true
@@ -36,4 +40,4 @@ const appointmentsSchema = mongoose.Schema({
 
 const Appointments = mongoose.model('Appointments', appointmentsSchema);
 
-export default Appointments;
+export default Appointments;

@@ -71,16 +71,44 @@ const ViewEquipment = () => {
     doc.autoTable({ html: '#equipment-table', startY: 50 }); // Adjust startY as needed
 
     doc.save('equipment_report.pdf');
-};
+  };
 
+  // Function to send email
+  const sendEmail = () => {
+    // Construct email content
+    const emailaddress = "chamidukeshikaz@gmail.com";
+    const subject = "Equipment Inventory Report"
+    let body = `Report Created: ${new Date().toLocaleString()}\n\n`;
+  
+    items.forEach(item => {
+      body += `Name: ${item.name}\t
+      Section: ${item.section}\t
+      Price: ${item.price}\t
+      Quantity: ${item.qty}\t
+      Total Price: ${item.tprice}\t
+      Manufacture Date: ${new Date(item.mdate).toLocaleDateString()}\t
+      Rental Date: ${new Date(item.rdate).toLocaleDateString()}\t
+      Description: ${item.desc}\n\n\n`;
+    });
+  
+    // Here, you would implement the logic to send the email using your email service or API
+    console.log("Sending email with content:", body);
+    // Replace the console.log with your email sending logic
+    // Create the mailto link
+    const mailtoUrl = `mailto:${emailaddress}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+  
+    // Open the default email client with the mailto link
+    window.location.href = mailtoUrl;
+  };
+  
 
   const handleNextPage = () => {
     setCurrentPage(currentPage + 1);
-  }
+  };
 
   const handlePrevPage = () => {
     setCurrentPage(currentPage - 1);
-  }
+  };
 
   const filteredItems = items && items.length > 0 ? items.filter(item => {
     return (
@@ -107,7 +135,7 @@ const ViewEquipment = () => {
       console.error("Item not found");
       toast.error('Item not found');
     }
-  }
+  };
 
   const handleUpdate = async () => {
     try {
@@ -129,7 +157,7 @@ const ViewEquipment = () => {
     } finally {
       setIsLoading(false); // Reset loading state after update operation is completed
     }
-  }
+  };
 
 
   const deleteHandler = async (id) => {
@@ -147,7 +175,7 @@ const ViewEquipment = () => {
       console.error(err);
       toast.error('An error occurred while deleting the record');
     }
-  }
+  };
 
   const handleInputChange = (e, fieldName) => {
     const { value } = e.target;
@@ -167,7 +195,7 @@ const ViewEquipment = () => {
         [fieldName]: value
       }));
     }
-  }
+  };
 
 
   const handleUpdateModalClose = () => {
@@ -198,11 +226,11 @@ const ViewEquipment = () => {
           <label className="btn btn-outline-primary btn-lg" htmlFor="btnradio1" onClick={handleaddClick} style={{ backgroundColor: 'rgba(0, 0, 0, 0.8)', color: 'white' }} >Add Equipment</label>
 
           <input type="radio" className="btn-check" name="btnradio" id="btnradio2" autoComplete="off" checked />
-          <label className="btn btn-outline-primary btn-lg" htmlFor="btnradio2" onClick={handleviewClick} >Equip. Inventory</label>
+          <label className="btn btn-outline-primary btn-lg" htmlFor="btnradio2" onClick={handleviewClick} style={{ backgroundColor: 'rgba(255, 255, 255, 0.8)',color: 'black' }}>Equip. Inventory</label>
         </div>
       </div>
       <div className=" d-flex justify-content-center align-items-center mt-5">
-        <Container style={{ backgroundColor: "rgba(255, 255, 255, 0.7)", padding: "20px", borderRadius: "10px" }}>
+        <Container style={{ backgroundColor: "rgba(255, 255, 255, 0.8)", padding: "20px", borderRadius: "10px" }}>
           <h1 className="text-center text-black mb-4">View Equipments</h1>
           <Form.Group controlId="search " style={{ float: "left", width: "300px", boxShadow: " 0px 0px 3px 2px rgba(0, 0, 0, 0.3)", borderRadius: "50px", }}>
             <div className="position-relative">
@@ -229,7 +257,8 @@ const ViewEquipment = () => {
               </ul>
             </nav>
           </div>
-          <Button  onClick={generateReport}  className="btn btn-primary" style={{float:"right" ,marginRight:"10px"}}> <i className="bi bi-file-pdf"> Report</i></Button>
+          <Button onClick={generateReport} className="btn btn-primary" style={{ float: "right", marginRight: "10px" }}> <i className="bi bi-file-pdf"> Report</i></Button>
+          <Button onClick={sendEmail} className="btn btn-primary" style={{ float: "right", marginRight: "10px" }}> <i className="bi bi-envelope"> Send Email</i></Button>
 
           {currentItems.length > 0 ? (
             <Table striped hover className="mb-4" style={{ textAlign: "center" }} id="equipment-table">
@@ -271,7 +300,7 @@ const ViewEquipment = () => {
                         placement="top"
                         overlay={renderDeleteTooltip}
                       >
-                        <Button onClick={() => handleDeleteClick(item._id)} variant="danger">
+                        <Button onClick={() => handleDeleteClick(item._id)} variant="danger"style={{marginLeft:"10px"}}>
                           <i className="bi bi-trash"></i>
                         </Button>
                       </OverlayTrigger>
@@ -325,7 +354,7 @@ const ViewEquipment = () => {
                     as="select"
                     value={editedItem?.section || ''}
                     onChange={(e) => handleInputChange(e, 'section')}
-                    style={{ padding: "10px" }}
+                    style={{ padding: "10px" ,height:"40px"}}
                   >
                     <option value="">Select Section</option>
                     <option value="Service">Service Section</option>
@@ -379,8 +408,8 @@ const ViewEquipment = () => {
                     <Form.Group controlId="mdate">
                       <Form.Label>Maintenance Date:</Form.Label>
                       <Form.Control
-                        type='date'
-                        value={editedItem?.mdate || ''}
+                        type='text'
+                        value={new Date(editedItem?.mdate).toLocaleDateString() || ''}
                         onChange={(e) => handleInputChange(e, 'mdate')}
                         style={{ padding: "10px" }}
                       />
@@ -390,8 +419,8 @@ const ViewEquipment = () => {
                     <Form.Group controlId="rdate">
                       <Form.Label>Repair Date:</Form.Label>
                       <Form.Control
-                        type='date'
-                        value={editedItem?.rdate || ''}
+                        type='text'
+                        value={new Date(editedItem?.rdate).toLocaleDateString() || ''}
                         onChange={(e) => handleInputChange(e, 'rdate')}
                         style={{ padding: "10px" }}
                       />
@@ -423,7 +452,8 @@ const ViewEquipment = () => {
           </Modal>
 
         </Container>
-      </div></>
+      </div>
+    </>
   );
 };
 

@@ -13,6 +13,7 @@ import cors from 'cors';
 import recordrouter from './routes/recordRoutes.js';
 import approuter from './routes/appRouters.js';
 import lubricantrouter from './routes/lubricantRoutes.js';
+import deliveryrouter from './routes/deliveryRouters.js'
 
 dotenv.config();
 const app = express();
@@ -34,6 +35,7 @@ app.use('/api/admin/equipments', irouter);
 app.use('/api/records', recordrouter);
 app.use('/api/inquiry', inquiryrouter);
 app.use('/api/orders', orderrouter);
+app.use('/api/delivery', deliveryrouter);
 app.use('/api/app', approuter);
 app.use('/api/feedback', feedbackroutes);
 app.use('/api/lubricant', lubricantrouter);

@@ -2,10 +2,29 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { Form, Button, Row, Col } from 'react-bootstrap';
-import LubricantForm from '../src/components/LubricantForm';
+import LubricantForm from '../src/components/LubricantForm'; 
 import { toast } from 'react-toastify';
 import Loader from '../src/components/Loader';
 import { useInsertLMutation } from '../slices/lubricantSlice';
+import { initializeApp } from "firebase/app";
+import 'firebase/compat/storage'
+import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
+
+
+
+// Firebase configuration
+const firebaseConfig = {
+  apiKey: "AIzaSyCFqgIZp0GtulWm9KOzlCtzru_13BduYeo",
+  authDomain: "tharindu-be5ac.firebaseapp.com",
+  projectId: "tharindu-be5ac",
+  storageBucket: "tharindu-be5ac.appspot.com",
+  messagingSenderId: "619854792324",
+  appId: "1:619854792324:web:6c58372dfe1db211e4a4d1"
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const storage = getStorage(app); // Initialize Firebase Storage
 
 const AddLubricant = () => {
     const [name, setName] = useState('');
@@ -15,13 +34,51 @@ const AddLubricant = () => {
     const [cost, setCost] = useState('');
     const [description, setDescription] = useState('');
     const [volume, setVolume] = useState('');
+    const [img, setimg] = useState("");
+    const [uploadProgress, setUploadProgress] = useState(0);
 
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
     const [insertL, { isLoading }] = useInsertLMutation();
     const { userInfo } = useSelector((state) => state.auth);
-    const userId = userInfo._id;
+    const userId = userInfo ? userInfo._id : '';
+
+    const handleUpload = async (e) => {
+        const selectedFile = e.target.files[0];
+        
+        if (selectedFile) {
+            const fileRef = ref(storage, selectedFile.name);
+            const uploadTask = uploadBytesResumable(fileRef, selectedFile);
+    
+            uploadTask.on('state_changed', 
+                (snapshot) => {
+                    // Track upload progress
+                    const progress = Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100);
+                    setUploadProgress(progress);
+                },
+                (error) => {
+                    // Handle upload error
+                    console.error('Upload error:', error);
+                    // Optionally, provide feedback to the user
+                },
+                () => {
+                    // Upload complete
+                    getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+                        console.log('File available at', downloadURL);
+                        setimg(downloadURL);
+                    }).catch((error) => {
+                        // Handle getDownloadURL error
+                        console.error('Error getting download URL:', error);
+                        // Optionally, provide feedback to the user
+                        toast.error('An error occurred while retrieving the download URL.');
+                    });
+                }
+            );
+        } else {
+            console.log('No file selected');
+        }
+    };
 
     const submitHandler = async (e) => {
         e.preventDefault();
@@ -41,7 +98,7 @@ const AddLubricant = () => {
                     cost,
                     description,
                     volume,
-                    userId,
+                    img,
                 };
 
                 const res = await insertL(formData).unwrap();
@@ -144,6 +201,18 @@ const AddLubricant = () => {
                             onChange={(e) => setDescription(e.target.value)}
                         />
                     </Form.Group>
+                    <div className="form-group">
+                    <label htmlFor="img">Upload Slip:</label>
+                    <input type="file" id="img" onChange={handleUpload} required />
+                </div>
+                <div
+                     class="mt-4 text-sm text-gray-500 dark:text-gray-300"
+                 id="user_avatar_help"
+                     >
+                      A Upload Slip shoul be SVG , PNG ,JPG or JPEG
+        
+                     <p>Upload Progress: {uploadProgress}%</p>
+                </div>
 
                     {isLoading && <Loader />}
 
@@ -157,4 +226,4 @@ const AddLubricant = () => {
     );
 };
 
-export default AddLubricant;
+export default AddLubricant;

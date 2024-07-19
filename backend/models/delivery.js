@@ -1,41 +1,39 @@
 import mongoose from "mongoose";
 
-const paymentSchema = mongoose.Schema({
+const DeliverySchema = mongoose.Schema({
 
-    FirstName: {
+    name: {
         type: String,
         required:true
     },
 
-    LastName: {
-        type: String,
+    telephone: {
+        type: Number,
         required:true
     },
 
-    CardNo: {
+    address: {
         type: String,
         required:true
     },
-    ExpDate: {
+    pDate: {
         type: Date,
         required:true
     },
-    cvvNum: {
-        type: String,
+    eDate: {
+        type: Date,
         required:true
     },
     userid: {
         type: String,
         required:true
-        // If this field is optional, you can remove the required attribute
     }
-   
 
 },
     {
         timestamps: true
     });
 
-    const Payments = mongoose.model('Payments', paymentSchema);
+    const Deliverys = mongoose.model('Delivery', DeliverySchema);
 
-export default Payments
+export default Deliverys

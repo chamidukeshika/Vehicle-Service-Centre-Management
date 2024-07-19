@@ -30,10 +30,18 @@ const lubricantsSchema = mongoose.Schema({
     volume: {
         type:String,
     },
-    userId: {
-        type: String,
-        required:true
-    }
+    img: {
+        type:String,
+    },
+    // userId: {
+    //     type: String,
+    //     required:true
+    // },
+    // imageUrl: { // Add image URL field
+    //     type: String,
+    //     required:true
+    //     // Assuming you'll store the image URL as a string
+    // }
     
 
 
@@ -44,4 +52,4 @@ const lubricantsSchema = mongoose.Schema({
 
     const Lubricants = mongoose.model('Lubricants', lubricantsSchema);
 
-export default Lubricants
+export default Lubricants

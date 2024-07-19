@@ -18,6 +18,7 @@ const AddAppointment = () => {
   const { userInfo } = useSelector((state) => state.auth);
 
   const userid = userInfo._id;
+  const email = userInfo.email;
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -49,6 +50,7 @@ const AddAppointment = () => {
             sdate,
             stime,
             userid,
+            email
           }).unwrap();
           toast.success("Appointment added successfully!");
           navigate("/app/addapp");
@@ -121,6 +123,7 @@ const AddAppointment = () => {
               placeholder="Enter Service Date"
               value={sdate}
               onChange={(e) => setDate(e.target.value)}
+              min={new Date().toISOString().split('T')[0]} // Set min attribute to today's date
             />
           </Form.Group>
 
@@ -146,4 +149,4 @@ const AddAppointment = () => {
   );
 };
 
-export default AddAppointment;
+export default AddAppointment;

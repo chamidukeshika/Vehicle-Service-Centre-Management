@@ -5,7 +5,7 @@ export const lubriApiSlice = apiSlice.injectEndpoints({
     endpoints: (builder) => ({
         insertL: builder.mutation({
             query: (data) => ({
-                url: `${LUBRI_URL}/add`,
+                url:` ${LUBRI_URL}/add`,
                 method: 'POST',
                 body: data
             })
@@ -37,4 +37,4 @@ export const {
     useViewLQuery,
     useUpdateLMutation,
     useDeleteLMutation
-} = lubriApiSlice;
+} = lubriApiSlice;

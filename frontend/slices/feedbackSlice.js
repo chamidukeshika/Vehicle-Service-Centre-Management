@@ -1,4 +1,5 @@
 import { apiSlice } from "./apiSlice";
+
 const fbk_URL = '/api/feedback';
 
 export const feedbackApiSlice = apiSlice.injectEndpoints({
@@ -16,8 +17,14 @@ export const feedbackApiSlice = apiSlice.injectEndpoints({
                 method: 'GET'
             })
         }),
+        viewById: builder.query({ // New endpoint for fetching feedback by ID
+            query: (id) => ({
+                url: `${fbk_URL}/view/${id}`, // Assuming the endpoint to fetch feedback by ID
+                method: 'GET'
+            })
+        }),
         updatef: builder.mutation({
-            query: ({id, data}) => ({
+            query: ({ id, data }) => ({
                 url: `${fbk_URL}/updatefeedback/${id}`,
                 method: 'PUT',
                 body: data
@@ -25,16 +32,17 @@ export const feedbackApiSlice = apiSlice.injectEndpoints({
         }),
         deletef: builder.mutation({
             query: (id) => ({
-                url: `${fbk_URL}/deletefeedback/${id}`, // assuming delete endpoint is /api/admin/equipments/delete/:id
+                url: `${fbk_URL}/deletefeedback/${id}`,
                 method: 'DELETE'
             })
         })
     })
-})
+});
 
 export const {
     useInsertfMutation,
-    useViewfQuery,  
+    useViewfQuery,
+    useViewByIdQuery, // Add this line to export the new query
     useUpdatefMutation,
-    useDeletefMutation
+    useDeletefMutation,
 } = feedbackApiSlice;

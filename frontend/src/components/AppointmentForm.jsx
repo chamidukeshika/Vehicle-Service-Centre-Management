@@ -17,10 +17,10 @@ const AppointmentForm = ({ children }) => {
                                 <Button variant="primary" size="lg" block style={{ width: '400px', height: '100px', fontSize: '32px' }}>Add Appointment</Button>
                           </Link>
                             </Col>
-                        </Row>
+                        </Row>"
                         <Row className="justify-content-md-center mt-2">
                             <Col xs={12} md={6} className="text-center">
-                            <Link to='../app/viewn'>
+                            <Link to="../app/cus">
                                 <Button variant="primary" size="lg" block style={{ width: '400px', height: '100px', fontSize: '32px', marginTop:'50px'}}>Appointment Details</Button>
                             </Link>
                             </Col>

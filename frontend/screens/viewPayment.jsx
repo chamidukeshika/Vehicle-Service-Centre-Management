@@ -153,13 +153,7 @@ const ViewPayments = () => {
           </div>
         </Form.Group>
 
-        <center>
-          <Link to='../payment/add'>
-            <Button variant="primary" className="mt-3" style={{ marginLeft: "1100px", marginBottom:"20px"}}>
-              Add Payment Details
-            </Button>
-          </Link>
-        </center>
+        
         <div className="d-flex " style={{ margin: "auto", float: "right" }}>
           <nav aria-label="Page navigation example">
             <ul className="pagination">
@@ -186,6 +180,7 @@ const ViewPayments = () => {
                   <th>Card Number</th>
                   <th>Expiration Date</th>
                   <th>CVV Number</th>
+                  <th>user id</th>
                   <th></th>
                 </tr>
               </thead>
@@ -197,6 +192,7 @@ const ViewPayments = () => {
                     <td>{payment.CardNo}</td>
                     <td>{new Date(payment.ExpDate).toLocaleDateString()}</td>
                     <td>{payment.cvvNum}</td>
+                    <td>{payment.userid}</td>
                     <td>
                       <OverlayTrigger
                         placement="top"
@@ -316,4 +312,4 @@ const ViewPayments = () => {
   );
 };
 
-export default ViewPayments;
+export default ViewPayments;

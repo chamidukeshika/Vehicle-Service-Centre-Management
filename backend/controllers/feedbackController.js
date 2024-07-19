@@ -81,7 +81,22 @@ const deleteFeedback = expressAsyncHandler(async (req, res) => {
     }
 })
 
+const getFeedbackbyId = expressAsyncHandler(async (req, res) => {
+    const userId = req.params.userId; // Changed 'userid' to 'userId'
 
+    try {
+        const feedbacks = await Feedbacks.find({ userid: userId });
+
+        if (!feedbacks || feedbacks.length === 0) { // Check if appointments exist
+            res.status(404).json({ message: "No feedbacks found" });
+            return;
+        }
+
+        res.status(200).json(feedbacks);
+    } catch (error) {
+        res.status(500).json({ message: "Server error" });
+    }
+});
 
 
 
@@ -91,4 +106,5 @@ export {
     getFeedbacks,
     updateFeedbacks,
     deleteFeedback,
+    getFeedbackbyId
 }

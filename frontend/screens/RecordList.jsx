@@ -242,6 +242,27 @@ const RecordList = () => {
         navigate("/admin/records/add");
     };
 
+    const sendEmail = (customerName, customerEmail) => {
+        // Prompt the user to input the next maintenance date
+        const nextMaintenanceDate = prompt("Enter the next maintenance date (YYYY-MM-DD):");
+
+        if (nextMaintenanceDate) {
+            // Construct email content
+            const emailaddress = customerEmail;
+            const subject = "Next Maintenance Reminder";
+            const body = `Dear ${customerName},\n\nThis is a reminder about the next maintenance for your vehicle. Please make arrangements for the maintenance on ${nextMaintenanceDate}.\n\nBest regards,\nMatara Motors Service Centre`;
+
+            // Create the mailto link
+            const mailtoUrl = `mailto:${emailaddress}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+
+            // Open the default email client with the mailto link
+            window.location.href = mailtoUrl;
+        } else {
+            alert("Next maintenance date not provided.");
+        }
+    };
+
+
     const handleRecordListClick = () => {
         // Navigate to the Service Record List screen
         navigate("/admin/records/list");
@@ -253,27 +274,27 @@ const RecordList = () => {
     return (
         <div>
             <div className="d-flex justify-content-center mt-5">
-            <div className="btn-group" role="group" aria-label="Basic radio toggle button group">
-                <input type="radio" className="btn-check" name="btnradio" id="btnradio1" autoComplete="off"  />
-                <label className="btn btn-outline-primary btn-lg" htmlFor="btnradio1" onClick={handleAddRecordClick} style={{ backgroundColor: 'rgba(0, 0, 0, 0.8)',color: 'white' }}>Add Service Record</label>
+                <div className="btn-group" role="group" aria-label="Basic radio toggle button group">
+                    <input type="radio" className="btn-check" name="btnradio" id="btnradio1" autoComplete="off" />
+                    <label className="btn btn-outline-primary btn-lg" htmlFor="btnradio1" onClick={handleAddRecordClick} style={{ backgroundColor: 'rgba(0, 0, 0, 0.8)', color: 'white' }}>Add Service Record</label>
 
-                <input type="radio" className="btn-check" name="btnradio" id="btnradio2" autoComplete="off" checked />
-                <label className="btn btn-outline-primary btn-lg" htmlFor="btnradio2" onClick={handleRecordListClick}>Service Record List</label>
+                    <input type="radio" className="btn-check" name="btnradio" id="btnradio2" autoComplete="off" checked />
+                    <label className="btn btn-outline-primary btn-lg" htmlFor="btnradio2" onClick={handleRecordListClick} style={{ backgroundColor: 'rgba(255, 255, 255, 0.8)', color: 'black' }}>Service Record List</label>
+                </div>
             </div>
-        </div>
             <div className="vh-100 d-flex justify-content-center align-items-center">
 
-                <Container style={{ backgroundColor: 'rgba(255, 255, 255, 0.5)', borderRadius: "10px", padding: "20px", paddingBottom: "50px", paddingTop: "20px", margin: "auto" }}>
+                <Container style={{ backgroundColor: 'rgba(255, 255, 255, 0.8)', borderRadius: "10px", padding: "20px", paddingBottom: "50px", paddingTop: "20px", margin: "auto" }}>
 
 
-                    <h1 className="text-Right text-black mb-4" style={{  marginTop: "50px" }}>Service Record List </h1>
-                    <img src={img} alt="logo" style={{ width: '150px', height: 'auto', marginLeft: "1100px", marginTop: "-120px" }} />
+                    <h1 className="text-Right text-black mb-4" style={{ marginTop: "50px" }}>Service Record List </h1>
+                    <img src={img} alt="logo" style={{ width: '150px', height: 'auto', marginLeft: "950px", marginTop: "-120px" }} />
 
                     <Form.Group controlId="search" className="mb-2" style={{ maxWidth: "100%" }}>
                         <div className="position-relative" >
                             <Form.Control
                                 type="text"
-                                placeholder="Search Customer Name..."
+                                placeholder="Search by Name..."
                                 value={searchTerm}
                                 onChange={(e) => setSearchTerm(e.target.value)}
                                 style={{
@@ -311,10 +332,12 @@ const RecordList = () => {
                                             <Button onClick={() => viewHandler(record)} className="ms-2"><i className="bi bi-eye"></i></Button>
 
                                             <Button onClick={() => handleUpdate(record._id)} style={{ marginLeft: "10px" }}> <i className="bi bi-pencil-square"></i></Button>
-                                            <Button onClick={() => handleDeleteClick(record._id)} className="ms-2" disabled={isDeleting}>
+                                            <Button onClick={() => handleDeleteClick(record._id)} className="ms-2" disabled={isDeleting} style={{ marginLeft: "10px" }}>
                                                 <i className="bi bi-trash"></i>
                                             </Button>
-
+                                            <Button onClick={() => sendEmail(record.cname, record.cemail)} className="btn btn-primary" style={{ float: "right", marginLeft: "10px" }}>
+                                                <i className="bi bi-envelope"> Send Email</i>
+                                            </Button>
 
                                         </td>
                                     </tr>

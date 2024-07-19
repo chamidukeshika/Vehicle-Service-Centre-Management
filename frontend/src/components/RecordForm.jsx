@@ -6,7 +6,7 @@ const RecordForm = ({ children }) => {
         <div className="mt-5 mb-5">
             <Container>
                 <Row className='justify-content-md-center mt-2 formlog'>
-                    <Col xs={12} md={9} className='card p-5' style={{ backgroundColor: 'rgba(255, 255, 255, 0.5)',color: 'black' }}>
+                    <Col xs={12} md={9} className='card p-5' style={{ backgroundColor: 'rgba(255, 255, 255, 0.8)',color: 'black' }}>
                         {children}
                     </Col>
                     {/* <Col style={{ justifyContent: 'center', marginTop:'200px' }}>

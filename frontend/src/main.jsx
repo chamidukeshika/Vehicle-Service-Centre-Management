@@ -17,10 +17,9 @@ import LoginScreen from "../screens/LoginScreen.jsx";
 import RegisterScreen from "../screens/RegisterScreen.jsx";
 import ProfileScreen from "../screens/CustomerDashboard.jsx";
 import ProfileServiceScreen from "../screens/ProfileServiceScreen.jsx";
-
+import ViewInquiryAdminScreen from "../screens/ViewInquiryAdminScreen.jsx";
 import AdminRoutes from "./components/AdminRoutes.jsx";
 import AdminDashboard from "../screens/AdminDashboard.jsx";
-import AddOrder from "../screens/AddOrder.jsx";
 import AddAppointment from "../screens/AddAppointment.jsx";
 import AddRecords from "../screens/AddRecords.jsx";
 import RecordList from "../screens/RecordList.jsx"
@@ -36,9 +35,16 @@ import ViewInquiryScreen from "../screens/ViewInquiryScreen.jsx";
 import View from "../screens/ViewOrder.jsx";
 import AddEquipment from "../screens/AddEquipment.jsx";
 import ViewEquipment from "../screens/ViewEquipment.jsx";
-
-
-
+import CustomerAppointments from "../screens/CustomerAppointments.jsx";
+import ViewAppN from "../screens/NewViewApp.jsx";
+import AddOrder from "../screens/AddOrder.jsx";
+import ViewCusOrders from "../screens/ViewCusOrder.jsx";
+import AddDelivery from "../screens/AddDelivery.jsx";
+import ViewDelivery from "../screens/ViewDelivery.jsx";
+import ViewCusDelivery from "../screens/ViewCusDelivery.jsx";
+import AddPayment from "../screens/AddPayment.jsx";
+import ViewPayment from "../screens/viewPayment.jsx";
+import ViewCusPayments from "../screens/ViewCustomerPayment.jsx";
 
 
 const router = createBrowserRouter(
@@ -48,24 +54,33 @@ const router = createBrowserRouter(
       <Route path='/login' element={<LoginScreen />} />
       <Route path='/register' element={<RegisterScreen />} />
 
+      <Route path='/payment/add' element={<AddPayment />} />
+      <Route path='/payment/view' element={<ViewPayment />} />
+      <Route path='/payment/cus' element={<ViewCusPayments />} />
+
       {/* Tharindu routes */}
       <Route path='/listlubricant/add' element={<AddLubricant />} />
       <Route path='/listlubricant/view' element={<ViewLubricant />} />
 
-       
+      {/*shaini routes */}
+      <Route path='/inquire' element={<AddInquiryScreen />} />
+      <Route path='/editinquire' element={<EditInquiryScreen />} />
+      <Route path='/viewinquire' element={<ViewInquiryScreen />} exact="true" />
+      <Route path='/ViewInquiryAdmin' element={<ViewInquiryAdminScreen />} exact="true" />
 
       {/* sumeth routes */}
-      <Route path='/orders/add' element={<AddOrder />} />
-      <Route path='/orders/View' element={<View/>} />
+      <Route path="/orders/add" element={<AddOrder />} />
+      <Route path="/orders/View" element={<View />} />
+      <Route path="/orders/cus" element={<ViewCusOrders />} />
+      <Route path="/delivery/View" element={<ViewDelivery />} />
+      <Route path="/delivery/Add" element={<AddDelivery />} />
+      <Route path="/delivery/cus" element={<ViewCusDelivery />} />
 
       {/* sewmini routes */}
       <Route path='/addfeedback' element={<AddFeedbackScreen />} />
       <Route path='/editfeedback' element={<EditFeedbackScreen />} />
       <Route path='/viewfeedback' element={<ViewFeedbackScreen />} />
       <Route path='/viewfeedbackadmin' element={<ViewFeedbackAdmin />} />
-      <Route path='/inquire' element={<AddInquiryScreen />} />
-      <Route path='/editinquire' element={<EditInquiryScreen />} />
-      <Route path='/viewinquire' element={<ViewInquiryScreen />} />
 
 
 
@@ -74,7 +89,7 @@ const router = createBrowserRouter(
         <Route path="/profile" element={<ProfileScreen />} />
 
       </Route>
-      
+
       <Route path="/service" element={<ProfileServiceScreen />} />
 
 
@@ -85,17 +100,19 @@ const router = createBrowserRouter(
       <Route path='/admin/records/add' element={<AddRecords />} />
       <Route path='/admin/equipments/add' element={<AddEquipment />} />
       <Route path='/admin/records/list' element={<RecordList />} />
-      
+
 
 
       {/* lakshitha routes */}
       <Route path="/app/addapp" element={<AddAppointment />} />
-      
-      
+      <Route path="/app/cus" element={<CustomerAppointments />} />
 
-       {/* Admin routes */}
+      <Route path="/app/viewn" element={<ViewAppN />} />
+
+
+      {/* Admin routes */}
       <Route path='' element={<AdminRoutes />}>
-      <Route path="/admin/dashboard" element={<AdminDashboard />} />
+        <Route path="/admin/dashboard" element={<AdminDashboard />} />
       </Route>
 
     </Route>

@@ -62,7 +62,6 @@ const RecordsSchema = mongoose.Schema({
     },
     userId: {
         type: String,
-        required: true
 
        
     }

@@ -1,10 +1,15 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Container, Form, Table, OverlayTrigger, Tooltip, Modal, Button } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import Loader from "../src/components/Loader";
 import { useViewLQuery, useUpdateLMutation, useDeleteLMutation } from '../slices/lubricantSlice.js';
 import 'bootstrap-icons/font/bootstrap-icons.css';
+import { useReactToPrint } from "react-to-print";
+import { saveAs } from 'file-saver';
+import { PDFDownloadLink, Document, Page } from '@react-pdf/renderer';
+
+
 
 // Function to render a tooltip for the edit button
 const renderEditTooltip = (props) => (
@@ -19,7 +24,6 @@ const renderDeleteTooltip = (props) => (
     Delete Item
   </Tooltip>
 );
-
 
 const ViewLubricants = () => {
   const { data: lubricants, refetch } = useViewLQuery();
@@ -55,7 +59,6 @@ const ViewLubricants = () => {
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentLubricants = filteredLubricants ? filteredLubricants.slice(indexOfFirstItem, indexOfLastItem) : [];
-
 
   // Update slice 
   const [updateL] = useUpdateLMutation();
@@ -101,12 +104,10 @@ const ViewLubricants = () => {
     setEditedLubricant(null);
   };
 
-
   // Delete
   const handleDeleteClick = (recordId) => {
     setRecordToDelete(recordId); // Set recordToDelete when delete button is clicked
   };
-
 
   const deleteHandler = async (id) => {
     try {
@@ -127,7 +128,6 @@ const ViewLubricants = () => {
     }
   }
   
-
   const handleInputChange = (e, fieldName) => {
     const { value } = e.target;
     setEditedLubricant(prevState => ({
@@ -147,7 +147,31 @@ const ViewLubricants = () => {
     setRecordToDelete(null); // Reset recordToDelete state when delete confirmation is canceled
   };
 
+  const PdfDocument = ({ children }) => (
+    <Document>
+      <Page size="A4">{children}</Page>
+    </Document>
+  );
 
+  const ComponentsRef = useRef();
+
+  const handlerPrint = useReactToPrint({
+    content: () => ComponentsRef.current,
+    documentTitle: "Lubriants Report",
+    onBeforePrint: () => {
+      const pdfContent = (
+        <PdfDocument>
+          {ComponentsRef.current}
+        </PdfDocument>
+      );
+      const pdfBlob = new Blob([pdfContent], { type: 'application/pdf' });
+      saveAs(pdfBlob, 'lubricants_report.pdf');
+    },
+    onAfterPrint: () => alert("Generate report successfully")
+  });
+
+  
+  
 
   return (
     <div className="vh-100 d-flex justify-content-center align-items-center">
@@ -182,63 +206,65 @@ const ViewLubricants = () => {
         </div>
 
         {currentLubricants.length > 0 ? (
-  <Table striped hover className="mb-4" style={{ textAlign: "center" }}>
-    {/* Table headers */}
-    <thead>
-      <tr>
-        <th>Name</th>
-        <th>Brand</th>
-        <th>Cost</th>
-        <th>Selling Price</th>
-        <th>Purchase Date</th>
-        <th>Volume</th>
-        <th>Description</th>
-        <th></th>
-      </tr>
-    </thead>
-    {/* Table body */}
-    <tbody>
-      {currentLubricants.map(lubricant => (
-        <tr key={lubricant._id}>
-          {/* Table data */}
-          <td>{lubricant.name || "empty"}</td>
-          <td>{lubricant.brand || "empty"}</td>
-          <td>{lubricant.cost || "empty"}</td>
-          <td>{lubricant.sellingprice || "empty"}</td>
-          <td>{new Date(lubricant.purchasedate).toLocaleDateString()}</td>
-          <td>{lubricant.volume || "empty"}</td>
-          <td>{lubricant.description}</td>
-          {/* Action buttons */}
-          <td>
-            <OverlayTrigger
-              placement="top"
-              overlay={renderEditTooltip}
-            >
-              <Button onClick={() => updateHandler(lubricant._id)} variant="primary" className="me-2">
-                <i className="bi bi-pencil-square"></i>
-              </Button>
-            </OverlayTrigger>
+          <Table striped hover className="mb-4" style={{ textAlign: "center" }} ref={ComponentsRef}>
+            {/* Table headers */}
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Brand</th>
+                <th>Cost</th>
+                <th>Selling Price</th>
+                <th>Purchase Date</th>
+                <th>Volume</th>
+                <th>Description</th>
+                <th></th>
+              </tr>
+            </thead>
+            {/* Table body */}
+            <tbody>
+              {currentLubricants.map(lubricant => (
+                <tr key={lubricant._id}>
+                  {/* Table data */}
+                  <td>{lubricant.name || "empty"}</td>
+                  <td>{lubricant.brand || "empty"}</td>
+                  <td>{lubricant.cost || "empty"}</td>
+                  <td>{lubricant.sellingprice || "empty"}</td>
+                  <td>{new Date(lubricant.purchasedate).toLocaleDateString()}</td>
+                  <td>{lubricant.volume || "empty"}</td>
+                  <td>{lubricant.description}</td>
+                  {/* Action buttons */}
+                  <td>
+                    <OverlayTrigger
+                      placement="top"
+                      overlay={renderEditTooltip}
+                    >
+                      <Button onClick={() => updateHandler(lubricant._id)} variant="primary" className="me-2">
+                        <i className="bi bi-pencil-square"></i>
+                      </Button>
+                    </OverlayTrigger>
 
-            <OverlayTrigger
-              placement="top"
-              overlay={renderDeleteTooltip}
-            >
-              <Button onClick={() => handleDeleteClick(lubricant._id)} variant="danger" style={{ marginLeft: "5px" }}>
-                <i className="bi bi-trash"></i>
-              </Button>
-            </OverlayTrigger>
+                    <OverlayTrigger
+                      placement="top"
+                      overlay={renderDeleteTooltip}
+                    >
+                      <Button onClick={() => handleDeleteClick(lubricant._id)} variant="danger" style={{ marginLeft: "5px" }}>
+                        <i className="bi bi-trash"></i>
+                      </Button>
+                    </OverlayTrigger>
 
-          </td>
-        </tr>
-      ))}
-    </tbody>
-  </Table>
-) : (
-  // Display a message when there are no records to view
-  <center><div style={{marginTop:"150px"}}><h2>No records to display.</h2></div></center>
-)}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </Table>
+        ) : (
+          // Display a message when there are no records to view
+          <center><div style={{marginTop:"150px"}}><h2>No records to display.</h2></div></center>
+        )}
+        {/* //printing button */}
+        <Button onClick={handlerPrint} type="button" className="btn btn-primary" style={{ marginLeft: '10px',marginTop: '20px' }}> Generate Report </Button>
 
-
+<br></br><br></br>
         <Modal show={recordToDelete !== null} onHide={handleCancelDelete} centered>
           <Modal.Header closeButton>
             <Modal.Title>Confirm Delete</Modal.Title>
@@ -272,8 +298,6 @@ const ViewLubricants = () => {
                   style={{ padding: "10px" }}
                 />
               </Form.Group>
-
-
 
               <Form.Group controlId="brand">
                 <Form.Label>Brand:</Form.Label>
@@ -334,7 +358,6 @@ const ViewLubricants = () => {
                 />
               </Form.Group>
 
-
               <Form.Group controlId="description">
                 <Form.Label>Description:</Form.Label>
                 <Form.Control
@@ -363,4 +386,4 @@ const ViewLubricants = () => {
   );
 };
 
-export default ViewLubricants;
+export default ViewLubricants;

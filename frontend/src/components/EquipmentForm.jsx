@@ -7,7 +7,7 @@ const FormContainer = ({ children }) => {
         <div className="mt-5 mb-5">
             <Container>
                 <Row className='justify-content-md-center mt-2 formlog'>
-                    <Col xs={12} md={7} className='card p-5' style={{ backgroundColor: 'rgba(255, 255, 255, 0.5)', color: 'black', fontWeight:"500"}}>
+                    <Col xs={12} md={7} className='card p-5' style={{ backgroundColor: 'rgba(255, 255, 255, 0.8)', color: 'black', fontWeight:"500"}}>
                         {children}
                     </Col>
                     

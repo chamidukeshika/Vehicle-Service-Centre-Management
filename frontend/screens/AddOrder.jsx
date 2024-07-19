@@ -20,7 +20,9 @@ const AddOrder = () => {
     const dispatch = useDispatch();
 
     const [inserto, { isLoading }] = useInsertoMutation();
-   // const { userInfo } = useSelector((state) => state.auth);
+   const { userInfo } = useSelector((state) => state.auth);
+
+   const userid = userInfo._id;
 
    
 
@@ -51,7 +53,7 @@ const AddOrder = () => {
 
     // If validation passes, proceed with adding the order
     try {
-        const res = await inserto({ name, brand, price, purchaseDate, ExpireDate, quantity }).unwrap();
+        const res = await inserto({ name, brand, price, purchaseDate, ExpireDate, quantity,userid }).unwrap();
         toast.success('Order added successfully!');
         navigate('/orders/add');
     } catch (err) {
@@ -149,4 +151,4 @@ const AddOrder = () => {
     )
 }
 
-export default AddOrder
+export default AddOrder

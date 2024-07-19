@@ -4,7 +4,7 @@ import expressAsyncHandler from 'express-async-handler';
 
 const addAppointment = asyncHandler(async (req, res) => {
 
-    const { vname,vbrand,vregno,stype,sdate,stime,userid} = req.body;
+    const { vname,vbrand,vregno,stype,sdate,stime,email,userid} = req.body;
 
     const appointment = await Appointments.create({
         vname,
@@ -13,6 +13,7 @@ const addAppointment = asyncHandler(async (req, res) => {
         stype,
         sdate,
         stime,
+        email,
         userid
     });
 
@@ -25,6 +26,7 @@ const addAppointment = asyncHandler(async (req, res) => {
             stype: appointment.stype,
             sdate: appointment.sdate,
             stime: appointment.stime,
+            email: appointment.email,
             userid: appointment.userid
         });
     } else {
@@ -33,12 +35,32 @@ const addAppointment = asyncHandler(async (req, res) => {
     }
 });
 
+const getAppointmentById = expressAsyncHandler(async (req, res) => {
+    const userId = req.params.userId; // Changed 'userid' to 'userId'
+
+    try {
+        const appointments = await Appointments.find({ userid: userId });
+
+        if (!appointments || appointments.length === 0) { // Check if appointments exist
+            res.status(404).json({ message: "No appointments found" });
+            return;
+        }
+
+        res.status(200).json(appointments);
+    } catch (error) {
+        res.status(500).json({ message: "Server error" });
+    }
+});
+
+
+
+
 const getAppointments = expressAsyncHandler(async (req, res) => {
     
     const AppList = await Appointments.find({});
 
     if (AppList.length === 0) {
-        res.status(404).json({ message: "No Appointmelllllnt " });
+        res.status(404).json({ message: "No Appointment " });
         return;
     }
 
@@ -93,5 +115,6 @@ const deleteAppointment = expressAsyncHandler(async (req, res) => {
         getAppointments,
         addAppointment,
         updateAppointments,
-        deleteAppointment
-    }
+        deleteAppointment,
+        getAppointmentById
+    }

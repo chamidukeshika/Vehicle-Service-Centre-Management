@@ -144,7 +144,7 @@ const AddRecords = () => {
             <div className="d-flex justify-content-center mt-5">
                 <div className="btn-group" role="group" aria-label="Basic radio toggle button group">
                     <input type="radio" className="btn-check" name="btnradio" id="btnradio1" autoComplete="off"  checked />
-                    <label className="btn btn-outline-primary btn-lg" htmlFor="btnradio1" onClick={handleAddRecordClick}>Add Service Record</label>
+                    <label className="btn btn-outline-primary btn-lg" htmlFor="btnradio1" onClick={handleAddRecordClick}style={{ backgroundColor: 'rgba(255, 255, 255, 0.8)',color: 'black' }}>Add Service Record</label>
 
                     <input type="radio" className="btn-check" name="btnradio" id="btnradio2" autoComplete="off" />
                     <label className="btn btn-outline-primary btn-lg" htmlFor="btnradio2" onClick={handleRecordListClick} style={{ backgroundColor: 'rgba(0, 0, 0, 0.8)',color: 'white' }} >Service Record List</label>
@@ -153,7 +153,7 @@ const AddRecords = () => {
             </div>
             <RecordForm>
                 <h1>Service Record Form</h1>
-                <img src={img} alt="logo" style={{ width: '150px', height: 'auto', marginLeft: "750px", marginTop: "-90px" }} />
+                <img src={img} alt="logo" style={{ width: '150px', height: 'auto', marginLeft: "650px", marginTop: "-90px" }} />
 
                 <Form onSubmit={submitHandler} style={{ fontWeight: "500", marginTop: "-30px" }}>
 
@@ -276,11 +276,18 @@ const AddRecords = () => {
                             </Form.Group>
                         </Col></Row>
                     {/* Section */}
-                    <Form.Group controlId="section">
+                    <Form.Group controlId="section" >
                         <Form.Label>Section</Form.Label>
                         <Form.Select
                             value={section}
                             onChange={(e) => setSection(e.target.value)}
+                            style={{
+                                width: "100%",
+                                height: "40px",
+                                border: "none",
+                                borderRadius:"5px"
+                                
+                            }}
                         >
                             <option value="">Select Section</option>
                             <option value="Body wash">Body Wash</option>
@@ -381,7 +388,7 @@ const AddRecords = () => {
                                 </Form.Group>
                             </Col>
                             <Col md={2} className="d-flex align-items-end">
-                                <Button variant="danger" onClick={() => handleDeletePart(index)} style={{ height: "45px", marginBottom: '10px', width: '100%' }}>
+                                <Button variant="danger" onClick={() => handleDeletePart(index)} style={{ height: "45px", marginBottom: '10px', width: '100%',marginTop:"5px" }}>
                                     <BsTrash />
                                 </Button>
                             </Col>

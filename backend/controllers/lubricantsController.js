@@ -1,11 +1,28 @@
 import asyncHandler from 'express-async-handler';
 import Lubricants from '../models/lubricantModel.js';
 import expressAsyncHandler from 'express-async-handler';
+//import multer from 'multer';
 
+// const storage = multer.diskStorage({
+//     destination: function (req, file, cb) {
+//         cb(null, 'uploads/'); // Destination folder for storing images
+//     },
+//     filename: function (req, file, cb) {
+//         cb(null, Date.now() + '-' + file.originalname); // Unique filename for each uploaded image
+//     }
+// });
+
+//const upload = multer({ storage: storage });
 
 const addLubricant = asyncHandler(async (req, res) => {
 
-    const { name,brand,sellingprice,purchasedate,cost,description,volume ,userId} = req.body;
+   // const imageUrl = req.file ? req.file.path : null;
+
+    const { name,brand,sellingprice,purchasedate,cost,description,volume,img} = req.body;
+
+    
+
+     // Get image URL from Multer
 
 
     const lubricant = await Lubricants.create({
@@ -16,8 +33,7 @@ const addLubricant = asyncHandler(async (req, res) => {
         cost,
         description,
         volume,
-        userId,
-
+        img
     });
 
     if (lubricant) {
@@ -29,9 +45,7 @@ const addLubricant = asyncHandler(async (req, res) => {
             purchasedate: lubricant.purchasedate,
             cost: lubricant.cost,
             description: lubricant.description,
-            volume: lubricant.volume,
-            userId: lubricant.userId,
-
+            volume: lubricant.volume
         });
     } else {
         res.status(400);
@@ -54,7 +68,7 @@ const getLubricants = expressAsyncHandler(async (req, res) => {
 })
 
 
-const updateLubricants = asyncHandler(async (req, res) => {
+const updateLubricants   = asyncHandler(async (req, res) => {
 
     const { id } = req.params;
     
@@ -69,6 +83,7 @@ const updateLubricants = asyncHandler(async (req, res) => {
         lubricants.description = req.body.description || lubricants.description;
         lubricants.volume = req.body.volume || lubricants.volume;
         lubricants.userId = req.body.userId || lubricants.userId;
+        lubricants.imageUrl = req.body.imageUrl || lubricants.imageUrl;
 
         const updateLubricant = await lubricants.save();
 
