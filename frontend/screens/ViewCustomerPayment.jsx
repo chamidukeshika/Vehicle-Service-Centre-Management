@@ -1,9 +1,10 @@
 import React, { useState, useEffect, useRef } from "react"; // Added useRef
 import { Link } from 'react-router-dom';
 import { Container, Form, Table, OverlayTrigger, Tooltip, Modal, Button } from "react-bootstrap";
+import { useSelector, useDispatch } from 'react-redux'; // Importing useSelector
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { useViewpQuery, useUpdatepMutation, useDeletepMutation } from '../slices/paymentApiSlice';
+import {  useViewPaymentByIdQuery, useUpdatepMutation, useDeletepMutation } from '../slices/paymentApiSlice';
 import Loader from "../src/components/Loader";
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import { useReactToPrint } from "react-to-print"; // Fixed the import statement
@@ -21,8 +22,12 @@ const renderDeleteTooltip = (props) => (
   </Tooltip>
 );
 
-const ViewPayments = () => {
-  const { data: payments, refetch, isLoading } = useViewpQuery();
+const ViewCusPayments = () => {
+  const dispatch = useDispatch(); // You can use useDispatch to dispatch actions
+  const { userInfo } = useSelector((state) => state.auth);
+  const userId=userInfo._id;
+  const { data: payments, isLoading, isError, refetch } = useViewPaymentByIdQuery(userId);
+
   const [searchTerm, setSearchTerm] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const [showUpdateModal, setShowUpdateModal] = useState(false);
@@ -146,8 +151,9 @@ const ViewPayments = () => {
   return (
     <div className="vh-100 d-flex justify-content-center align-items-center" >
       <Container style={{ backgroundColor: "rgba(255, 255, 255, 0.7)", padding: "20px", borderRadius: "10px" }}>
-        <h1 className="text-center text-black mb-4 mt-8">View Payments</h1>
-        <Form.Group controlId="search " style={{ float: "left", width: "300px", boxShadow: " 0px 0px 3px 2px rgba(0, 0, 0, 0.3)", borderRadius: "50px", }}>
+        <h1 className="text-center text-black mb-4 mt-8">View Customer Payments</h1>
+        <Form.Group controlId="search " style={{ float: "left", 
+        width: "300px", boxShadow: " 0px 0px 3px 2px rgba(0, 0, 0, 0.3)", borderRadius: "50px", }}>
           <div className="position-relative">
             <Form.Control
               type="text"
@@ -333,4 +339,4 @@ const ViewPayments = () => {
   );
 };
 
-export default ViewPayments;
+export default ViewCusPayments;

@@ -4,7 +4,7 @@ import expressAsyncHandler from 'express-async-handler';
 
 
 const addPayment = asyncHandler(async (req, res) => {
-    const { FirstName, LastName, CardNo, ExpDate, cvvNum } = req.body;
+    const { FirstName, LastName, CardNo, ExpDate, cvvNum, userid } = req.body;
 
     try {
         const payment = await Payments.create({
@@ -12,7 +12,8 @@ const addPayment = asyncHandler(async (req, res) => {
             LastName,
             CardNo,
             ExpDate,
-            cvvNum
+            cvvNum,
+            userid
         });
 
         res.status(201).json(payment);
@@ -78,16 +79,28 @@ const deletePayment = expressAsyncHandler(async (req, res) => {
     }
 })
 
+const getCusPaymentById = expressAsyncHandler(async (req, res) => {
+    const userId = req.params.userId; // Changed 'userid' to 'userId'
 
+    try {
+        const payments = await Payments.find({ userid: userId });
 
+        if (!payments || payments.length === 0) { // Check if appointments exist
+            res.status(404).json({ message: "No Payment found" });
+            return;
+        }
 
-
-
+        res.status(200).json(payments);
+    } catch (error) {
+        res.status(500).json({ message: "Server error" });
+    }
+});
 
 
 export {
     addPayment,
     getPayments,
     updatePayments,
-    deletePayment
+    deletePayment,
+    getCusPaymentById
 }

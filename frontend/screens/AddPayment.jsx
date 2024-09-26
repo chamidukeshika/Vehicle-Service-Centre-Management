@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import { Button } from 'react-bootstrap';
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from 'react-router-dom';
 import {
   MDBBtn,
@@ -13,6 +15,7 @@ import { toast } from "react-toastify";
 import Loader from "../src/components/Loader";
 import { useAddpMutation } from "../slices/paymentApiSlice.js"; // Assuming you have paymentSlice for API integration
 
+
 const AddPayment = () => {
   const [FirstName, setFirstName] = useState('');
   const [LastName, setLastName] = useState('');
@@ -20,7 +23,9 @@ const AddPayment = () => {
   const [ExpDate, setExpDate] = useState('');
   const [cvvNum, setcvvNum] = useState('');
   const [add, { isLoading }] = useAddpMutation();
+  const { userInfo } = useSelector((state) => state.auth);
 
+  const userid = userInfo._id;
   const submitHandler = async (e) => {
     e.preventDefault();
     if (!FirstName || !LastName || !CardNo || !ExpDate || !cvvNum) {
@@ -33,7 +38,9 @@ const AddPayment = () => {
       toast.error('Please enter a valid CVV number.');
     } else {
       try {
-        const res = await add({ FirstName, LastName, CardNo, ExpDate, cvvNum }).unwrap();
+        const res = await add({ FirstName, LastName, CardNo, ExpDate, cvvNum,userid}).unwrap();
+        console.log(userid);
+        console.log(res);
         toast.success('Payment added successfully!');
         // You can redirect or do something else upon successful addition
       } catch (err) {
@@ -105,13 +112,13 @@ const AddPayment = () => {
                 </MDBRow>
                 {isLoading && <Loader />}
                 <center>
-                  <MDBBtn type='submit' variant="primary" className="mt-3" style={{ marginTop: "10px" }}>
+                  <Button type='submit' variant="primary" className="mt-3" style={{ marginTop: "10px" }}>
                     Add Payment
-                  </MDBBtn>
+                  </Button>
                   <Link to='../payment/view'>
-                    <MDBBtn variant="primary" className="mt-3" style={{ marginLeft: "10px" }}>
+                    <Button variant="primary" className="mt-3" style={{ marginLeft: "10px" }}>
                       View Payment Details
-                    </MDBBtn>
+                    </Button>
                   </Link>
                 </center>
               </form>

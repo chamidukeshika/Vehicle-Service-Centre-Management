@@ -23,21 +23,18 @@ import AddAppointment from "../screens/AddAppointment.jsx";
 import AddRecords from "../screens/AddRecords.jsx";
 import RecordList from "../screens/RecordList.jsx"
 import ViewAppN from "../screens/NewViewApp.jsx";
-import AddFeedbackScreen from "../screens/AddFeedbackScreen.jsx";
-import EditFeedbackScreen from "../screens/EditFeedbackScreen.jsx";
-import ViewFeedbackScreen from "../screens/ViewFeedbackScreen.jsx";
 import AddLubricant from "../screens/AddLubricant.jsx";
 import ViewLubricant from "../screens/ViewLubricant.jsx";
 import AddInquiryScreen from "../screens/AddInquiryScreen.jsx";
 import View from "../screens/ViewOrder.jsx";
 import AddEquipment from "../screens/AddEquipment.jsx";
-import ViewEquipment from "../screens/ViewEquipment.jsx";
 import AddPayment from "../screens/AddPayment.jsx";
 import ViewPayment from "../screens/viewPayment.jsx";
 import ViewEquipment from "../screens/ViewEquipment.jsx";
 import ViewFeedbackAdmin from "../screens/ViewFeedbackAdmin.jsx";
 import EditInquiryScreen from '../screens/EditInquiryScreen.jsx';
 import ViewInquiryScreen from '../screens/ViewInquiryScreen.jsx';
+import ViewCusPayments from '../screens/ViewCustomerPayment.jsx';
 
 
 
@@ -58,7 +55,7 @@ const router = createBrowserRouter(
 
       {/* sumeth routes */}
       <Route path="/orders/add" element={<AddOrder />} />
-      <Route path="/orders/sumeth" element={<Vindunu/>} />
+      <Route path="/orders/View" element={<View/>} />
 
       {/* Private routes */}
       <Route path="" element={<PrivateRoutes />}>
@@ -82,7 +79,7 @@ const router = createBrowserRouter(
 
       <Route path='/payment/add' element={<AddPayment />} />
       <Route path='/payment/view' element={<ViewPayment />} />
-
+      <Route path='/payment/cus' element={<ViewCusPayments />} />
 
 
         {/* Admin routes */}

@@ -18,7 +18,7 @@ export const paymentApiSlice = apiSlice.injectEndpoints({
             })
         }),
         updatep: builder.mutation({
-            query: ({id, data}) => ({
+            query: ({ id, data }) => ({
                 url: `${PAYMENT_URL}/update/${id}`,
                 method: 'PUT',
                 body: data
@@ -29,13 +29,20 @@ export const paymentApiSlice = apiSlice.injectEndpoints({
                 url: `${PAYMENT_URL}/delete/${id}`,
                 method: 'DELETE'
             })
-        })
+        }),
+        viewPaymentById: builder.query({
+            query: (Id) => ({
+                url: `${PAYMENT_URL}/getcusPayment/${Id}`, 
+                method: 'GET'
+            })
+        }),
     })
-})
+});
 
 export const {
     useAddpMutation,
     useViewpQuery,
     useUpdatepMutation,
-    useDeletepMutation
+    useDeletepMutation,
+    useViewPaymentByIdQuery 
 } = paymentApiSlice;

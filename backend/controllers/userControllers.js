@@ -109,7 +109,7 @@ const updateUserProfile = asyncHandler(async (req, res) => {
             email:updatedUser.email
 
         })
-    } else {
+    } else {        
         res.status(404);
         throw new Error('User Not Found');
     }
@@ -120,7 +120,10 @@ const updateUserProfile = asyncHandler(async (req, res) => {
 //update User Feedbacks
 // const updateFeedback = async (req, res, next) => {
 
-// }
+// }  
+
+
+
 
 export {
     authUser,
