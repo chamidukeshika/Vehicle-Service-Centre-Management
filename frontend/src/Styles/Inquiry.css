@@ -1,0 +1,37 @@
+.con1{
+    color: aliceblue;
+    font: Sora;
+    font-size: 50px;
+    stroke: black;
+}
+
+.con2{
+    width: 520px;
+    height: 145px;
+    background-color: #FFFFFF 65%;
+}
+
+.con3{
+    color: black;
+    font: roboto;
+    font-size: 28px;
+}
+
+.con4{
+    background-color: #FFFFFF 88%;
+    width: 700px;
+    height: 660px;
+}
+.con5{
+    background-color: #FFFFFF 88%;
+    width: 700px;
+    height: 660px;
+}
+
+.R1{
+    align-content: center;
+}
+
+.Button1{
+    
+}

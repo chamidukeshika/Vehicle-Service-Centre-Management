@@ -1,0 +1,53 @@
+.menu{
+    display: flex;
+    flex-direction: column;
+    gap: 2.3rem;
+    max-height: 100%;
+    /* Set a maximum width for the menu */
+    max-width: 400px; /* Adjust this value as needed */
+    margin: 0 auto; /* Center the menu horizontally */
+}
+.bg{
+  margin: 0;
+  padding: 0;
+  background-color: #dde6ed;
+}
+
+.logo{
+    text-align: center;
+    padding: 20px;
+    color:#27374d ;
+    align-items: center;
+    display: flex;
+    gap: 20px;
+
+}
+
+.logo-icon{
+    font-size: 1.4rem;
+}
+
+.menu--list{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.menu--list .item{
+    display: flex;
+    align-items: center;
+    font-size: 1.1rem;
+    gap: 20px;
+    text-decoration: none;
+    font-weight: 600;
+    padding: 10px;
+    border-radius: 10px;
+    transition: 0.3s ease-in-out;
+    color:#27374d;
+
+}
+.menu--list .item:hover{
+    background: #27374d;
+    color:#dde6ed ;
+
+}

@@ -1,0 +1,90 @@
+body {
+  background-image: url('../assets/3.jpg');
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+
+.card {
+  padding: 2em;
+}
+
+.read-the-docs {
+  color: #888;
+}
+
+.img-container {
+  position: relative;
+  overflow: hidden;
+
+  border-radius: 10px;
+}
+
+.img-container:hover img {
+  transform: scale(1.2);
+  filter: blur(2px);
+
+
+}
+
+.img-container .overlay {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  opacity: 0;
+  transition: opacity 0.1s ease;
+
+}
+
+.img-container:hover .overlay {
+  opacity: 1;
+
+}
+
+.view-link {
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.view-link:hover {
+  text-decoration: underline;
+}
+
+.img-container img {
+  transition: transform 0.4s ease, filter 0.4s ease;
+}
+
+
+
+/* about us */
+
+.about-us-section {
+  padding: 50px 0;
+}
+
+.card {
+  border: none;
+  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
+  border-radius: 15px;
+}
+
+.about-card {
+  background-color: rgba(0, 0, 0, 0.16);
+}
+
+.contact-card {
+  background-color: #f8f9fa;
+}
+
+.card-title {
+  font-size: 24px;
+  font-weight: bold;
+  color: black;
+}
+
+.card-text {
+  color: black;
+  font-size: 16px;
+}
